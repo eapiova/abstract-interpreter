@@ -144,7 +144,7 @@ Fixpoint step2 AI_state (b : Bexp) s_sharp t_sharp (n : nat) :=
 
 Fixpoint widening AI_state b s_sharp t_sharp n :=
     match n with 
-    | 0%nat => t_sharp
+    | 0%nat => nil
     | S m => if is_inv AI_state s_sharp t_sharp b
                 then t_sharp
             else 
@@ -156,7 +156,7 @@ Definition find_inv AI_state b s_sharp n_iter n_widen :=
     if is_inv AI_state s_sharp s' b then 
         s' 
     else
-        widening AI_state b s_sharp s_sharp n_widen.
+        widening AI_state b s' s' n_widen.
 
 Fixpoint AI (P : While) s_sharp :=
     match P with
@@ -175,7 +175,7 @@ Fixpoint AI (P : While) s_sharp :=
                             | None, Some u_sharp => AI S2 u_sharp
                             | None, None => None 
                             end
-    | while_do b S' => let inv := (find_inv (AI S') b s_sharp 3 3) in B_sharp (neg_sem b) inv
+    | while_do b S' => let inv := (find_inv (AI S') b s_sharp 6 3) in B_sharp (neg_sem b) inv
     end.
 
 End AbstractInterpreter.
@@ -456,10 +456,10 @@ End ExtendedSign.
 Module Intervals <: AbstractDomain.
 
 Inductive Interval : Type :=
-| right_of : Z -> Interval
+| top : Interval
 | left_of : Z -> Interval
 | between : Z -> Z -> Interval
-| top : Interval
+| right_of : Z -> Interval
 | bot : Interval.
 
 Definition A := Interval.

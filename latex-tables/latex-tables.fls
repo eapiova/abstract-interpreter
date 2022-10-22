@@ -33,6 +33,10 @@ INPUT ./latex-tables.aux
 INPUT latex-tables.aux
 INPUT latex-tables.aux
 OUTPUT latex-tables.aux
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
+INPUT /usr/share/texmf-dist/tex/latex/base/omscmr.fd
 OUTPUT latex-tables.pdf
 INPUT /var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map
 INPUT latex-tables.aux
