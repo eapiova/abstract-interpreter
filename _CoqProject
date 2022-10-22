@@ -1,0 +1,16 @@
+-Q . pv
+
+# From Iris: We sometimes want to locally override notation, and there is no good way to do that with scopes.
+-arg -w -arg -notation-overridden
+
+# Allow commands like Restart
+-arg -async-proofs-cache -arg force
+
+# Cannot use non-canonical projections as it causes massive unification failures
+# (https://github.com/coq/coq/issues/6294).
+-arg -w -arg -redundant-canonical-projection
+
+library.v
+abstract_interpreter.v
+intervals.v
+abstract_i.v

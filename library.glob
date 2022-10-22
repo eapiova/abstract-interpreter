@@ -1,0 +1,3481 @@
+DIGEST efc12a6e27d302d8ca07719ce67339fc
+Fpv.library
+R94:102 Coq.Bool.Bool <> <> lib
+R129:136 Coq.Init.Nat <> <> lib
+R163:173 Coq.Arith.Arith <> <> lib
+R200:210 Coq.Arith.EqNat <> <> lib
+R237:239 Coq.micromega.Lia <> <> lib
+R266:273 Coq.micromega.ZifyBool <> <> lib
+R300:313 Coq.Strings.String <> <> lib
+R333:352 Coq.Strings.BinaryString <> <> lib
+R379:388 Coq.Lists.List <> <> lib
+R415:428 Coq.Program.Basics <> <> lib
+R455:460 Coq.NArith.NArith <> <> lib
+R843:855 Coq.Lists.List ListNotations <> mod
+R995:1002 Coq.Init.Datatypes <> nil constr
+R995:1002 Coq.Init.Datatypes <> nil constr
+R1026:1034 Coq.Init.Datatypes <> cons constr
+R1026:1034 Coq.Init.Datatypes <> cons constr
+R1058:1065 Coq.Init.Datatypes <> app def
+R1058:1065 Coq.Init.Datatypes <> app def
+R1093:1103 Coq.Init.Datatypes <> length def
+R1093:1103 Coq.Init.Datatypes <> length def
+abbrev 1200:1205 <> length
+R1210:1220 Coq.Lists.List <> length abbrev
+R1322:1325 Coq.Init.Datatypes <> xorb def
+R1429:1435 Coq.Program.Basics <> compose def
+R1429:1435 Coq.Program.Basics <> compose def
+R1472:1474 Coq.Init.Nat <> min def
+R1510:1512 Coq.Init.Nat <> max def
+R1548:1552 Coq.NArith.BinNat N add def
+R1588:1592 Coq.NArith.BinNat N mul def
+R1626:1630 Coq.NArith.BinNat N sub def
+R1691:1709 Coq.Init.Wf <> Acc_intro_generator def
+def 1905:1916 <> option_union
+binder 1919:1919 <> A:1
+R1931:1936 Coq.Init.Datatypes <> option ind
+R1938:1938 pv.library <> A:1 var
+binder 1923:1924 <> mx:2
+binder 1926:1927 <> my:3
+R1943:1948 Coq.Init.Datatypes <> option ind
+R1950:1950 pv.library <> A:1 var
+R1963:1964 pv.library <> mx:2 var
+R1971:1974 Coq.Init.Datatypes <> Some constr
+R1981:1982 pv.library <> mx:2 var
+R1986:1989 Coq.Init.Datatypes <> None constr
+R1994:1995 pv.library <> my:3 var
+def 2013:2029 <> option_difference
+binder 2032:2032 <> A:5
+R2044:2049 Coq.Init.Datatypes <> option ind
+R2051:2051 pv.library <> A:5 var
+binder 2036:2037 <> mx:6
+binder 2039:2040 <> my:7
+R2056:2061 Coq.Init.Datatypes <> option ind
+R2063:2063 pv.library <> A:5 var
+R2076:2077 pv.library <> my:7 var
+R2084:2087 Coq.Init.Datatypes <> Some constr
+R2094:2097 Coq.Init.Datatypes <> None constr
+R2101:2104 Coq.Init.Datatypes <> None constr
+R2109:2110 pv.library <> mx:6 var
+def 2129:2139 <> option_bind
+binder 2142:2142 <> A:9
+binder 2144:2144 <> B:10
+R2153:2156 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R2152:2152 pv.library <> A:9 var
+R2157:2162 Coq.Init.Datatypes <> option ind
+R2164:2164 pv.library <> B:10 var
+binder 2148:2148 <> f:11
+R2173:2178 Coq.Init.Datatypes <> option ind
+R2180:2180 pv.library <> A:9 var
+binder 2168:2169 <> mx:12
+R2185:2190 Coq.Init.Datatypes <> option ind
+R2192:2192 pv.library <> B:10 var
+R2205:2206 pv.library <> mx:12 var
+R2217:2220 Coq.Init.Datatypes <> Some constr
+R2227:2227 pv.library <> f:11 var
+R2235:2238 Coq.Init.Datatypes <> None constr
+R2243:2246 Coq.Init.Datatypes <> None constr
+def 2586:2595 <> eqb_string
+R2604:2609 Coq.Strings.String <> string ind
+binder 2598:2598 <> x:14
+binder 2600:2600 <> y:15
+R2614:2617 Coq.Init.Datatypes <> bool ind
+R2627:2636 Coq.Strings.String <> string_dec def
+R2638:2638 pv.library <> x:14 var
+R2640:2640 pv.library <> y:15 var
+R2657:2661 Coq.Init.Datatypes <> false constr
+R2647:2650 Coq.Init.Datatypes <> true constr
+prf 2671:2683 <> eqb_string_eq
+binder 2685:2685 <> x:16
+binder 2687:2687 <> y:17
+R2714:2718 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R2707:2709 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2693:2702 pv.library <> eqb_string def
+R2704:2704 pv.library <> x:16 var
+R2706:2706 pv.library <> y:17 var
+R2710:2713 Coq.Init.Datatypes <> true constr
+R2720:2722 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2719:2719 pv.library <> x:16 var
+R2723:2723 pv.library <> y:17 var
+R2740:2749 pv.library <> eqb_string def
+R2762:2771 Coq.Strings.String <> string_dec def
+R2762:2771 Coq.Strings.String <> string_dec def
+prf 2813:2827 <> eqb_string_refl
+binder 2829:2829 <> x:18
+R2847:2849 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2833:2842 pv.library <> eqb_string def
+R2844:2844 pv.library <> x:18 var
+R2846:2846 pv.library <> x:18 var
+R2850:2853 Coq.Init.Datatypes <> true constr
+R2870:2879 pv.library <> eqb_string def
+R2892:2901 Coq.Strings.String <> string_dec def
+R2892:2901 Coq.Strings.String <> string_dec def
+prf 2943:2956 <> eqb_string_neq
+binder 2958:2958 <> x:19
+binder 2960:2960 <> y:20
+R2988:2992 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R2980:2982 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R2966:2975 pv.library <> eqb_string def
+R2977:2977 pv.library <> x:19 var
+R2979:2979 pv.library <> y:20 var
+R2983:2987 Coq.Init.Datatypes <> false constr
+R2994:2997 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R2993:2993 pv.library <> x:19 var
+R2998:2998 pv.library <> y:20 var
+R3015:3024 pv.library <> eqb_string def
+R3037:3046 Coq.Strings.String <> string_dec def
+R3037:3046 Coq.Strings.String <> string_dec def
+R3552:3554 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3552:3554 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3608:3610 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3608:3610 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3668:3670 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3668:3670 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3732:3734 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3732:3734 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3800:3802 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3800:3802 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3872:3874 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3872:3874 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3934:3936 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3934:3936 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3967:3969 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3970:3973 Coq.Init.Datatypes <> Some constr
+R3967:3969 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3970:3973 Coq.Init.Datatypes <> Some constr
+R3986:3988 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3989:3992 Coq.Init.Datatypes <> Some constr
+R3986:3988 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R3989:3992 Coq.Init.Datatypes <> Some constr
+R4060:4062 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4063:4066 Coq.Init.Datatypes <> Some constr
+R4060:4062 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4063:4066 Coq.Init.Datatypes <> Some constr
+R4079:4081 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4082:4085 Coq.Init.Datatypes <> None constr
+R4079:4081 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4082:4085 Coq.Init.Datatypes <> None constr
+R4019:4021 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R4662:4662 Coq.Init.Logic <> ::type_scope:'~'_x not
+R4662:4662 Coq.Init.Logic <> ::type_scope:'~'_x not
+modtype 5427:5429 <> Inf
+ax 5444:5444 Inf t
+ax 5466:5471 Inf eq_dec
+R5490:5490 pv.library Inf t defax
+binder 5482:5483 <> x1:22
+binder 5485:5486 <> x2:23
+R5493:5494 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R5502:5508 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R5517:5518 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R5497:5499 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5495:5496 pv.library <> x1:22 var
+R5500:5501 pv.library <> x2:23 var
+R5511:5514 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R5509:5510 pv.library <> x1:22 var
+R5515:5516 pv.library <> x2:23 var
+ax 5533:5537 Inf fresh
+R5547:5550 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5541:5544 Coq.Init.Datatypes <> list ind
+R5546:5546 pv.library Inf t defax
+R5551:5551 pv.library Inf t defax
+ax 5562:5573 Inf not_in_fresh
+binder 5584:5585 <> xs:26
+R5588:5588 Coq.Init.Logic <> ::type_scope:'~'_x not
+R5589:5590 Coq.Lists.List <> In def
+R5603:5604 pv.library <> xs:26 var
+R5593:5597 pv.library Inf fresh defax
+R5599:5600 pv.library <> xs:26 var
+R5611:5613 pv.library Inf <> modtype
+R5652:5654 pv.library Inf <> mod
+modtype 5629:5638 <> InfDerived
+R5629:5638 pv.library K <> mod
+prf 5666:5674 InfDerived eq_dec_eq
+binder 5677:5677 <> B:28
+R5689:5689 pv.library <> B:28 var
+binder 5681:5682 <> y1:29
+binder 5684:5685 <> y2:30
+binder 5692:5692 <> x:31
+R5700:5700 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5730:5733 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5704:5709 pv.library K eq_dec defax
+R5711:5711 pv.library <> x:31 var
+R5713:5713 pv.library <> x:31 var
+R5728:5729 pv.library <> y2:30 var
+R5720:5721 pv.library <> y1:29 var
+R5734:5735 pv.library <> y1:29 var
+R5760:5765 pv.library K eq_dec defax
+R5760:5765 pv.library K eq_dec defax
+prf 5787:5796 InfDerived eq_dec_neq
+binder 5799:5799 <> B:32
+R5811:5811 pv.library <> B:32 var
+binder 5803:5804 <> y1:33
+binder 5806:5807 <> y2:34
+binder 5814:5815 <> x1:35
+binder 5817:5818 <> x2:36
+R5834:5841 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R5828:5831 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R5826:5827 pv.library <> x1:35 var
+R5832:5833 pv.library <> x2:36 var
+R5842:5842 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5874:5877 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R5846:5851 pv.library K eq_dec defax
+R5853:5854 pv.library <> x1:35 var
+R5856:5857 pv.library <> x2:36 var
+R5872:5873 pv.library <> y2:34 var
+R5864:5865 pv.library <> y1:33 var
+R5878:5879 pv.library <> y2:34 var
+R5904:5909 pv.library K eq_dec defax
+R5904:5909 pv.library K eq_dec defax
+R5926:5935 pv.library InfDerived <> modtype
+R5966:5968 pv.library Inf <> mod
+modtype 5951:5959 <> MapAxioms
+ax 5984:5986 MapAxioms map
+R5994:5997 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+ax 6017:6022 MapAxioms lookup
+binder 6034:6034 <> A:38
+R6043:6046 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6038:6040 pv.library MapAxioms map defax
+R6042:6042 pv.library <> A:38 var
+R6050:6053 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6047:6049 pv.library K t defax
+R6054:6059 Coq.Init.Datatypes <> option ind
+R6061:6061 pv.library <> A:38 var
+ax 6076:6080 MapAxioms empty
+binder 6092:6092 <> A:40
+R6096:6098 pv.library MapAxioms map defax
+R6100:6100 pv.library <> A:40 var
+ax 6115:6120 MapAxioms update
+binder 6132:6132 <> A:42
+R6139:6142 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6136:6138 pv.library K t defax
+R6151:6154 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6143:6148 Coq.Init.Datatypes <> option ind
+R6150:6150 pv.library <> A:42 var
+R6160:6163 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6155:6157 pv.library MapAxioms map defax
+R6159:6159 pv.library <> A:42 var
+R6164:6166 pv.library MapAxioms map defax
+R6168:6168 pv.library <> A:42 var
+ax 6183:6187 MapAxioms merge
+binder 6199:6199 <> A:44
+binder 6201:6201 <> B:45
+binder 6203:6203 <> C:46
+R6211:6211 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6244:6248 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6220:6223 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6212:6217 Coq.Init.Datatypes <> option ind
+R6219:6219 pv.library <> A:44 var
+R6232:6235 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6224:6229 Coq.Init.Datatypes <> option ind
+R6231:6231 pv.library <> B:45 var
+R6236:6241 Coq.Init.Datatypes <> option ind
+R6243:6243 pv.library <> C:46 var
+R6254:6257 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6249:6251 pv.library MapAxioms map defax
+R6253:6253 pv.library <> A:44 var
+R6263:6266 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6258:6260 pv.library MapAxioms map defax
+R6262:6262 pv.library <> B:45 var
+R6267:6269 pv.library MapAxioms map defax
+R6271:6271 pv.library <> C:46 var
+ax 6286:6288 MapAxioms dom
+binder 6300:6300 <> A:48
+R6309:6312 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6304:6306 pv.library MapAxioms map defax
+R6308:6308 pv.library <> A:48 var
+R6313:6316 Coq.Init.Datatypes <> list ind
+R6318:6320 pv.library K t defax
+ax 6332:6337 MapAxioms map_eq
+binder 6349:6349 <> A:50
+R6361:6363 pv.library MapAxioms map defax
+R6365:6365 pv.library <> A:50 var
+binder 6353:6354 <> m1:51
+binder 6356:6357 <> m2:52
+R6380:6384 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R6375:6377 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6373:6374 pv.library <> m1:51 var
+R6378:6379 pv.library <> m2:52 var
+binder 6392:6392 <> k:53
+R6406:6408 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6395:6400 pv.library MapAxioms lookup defax
+R6405:6405 pv.library <> k:53 var
+R6402:6403 pv.library <> m1:51 var
+R6409:6414 pv.library MapAxioms lookup defax
+R6419:6419 pv.library <> k:53 var
+R6416:6417 pv.library <> m2:52 var
+ax 6430:6441 MapAxioms lookup_empty
+binder 6453:6453 <> A:55
+binder 6456:6456 <> k:56
+R6478:6480 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6459:6464 pv.library MapAxioms lookup defax
+R6477:6477 pv.library <> k:56 var
+R6468:6472 pv.library MapAxioms empty defax
+R6474:6474 pv.library <> A:55 var
+R6481:6484 Coq.Init.Datatypes <> None constr
+ax 6495:6507 MapAxioms lookup_update
+binder 6519:6519 <> A:58
+R6527:6529 pv.library MapAxioms map defax
+R6531:6531 pv.library <> A:58 var
+binder 6523:6523 <> m:59
+binder 6534:6534 <> k:60
+binder 6536:6537 <> k':61
+binder 6539:6540 <> mx:62
+R6572:6574 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6547:6552 pv.library MapAxioms lookup defax
+R6570:6571 pv.library <> k':61 var
+R6555:6560 pv.library MapAxioms update defax
+R6567:6567 pv.library <> m:59 var
+R6564:6565 pv.library <> mx:62 var
+R6562:6562 pv.library <> k:60 var
+R6578:6585 pv.library K eq_dec defax
+R6587:6588 pv.library <> k':61 var
+R6590:6590 pv.library <> k:60 var
+R6605:6610 pv.library MapAxioms lookup defax
+R6614:6615 pv.library <> k':61 var
+R6612:6612 pv.library <> m:59 var
+R6597:6598 pv.library <> mx:62 var
+ax 6626:6637 MapAxioms lookup_merge
+binder 6649:6649 <> A:64
+binder 6651:6651 <> B:65
+binder 6653:6653 <> C:66
+R6675:6678 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6667:6672 Coq.Init.Datatypes <> option ind
+R6674:6674 pv.library <> A:64 var
+R6687:6690 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6679:6684 Coq.Init.Datatypes <> option ind
+R6686:6686 pv.library <> B:65 var
+R6691:6696 Coq.Init.Datatypes <> option ind
+R6698:6698 pv.library <> C:66 var
+binder 6663:6663 <> f:67
+R6707:6709 pv.library MapAxioms map defax
+R6711:6711 pv.library <> A:64 var
+binder 6702:6703 <> m1:68
+R6720:6722 pv.library MapAxioms map defax
+R6724:6724 pv.library <> B:65 var
+binder 6715:6716 <> m2:69
+binder 6727:6727 <> k:70
+R6752:6759 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R6745:6747 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6734:6734 pv.library <> f:67 var
+R6741:6744 Coq.Init.Datatypes <> None constr
+R6736:6739 Coq.Init.Datatypes <> None constr
+R6748:6751 Coq.Init.Datatypes <> None constr
+R6784:6786 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6760:6765 pv.library MapAxioms lookup defax
+R6783:6783 pv.library <> k:70 var
+R6768:6772 pv.library MapAxioms merge defax
+R6779:6780 pv.library <> m2:69 var
+R6776:6777 pv.library <> m1:68 var
+R6774:6774 pv.library <> f:67 var
+R6787:6787 pv.library <> f:67 var
+R6804:6809 pv.library MapAxioms lookup defax
+R6814:6814 pv.library <> k:70 var
+R6811:6812 pv.library <> m2:69 var
+R6790:6795 pv.library MapAxioms lookup defax
+R6800:6800 pv.library <> k:70 var
+R6797:6798 pv.library <> m1:68 var
+ax 6826:6835 MapAxioms dom_lookup
+binder 6847:6847 <> A:72
+R6855:6857 pv.library MapAxioms map defax
+R6859:6859 pv.library <> A:72 var
+binder 6851:6851 <> m:73
+binder 6862:6862 <> k:74
+R6881:6885 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R6869:6870 Coq.Lists.List <> In def
+R6875:6877 pv.library MapAxioms dom defax
+R6879:6879 pv.library <> m:73 var
+R6872:6872 pv.library <> k:74 var
+R6886:6892 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R6894:6895 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 6893:6893 <> x:75
+R6906:6908 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R6896:6901 pv.library MapAxioms lookup defax
+R6905:6905 pv.library <> k:74 var
+R6903:6903 pv.library <> m:73 var
+R6909:6912 Coq.Init.Datatypes <> Some constr
+R6914:6914 pv.library <> x:75 var
+R6921:6929 pv.library MapAxioms <> modtype
+R6961:6963 pv.library Inf <> mod
+R6980:6988 pv.library MapAxioms <> mod
+R6990:6990 pv.library K <> modtype
+modtype 6945:6954 <> MapDerived
+R6945:6954 pv.library Map <> mod
+R7015:7017 pv.library K t defax
+def 7062:7067 MapDerived insert
+binder 7070:7070 <> A:77
+R7078:7080 pv.library K t defax
+binder 7074:7074 <> k:78
+R7088:7088 pv.library <> A:77 var
+binder 7084:7084 <> x:79
+R7096:7098 pv.library Map map defax
+R7100:7100 pv.library <> A:77 var
+binder 7092:7092 <> m:80
+R7105:7107 pv.library Map map defax
+R7109:7109 pv.library <> A:77 var
+R7118:7123 pv.library Map update defax
+R7136:7136 pv.library <> m:80 var
+R7128:7131 Coq.Init.Datatypes <> Some constr
+R7133:7133 pv.library <> x:79 var
+R7125:7125 pv.library <> k:78 var
+def 7153:7158 MapDerived delete
+binder 7161:7161 <> A:81
+R7169:7171 pv.library K t defax
+binder 7165:7165 <> k:82
+R7179:7181 pv.library Map map defax
+R7183:7183 pv.library <> A:81 var
+binder 7175:7175 <> m:83
+R7188:7190 pv.library Map map defax
+R7192:7192 pv.library <> A:81 var
+R7201:7206 pv.library Map update defax
+R7215:7215 pv.library <> m:83 var
+R7210:7213 Coq.Init.Datatypes <> None constr
+R7208:7208 pv.library <> k:82 var
+def 7232:7240 MapDerived singleton
+binder 7243:7243 <> A:84
+R7251:7253 pv.library K t defax
+binder 7247:7247 <> k:85
+R7261:7261 pv.library <> A:84 var
+binder 7257:7257 <> x:86
+R7266:7268 pv.library Map map defax
+R7270:7270 pv.library <> A:84 var
+R7279:7284 pv.library MapDerived insert def
+R7290:7294 pv.library Map empty defax
+R7288:7288 pv.library <> x:86 var
+R7286:7286 pv.library <> k:85 var
+def 7311:7315 MapDerived union
+binder 7318:7318 <> A:87
+R7330:7332 pv.library Map map defax
+R7334:7334 pv.library <> A:87 var
+binder 7322:7323 <> m1:88
+binder 7325:7326 <> m2:89
+R7339:7341 pv.library Map map defax
+R7343:7343 pv.library <> A:87 var
+R7352:7356 pv.library Map merge defax
+R7374:7375 pv.library <> m2:89 var
+R7371:7372 pv.library <> m1:88 var
+R7358:7369 pv.library <> option_union def
+def 7391:7400 MapDerived difference
+binder 7403:7403 <> A:90
+R7415:7417 pv.library Map map defax
+R7419:7419 pv.library <> A:90 var
+binder 7407:7408 <> m1:91
+binder 7410:7411 <> m2:92
+R7424:7426 pv.library Map map defax
+R7428:7428 pv.library <> A:90 var
+R7437:7441 pv.library Map merge defax
+R7464:7465 pv.library <> m2:92 var
+R7461:7462 pv.library <> m1:91 var
+R7443:7459 pv.library <> option_difference def
+def 7482:7485 MapDerived incl
+binder 7488:7488 <> A:93
+R7500:7502 pv.library Map map defax
+R7504:7504 pv.library <> A:93 var
+binder 7492:7493 <> m1:94
+binder 7495:7496 <> m2:95
+binder 7528:7528 <> k:96
+binder 7530:7530 <> x:97
+R7553:7556 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R7544:7546 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7533:7538 pv.library Map lookup defax
+R7543:7543 pv.library <> k:96 var
+R7540:7541 pv.library <> m1:94 var
+R7547:7550 Coq.Init.Datatypes <> Some constr
+R7552:7552 pv.library <> x:97 var
+R7568:7570 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7557:7562 pv.library Map lookup defax
+R7567:7567 pv.library <> k:96 var
+R7564:7565 pv.library <> m2:95 var
+R7571:7574 Coq.Init.Datatypes <> Some constr
+R7576:7576 pv.library <> x:97 var
+def 7592:7599 MapDerived disjoint
+binder 7602:7602 <> A:98
+R7614:7616 pv.library Map map defax
+R7618:7618 pv.library <> A:98 var
+binder 7606:7607 <> m1:99
+binder 7609:7610 <> m2:100
+binder 7642:7642 <> k:101
+R7663:7666 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R7656:7658 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7645:7650 pv.library Map lookup defax
+R7655:7655 pv.library <> k:101 var
+R7652:7653 pv.library <> m1:99 var
+R7659:7662 Coq.Init.Datatypes <> None constr
+R7678:7680 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7667:7672 pv.library Map lookup defax
+R7677:7677 pv.library <> k:101 var
+R7674:7675 pv.library <> m2:100 var
+R7681:7684 Coq.Init.Datatypes <> None constr
+def 7701:7705 MapDerived fresh
+binder 7708:7708 <> A:102
+R7716:7718 pv.library Map map defax
+R7720:7720 pv.library <> A:102 var
+binder 7712:7712 <> m:103
+R7725:7727 pv.library K t defax
+R7736:7742 pv.library K fresh defax
+R7745:7747 pv.library Map dom defax
+R7749:7749 pv.library <> m:103 var
+prf 7791:7803 MapDerived lookup_insert
+binder 7806:7806 <> A:104
+R7814:7816 pv.library Map map defax
+R7818:7818 pv.library <> A:104 var
+binder 7810:7810 <> m:105
+binder 7821:7821 <> k:106
+binder 7823:7824 <> k':107
+binder 7826:7826 <> y:108
+R7858:7860 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R7834:7839 pv.library Map lookup defax
+R7856:7857 pv.library <> k':107 var
+R7842:7847 pv.library MapDerived insert def
+R7853:7853 pv.library <> m:105 var
+R7851:7851 pv.library <> y:108 var
+R7849:7849 pv.library <> k:106 var
+R7864:7871 pv.library K eq_dec defax
+R7873:7874 pv.library <> k':107 var
+R7876:7876 pv.library <> k:106 var
+R7895:7900 pv.library Map lookup defax
+R7904:7905 pv.library <> k':107 var
+R7902:7902 pv.library <> m:105 var
+R7883:7886 Coq.Init.Datatypes <> Some constr
+R7888:7888 pv.library <> y:108 var
+R7924:7929 pv.library MapDerived insert def
+R7943:7955 pv.library Map lookup_update prfax
+R7943:7955 pv.library Map lookup_update prfax
+R7943:7955 pv.library Map lookup_update prfax
+prf 7972:7984 MapDerived lookup_delete
+binder 7987:7987 <> A:109
+R7995:7997 pv.library Map map defax
+R7999:7999 pv.library <> A:109 var
+binder 7991:7991 <> m:110
+binder 8002:8002 <> k:111
+binder 8004:8005 <> k':112
+R8035:8037 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8013:8018 pv.library Map lookup defax
+R8033:8034 pv.library <> k':112 var
+R8021:8026 pv.library MapDerived delete def
+R8030:8030 pv.library <> m:110 var
+R8028:8028 pv.library <> k:111 var
+R8041:8048 pv.library K eq_dec defax
+R8050:8051 pv.library <> k':112 var
+R8053:8053 pv.library <> k:111 var
+R8070:8075 pv.library Map lookup defax
+R8079:8080 pv.library <> k':112 var
+R8077:8077 pv.library <> m:110 var
+R8060:8063 Coq.Init.Datatypes <> None constr
+R8099:8104 pv.library MapDerived delete def
+R8118:8130 pv.library Map lookup_update prfax
+R8118:8130 pv.library Map lookup_update prfax
+R8118:8130 pv.library Map lookup_update prfax
+prf 8147:8162 MapDerived lookup_singleton
+binder 8165:8165 <> A:113
+binder 8168:8168 <> k:114
+binder 8170:8171 <> k':115
+R8178:8178 pv.library <> A:113 var
+binder 8174:8174 <> x:116
+R8212:8214 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8187:8192 pv.library Map lookup defax
+R8210:8211 pv.library <> k':115 var
+R8195:8203 pv.library MapDerived singleton def
+R8207:8207 pv.library <> x:116 var
+R8205:8205 pv.library <> k:114 var
+R8218:8225 pv.library K eq_dec defax
+R8227:8228 pv.library <> k':115 var
+R8230:8230 pv.library <> k:114 var
+R8249:8252 Coq.Init.Datatypes <> None constr
+R8237:8240 Coq.Init.Datatypes <> Some constr
+R8242:8242 pv.library <> x:116 var
+R8271:8279 pv.library MapDerived singleton def
+R8293:8305 pv.library MapDerived lookup_insert thm
+R8308:8319 pv.library Map lookup_empty prfax
+R8293:8305 pv.library MapDerived lookup_insert thm
+R8293:8305 pv.library MapDerived lookup_insert thm
+R8308:8319 pv.library Map lookup_empty prfax
+R8308:8319 pv.library Map lookup_empty prfax
+prf 8336:8347 MapDerived lookup_union
+binder 8350:8350 <> A:117
+R8362:8364 pv.library Map map defax
+R8366:8366 pv.library <> A:117 var
+binder 8354:8355 <> m1:118
+binder 8357:8358 <> m2:119
+binder 8369:8369 <> k:120
+R8399:8401 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8377:8382 pv.library Map lookup defax
+R8398:8398 pv.library <> k:120 var
+R8385:8389 pv.library MapDerived union def
+R8394:8395 pv.library <> m2:119 var
+R8391:8392 pv.library <> m1:118 var
+R8402:8413 pv.library <> option_union def
+R8430:8435 pv.library Map lookup defax
+R8440:8440 pv.library <> k:120 var
+R8437:8438 pv.library <> m2:119 var
+R8416:8421 pv.library Map lookup defax
+R8426:8426 pv.library <> k:120 var
+R8423:8424 pv.library <> m1:118 var
+R8460:8464 pv.library MapDerived union def
+R8478:8489 pv.library Map lookup_merge prfax
+R8478:8489 pv.library Map lookup_merge prfax
+R8478:8489 pv.library Map lookup_merge prfax
+R8478:8489 pv.library Map lookup_merge prfax
+prf 8506:8522 MapDerived lookup_difference
+binder 8525:8525 <> A:121
+R8537:8539 pv.library Map map defax
+R8541:8541 pv.library <> A:121 var
+binder 8529:8530 <> m1:122
+binder 8532:8533 <> m2:123
+binder 8544:8544 <> k:124
+R8579:8581 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8552:8557 pv.library Map lookup defax
+R8578:8578 pv.library <> k:124 var
+R8560:8569 pv.library MapDerived difference def
+R8574:8575 pv.library <> m2:123 var
+R8571:8572 pv.library <> m1:122 var
+R8582:8598 pv.library <> option_difference def
+R8615:8620 pv.library Map lookup defax
+R8625:8625 pv.library <> k:124 var
+R8622:8623 pv.library <> m2:123 var
+R8601:8606 pv.library Map lookup defax
+R8611:8611 pv.library <> k:124 var
+R8608:8609 pv.library <> m1:122 var
+R8645:8654 pv.library MapDerived difference def
+R8668:8679 pv.library Map lookup_merge prfax
+R8668:8679 pv.library Map lookup_merge prfax
+R8668:8679 pv.library Map lookup_merge prfax
+R8668:8679 pv.library Map lookup_merge prfax
+prf 8696:8707 MapDerived lookup_fresh
+binder 8710:8710 <> A:125
+R8718:8720 pv.library Map map defax
+R8722:8722 pv.library <> A:125 var
+binder 8714:8714 <> m:126
+R8745:8747 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R8727:8732 pv.library Map lookup defax
+R8737:8741 pv.library MapDerived fresh def
+R8743:8743 pv.library <> m:126 var
+R8734:8734 pv.library <> m:126 var
+R8748:8751 Coq.Init.Datatypes <> None constr
+R8777:8782 pv.library Map lookup defax
+R8777:8782 pv.library Map lookup defax
+R8834:8847 pv.library K not_in_fresh prfax
+R8850:8852 pv.library Map dom defax
+R8859:8868 pv.library Map dom_lookup prfax
+R8834:8847 pv.library K not_in_fresh prfax
+R8850:8852 pv.library Map dom defax
+R8859:8868 pv.library Map dom_lookup prfax
+R8972:8977 pv.library Map map_eq prfax
+R9059:9070 pv.library Map lookup_empty prfax
+R9080:9092 pv.library Map lookup_update prfax
+R9102:9113 pv.library Map lookup_merge prfax
+R9138:9150 pv.library MapDerived lookup_insert thm
+R9160:9172 pv.library MapDerived lookup_delete thm
+R9182:9197 pv.library MapDerived lookup_singleton thm
+R9214:9225 pv.library MapDerived lookup_union thm
+R9235:9251 pv.library MapDerived lookup_difference thm
+R9261:9272 pv.library MapDerived lookup_fresh thm
+R9291:9298 pv.library K eq_dec defax
+R9350:9355 pv.library Map lookup defax
+R9350:9355 pv.library Map lookup defax
+R9388:9393 pv.library Map lookup defax
+prf 9458:9466 MapDerived dom_empty
+binder 9469:9469 <> A:127
+R9488:9490 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R9474:9476 pv.library Map dom defax
+R9480:9484 pv.library Map empty defax
+R9486:9486 pv.library <> A:127 var
+R9491:9492 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R9518:9520 pv.library Map dom defax
+R9522:9526 pv.library Map empty defax
+R9518:9520 pv.library Map dom defax
+R9522:9526 pv.library Map empty defax
+R9571:9572 Coq.Lists.List <> In def
+R9577:9579 pv.library Map dom defax
+R9583:9587 pv.library Map empty defax
+R9604:9613 pv.library Map dom_lookup prfax
+R9571:9572 Coq.Lists.List <> In def
+R9577:9579 pv.library Map dom defax
+R9583:9587 pv.library Map empty defax
+R9604:9613 pv.library Map dom_lookup prfax
+R9662:9673 pv.library Map lookup_empty prfax
+R9662:9673 pv.library Map lookup_empty prfax
+R9662:9673 pv.library Map lookup_empty prfax
+prf 9698:9704 MapDerived dom_nil
+binder 9707:9707 <> A:128
+R9715:9717 pv.library Map map defax
+R9719:9719 pv.library <> A:128 var
+binder 9711:9711 <> m:129
+R9734:9738 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R9729:9731 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R9724:9726 pv.library Map dom defax
+R9728:9728 pv.library <> m:129 var
+R9732:9733 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R9740:9742 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R9739:9739 pv.library <> m:129 var
+R9743:9747 pv.library Map empty defax
+R9789:9797 pv.library MapDerived dom_empty thm
+R9789:9797 pv.library MapDerived dom_empty thm
+R9824:9829 pv.library Map map_eq prfax
+R9824:9829 pv.library Map map_eq prfax
+R9856:9861 pv.library Map lookup defax
+R9856:9861 pv.library Map lookup defax
+R9910:9911 Coq.Lists.List <> In def
+R9915:9916 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R9910:9911 Coq.Lists.List <> In def
+R9915:9916 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R9948:9957 pv.library Map dom_lookup prfax
+R9948:9957 pv.library Map dom_lookup prfax
+prf 10012:10022 MapDerived map_dom_ind
+binder 10025:10025 <> A:130
+R10038:10041 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10033:10035 pv.library Map map defax
+R10037:10037 pv.library <> A:130 var
+binder 10029:10029 <> P:131
+R10061:10068 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10054:10054 pv.library <> P:131 var
+R10056:10060 pv.library Map empty defax
+R10069:10069 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10128:10136 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 10077:10077 <> k:132
+binder 10079:10079 <> x:133
+binder 10081:10081 <> m:134
+R10101:10104 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10094:10096 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R10084:10089 pv.library Map lookup defax
+R10093:10093 pv.library <> k:132 var
+R10091:10091 pv.library <> m:134 var
+R10097:10100 Coq.Init.Datatypes <> None constr
+R10108:10111 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10105:10105 pv.library <> P:131 var
+R10107:10107 pv.library <> m:134 var
+R10112:10112 pv.library <> P:131 var
+R10115:10120 pv.library MapDerived insert def
+R10126:10126 pv.library <> m:134 var
+R10124:10124 pv.library <> x:133 var
+R10122:10122 pv.library <> k:132 var
+binder 10144:10144 <> m:135
+R10147:10147 pv.library <> P:131 var
+R10149:10149 pv.library <> m:135 var
+binder 10204:10205 <> ks:136
+binder 10207:10207 <> m:137
+R10230:10233 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10210:10218 Coq.Lists.List <> incl def
+R10228:10229 pv.library <> ks:136 var
+R10221:10223 pv.library Map dom defax
+R10225:10225 pv.library <> m:137 var
+R10236:10236 pv.library <> m:137 var
+binder 10204:10205 <> ks:138
+binder 10207:10207 <> m:139
+R10230:10233 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10210:10218 Coq.Lists.List <> incl def
+R10228:10229 pv.library <> ks:138 var
+R10221:10223 pv.library Map dom defax
+R10225:10225 pv.library <> m:139 var
+R10236:10236 pv.library <> m:139 var
+R10274:10276 pv.library Map dom defax
+R10283:10291 Coq.Lists.List <> incl_refl thm
+R10274:10276 pv.library Map dom defax
+R10283:10291 Coq.Lists.List <> incl_refl thm
+R10406:10412 pv.library MapDerived dom_nil thm
+R10381:10390 Coq.Lists.List <> incl_l_nil thm
+R10381:10390 Coq.Lists.List <> incl_l_nil thm
+R10406:10412 pv.library MapDerived dom_nil thm
+R10431:10436 pv.library Map lookup defax
+R10431:10436 pv.library Map lookup defax
+R10481:10486 pv.library MapDerived insert def
+R10493:10498 pv.library MapDerived delete def
+R10481:10486 pv.library MapDerived insert def
+R10493:10498 pv.library MapDerived delete def
+R10586:10595 pv.library Map dom_lookup prfax
+R10586:10595 pv.library Map dom_lookup prfax
+R10612:10624 pv.library MapDerived lookup_delete thm
+R10612:10624 pv.library MapDerived lookup_delete thm
+R10612:10624 pv.library MapDerived lookup_delete thm
+R10644:10651 pv.library K eq_dec defax
+R10644:10651 pv.library K eq_dec defax
+R10701:10710 pv.library Map dom_lookup prfax
+R10701:10710 pv.library Map dom_lookup prfax
+R10762:10771 pv.library Map dom_lookup prfax
+R10762:10771 pv.library Map dom_lookup prfax
+R10807:10816 pv.library Map dom_lookup prfax
+R10807:10816 pv.library Map dom_lookup prfax
+prf 10859:10865 MapDerived map_ind
+binder 10868:10868 <> A:140
+R10881:10884 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10876:10878 pv.library Map map defax
+R10880:10880 pv.library <> A:140 var
+binder 10872:10872 <> P:141
+R10904:10911 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10897:10897 pv.library <> P:141 var
+R10899:10903 pv.library Map empty defax
+R10912:10912 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10971:10979 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+binder 10920:10920 <> k:142
+binder 10922:10922 <> x:143
+binder 10924:10924 <> m:144
+R10944:10947 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10937:10939 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R10927:10932 pv.library Map lookup defax
+R10936:10936 pv.library <> k:142 var
+R10934:10934 pv.library <> m:144 var
+R10940:10943 Coq.Init.Datatypes <> None constr
+R10951:10954 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R10948:10948 pv.library <> P:141 var
+R10950:10950 pv.library <> m:144 var
+R10955:10955 pv.library <> P:141 var
+R10958:10963 pv.library MapDerived insert def
+R10969:10969 pv.library <> m:144 var
+R10967:10967 pv.library <> x:143 var
+R10965:10965 pv.library <> k:142 var
+binder 10987:10987 <> m:145
+R10990:10990 pv.library <> P:141 var
+R10992:10992 pv.library <> m:145 var
+binder 11047:11048 <> ks:146
+binder 11050:11050 <> m:147
+R11073:11076 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11053:11061 Coq.Lists.List <> incl def
+R11071:11072 pv.library <> ks:146 var
+R11064:11066 pv.library Map dom defax
+R11068:11068 pv.library <> m:147 var
+R11079:11079 pv.library <> m:147 var
+binder 11047:11048 <> ks:148
+binder 11050:11050 <> m:149
+R11073:11076 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R11053:11061 Coq.Lists.List <> incl def
+R11071:11072 pv.library <> ks:148 var
+R11064:11066 pv.library Map dom defax
+R11068:11068 pv.library <> m:149 var
+R11079:11079 pv.library <> m:149 var
+R11117:11119 pv.library Map dom defax
+R11126:11134 Coq.Lists.List <> incl_refl thm
+R11117:11119 pv.library Map dom defax
+R11126:11134 Coq.Lists.List <> incl_refl thm
+R11249:11255 pv.library MapDerived dom_nil thm
+R11224:11233 Coq.Lists.List <> incl_l_nil thm
+R11224:11233 Coq.Lists.List <> incl_l_nil thm
+R11249:11255 pv.library MapDerived dom_nil thm
+R11274:11279 pv.library Map lookup defax
+R11274:11279 pv.library Map lookup defax
+R11324:11329 pv.library MapDerived insert def
+R11336:11341 pv.library MapDerived delete def
+R11324:11329 pv.library MapDerived insert def
+R11336:11341 pv.library MapDerived delete def
+R11429:11438 pv.library Map dom_lookup prfax
+R11429:11438 pv.library Map dom_lookup prfax
+R11455:11467 pv.library MapDerived lookup_delete thm
+R11455:11467 pv.library MapDerived lookup_delete thm
+R11455:11467 pv.library MapDerived lookup_delete thm
+R11487:11494 pv.library K eq_dec defax
+R11487:11494 pv.library K eq_dec defax
+R11544:11553 pv.library Map dom_lookup prfax
+R11544:11553 pv.library Map dom_lookup prfax
+R11605:11614 pv.library Map dom_lookup prfax
+R11605:11614 pv.library Map dom_lookup prfax
+R11650:11659 pv.library Map dom_lookup prfax
+R11650:11659 pv.library Map dom_lookup prfax
+prf 11733:11745 MapDerived update_update
+binder 11748:11748 <> A:150
+R11756:11758 pv.library Map map defax
+R11760:11760 pv.library <> A:150 var
+binder 11752:11752 <> m:151
+binder 11763:11764 <> k1:152
+binder 11766:11767 <> k2:153
+binder 11769:11771 <> mx1:154
+binder 11773:11775 <> mx2:155
+R11814:11822 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R11783:11788 pv.library Map update defax
+R11798:11803 pv.library Map update defax
+R11812:11812 pv.library <> m:151 var
+R11808:11810 pv.library <> mx1:154 var
+R11805:11806 pv.library <> k1:152 var
+R11793:11795 pv.library <> mx2:155 var
+R11790:11791 pv.library <> k2:153 var
+R11826:11833 pv.library K eq_dec defax
+R11835:11836 pv.library <> k1:152 var
+R11838:11839 pv.library <> k2:153 var
+R11873:11878 pv.library Map update defax
+R11888:11893 pv.library Map update defax
+R11902:11902 pv.library <> m:151 var
+R11898:11900 pv.library <> mx2:155 var
+R11895:11896 pv.library <> k2:153 var
+R11883:11885 pv.library <> mx1:154 var
+R11880:11881 pv.library <> k1:152 var
+R11846:11851 pv.library Map update defax
+R11860:11860 pv.library <> m:151 var
+R11856:11858 pv.library <> mx2:155 var
+R11853:11854 pv.library <> k2:153 var
+prf 11941:11953 MapDerived insert_insert
+binder 11956:11956 <> A:156
+R11964:11966 pv.library Map map defax
+R11968:11968 pv.library <> A:156 var
+binder 11960:11960 <> m:157
+binder 11971:11972 <> k1:158
+binder 11974:11975 <> k2:159
+binder 11977:11978 <> y1:160
+binder 11980:11981 <> y2:161
+R12018:12026 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R11989:11994 pv.library MapDerived insert def
+R12003:12008 pv.library MapDerived insert def
+R12016:12016 pv.library <> m:157 var
+R12013:12014 pv.library <> y1:160 var
+R12010:12011 pv.library <> k1:158 var
+R11999:12000 pv.library <> y2:161 var
+R11996:11997 pv.library <> k2:159 var
+R12030:12037 pv.library K eq_dec defax
+R12039:12040 pv.library <> k1:158 var
+R12042:12043 pv.library <> k2:159 var
+R12070:12075 pv.library MapDerived insert def
+R12084:12089 pv.library MapDerived insert def
+R12097:12097 pv.library <> m:157 var
+R12094:12095 pv.library <> y2:161 var
+R12091:12092 pv.library <> k2:159 var
+R12080:12081 pv.library <> y1:160 var
+R12077:12078 pv.library <> k1:158 var
+R12050:12055 pv.library MapDerived insert def
+R12063:12063 pv.library <> m:157 var
+R12060:12061 pv.library <> y2:161 var
+R12057:12058 pv.library <> k2:159 var
+prf 12136:12148 MapDerived insert_delete
+binder 12151:12151 <> A:162
+R12159:12161 pv.library Map map defax
+R12163:12163 pv.library <> A:162 var
+binder 12155:12155 <> m:163
+binder 12166:12167 <> k1:164
+binder 12169:12170 <> k2:165
+binder 12172:12173 <> y2:166
+R12207:12215 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12181:12186 pv.library MapDerived insert def
+R12195:12200 pv.library MapDerived delete def
+R12205:12205 pv.library <> m:163 var
+R12202:12203 pv.library <> k1:164 var
+R12191:12192 pv.library <> y2:166 var
+R12188:12189 pv.library <> k2:165 var
+R12219:12226 pv.library K eq_dec defax
+R12228:12229 pv.library <> k1:164 var
+R12231:12232 pv.library <> k2:165 var
+R12259:12264 pv.library MapDerived delete def
+R12270:12275 pv.library MapDerived insert def
+R12283:12283 pv.library <> m:163 var
+R12280:12281 pv.library <> y2:166 var
+R12277:12278 pv.library <> k2:165 var
+R12266:12267 pv.library <> k1:164 var
+R12239:12244 pv.library MapDerived insert def
+R12252:12252 pv.library <> m:163 var
+R12249:12250 pv.library <> y2:166 var
+R12246:12247 pv.library <> k2:165 var
+prf 12322:12334 MapDerived delete_insert
+binder 12337:12337 <> A:167
+R12345:12347 pv.library Map map defax
+R12349:12349 pv.library <> A:167 var
+binder 12341:12341 <> m:168
+binder 12352:12353 <> k1:169
+binder 12355:12356 <> k2:170
+binder 12358:12359 <> y1:171
+R12393:12401 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12367:12372 pv.library MapDerived delete def
+R12378:12383 pv.library MapDerived insert def
+R12391:12391 pv.library <> m:168 var
+R12388:12389 pv.library <> y1:171 var
+R12385:12386 pv.library <> k1:169 var
+R12374:12375 pv.library <> k2:170 var
+R12405:12412 pv.library K eq_dec defax
+R12414:12415 pv.library <> k1:169 var
+R12417:12418 pv.library <> k2:170 var
+R12442:12447 pv.library MapDerived insert def
+R12456:12461 pv.library MapDerived delete def
+R12466:12466 pv.library <> m:168 var
+R12463:12464 pv.library <> k2:170 var
+R12452:12453 pv.library <> y1:171 var
+R12449:12450 pv.library <> k1:169 var
+R12425:12430 pv.library MapDerived delete def
+R12435:12435 pv.library <> m:168 var
+R12432:12433 pv.library <> k2:170 var
+prf 12505:12517 MapDerived delete_delete
+binder 12520:12520 <> A:172
+R12528:12530 pv.library Map map defax
+R12532:12532 pv.library <> A:172 var
+binder 12524:12524 <> m:173
+binder 12535:12536 <> k1:174
+binder 12538:12539 <> k2:175
+R12570:12578 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12547:12552 pv.library MapDerived delete def
+R12558:12563 pv.library MapDerived delete def
+R12568:12568 pv.library <> m:173 var
+R12565:12566 pv.library <> k1:174 var
+R12554:12555 pv.library <> k2:175 var
+R12582:12589 pv.library K eq_dec defax
+R12591:12592 pv.library <> k1:174 var
+R12594:12595 pv.library <> k2:175 var
+R12625:12630 pv.library MapDerived delete def
+R12636:12641 pv.library MapDerived delete def
+R12646:12646 pv.library <> m:173 var
+R12643:12644 pv.library <> k2:175 var
+R12632:12633 pv.library <> k1:174 var
+R12602:12607 pv.library MapDerived delete def
+R12612:12612 pv.library <> m:173 var
+R12609:12610 pv.library <> k2:175 var
+prf 12685:12696 MapDerived insert_empty
+binder 12699:12699 <> A:176
+binder 12702:12702 <> k:177
+R12709:12709 pv.library <> A:176 var
+binder 12705:12705 <> x:178
+R12734:12736 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12718:12723 pv.library MapDerived insert def
+R12729:12733 pv.library Map empty defax
+R12727:12727 pv.library <> x:178 var
+R12725:12725 pv.library <> k:177 var
+R12737:12745 pv.library MapDerived singleton def
+R12749:12749 pv.library <> x:178 var
+R12747:12747 pv.library <> k:177 var
+prf 12787:12798 MapDerived delete_empty
+binder 12801:12801 <> A:179
+binder 12804:12804 <> k:180
+R12831:12833 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12812:12817 pv.library MapDerived delete def
+R12823:12827 pv.library Map empty defax
+R12829:12829 pv.library <> A:179 var
+R12819:12819 pv.library <> k:180 var
+R12834:12838 pv.library Map empty defax
+prf 12876:12891 MapDerived delete_singleton
+binder 12894:12894 <> A:181
+binder 12897:12898 <> k1:182
+binder 12900:12901 <> k2:183
+R12909:12909 pv.library <> A:181 var
+binder 12904:12905 <> y1:184
+R12945:12953 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R12918:12923 pv.library MapDerived delete def
+R12929:12937 pv.library MapDerived singleton def
+R12942:12943 pv.library <> y1:184 var
+R12939:12940 pv.library <> k1:182 var
+R12925:12926 pv.library <> k2:183 var
+R12957:12964 pv.library K eq_dec defax
+R12966:12967 pv.library <> k1:182 var
+R12969:12970 pv.library <> k2:183 var
+R12988:12996 pv.library MapDerived singleton def
+R13001:13002 pv.library <> y1:184 var
+R12998:12999 pv.library <> k1:182 var
+R12977:12981 pv.library Map empty defax
+prf 13040:13055 MapDerived insert_singleton
+binder 13058:13058 <> A:185
+binder 13061:13061 <> k:186
+R13072:13072 pv.library <> A:185 var
+binder 13064:13065 <> y1:187
+binder 13067:13068 <> y2:188
+R13109:13111 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13081:13086 pv.library MapDerived insert def
+R13094:13102 pv.library MapDerived singleton def
+R13106:13107 pv.library <> y1:187 var
+R13104:13104 pv.library <> k:186 var
+R13090:13091 pv.library <> y2:188 var
+R13088:13088 pv.library <> k:186 var
+R13112:13120 pv.library MapDerived singleton def
+R13124:13125 pv.library <> y2:188 var
+R13122:13122 pv.library <> k:186 var
+prf 13163:13173 MapDerived union_assoc
+binder 13176:13176 <> A:189
+R13191:13193 pv.library Map map defax
+R13195:13195 pv.library <> A:189 var
+binder 13180:13181 <> m1:190
+binder 13183:13184 <> m2:191
+binder 13186:13187 <> m3:192
+R13226:13228 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13204:13208 pv.library MapDerived union def
+R13214:13218 pv.library MapDerived union def
+R13223:13224 pv.library <> m3:192 var
+R13220:13221 pv.library <> m2:191 var
+R13210:13211 pv.library <> m1:190 var
+R13229:13233 pv.library MapDerived union def
+R13249:13250 pv.library <> m3:192 var
+R13236:13240 pv.library MapDerived union def
+R13245:13246 pv.library <> m2:191 var
+R13242:13243 pv.library <> m1:190 var
+prf 13288:13300 MapDerived union_empty_l
+binder 13303:13303 <> A:193
+R13311:13313 pv.library Map map defax
+R13315:13315 pv.library <> A:193 var
+binder 13307:13307 <> m:194
+R13337:13339 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13324:13328 pv.library MapDerived union def
+R13336:13336 pv.library <> m:194 var
+R13330:13334 pv.library Map empty defax
+R13340:13340 pv.library <> m:194 var
+prf 13378:13390 MapDerived union_empty_r
+binder 13393:13393 <> A:195
+R13401:13403 pv.library Map map defax
+R13405:13405 pv.library <> A:195 var
+binder 13397:13397 <> m:196
+R13427:13429 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13414:13418 pv.library MapDerived union def
+R13422:13426 pv.library Map empty defax
+R13420:13420 pv.library <> m:196 var
+R13430:13430 pv.library <> m:196 var
+prf 13468:13479 MapDerived update_union
+binder 13482:13482 <> A:197
+R13494:13496 pv.library Map map defax
+R13498:13498 pv.library <> A:197 var
+binder 13486:13487 <> m1:198
+binder 13489:13490 <> m2:199
+binder 13501:13501 <> k:200
+binder 13503:13504 <> mx:201
+R13537:13539 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13512:13517 pv.library Map update defax
+R13525:13529 pv.library MapDerived union def
+R13534:13535 pv.library <> m2:199 var
+R13531:13532 pv.library <> m1:198 var
+R13521:13522 pv.library <> mx:201 var
+R13519:13519 pv.library <> k:200 var
+R13540:13544 pv.library MapDerived union def
+R13564:13569 pv.library Map update defax
+R13576:13577 pv.library <> m2:199 var
+R13573:13574 pv.library <> mx:201 var
+R13571:13571 pv.library <> k:200 var
+R13547:13552 pv.library Map update defax
+R13559:13560 pv.library <> m1:198 var
+R13556:13557 pv.library <> mx:201 var
+R13554:13554 pv.library <> k:200 var
+prf 13629:13640 MapDerived insert_union
+binder 13643:13643 <> A:202
+R13655:13657 pv.library Map map defax
+R13659:13659 pv.library <> A:202 var
+binder 13647:13648 <> m1:203
+binder 13650:13651 <> m2:204
+binder 13662:13662 <> k:205
+binder 13664:13664 <> x:206
+R13696:13698 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13672:13677 pv.library MapDerived insert def
+R13684:13688 pv.library MapDerived union def
+R13693:13694 pv.library <> m2:204 var
+R13690:13691 pv.library <> m1:203 var
+R13681:13681 pv.library <> x:206 var
+R13679:13679 pv.library <> k:205 var
+R13699:13703 pv.library MapDerived union def
+R13722:13727 pv.library MapDerived insert def
+R13733:13734 pv.library <> m2:204 var
+R13731:13731 pv.library <> x:206 var
+R13729:13729 pv.library <> k:205 var
+R13706:13711 pv.library MapDerived insert def
+R13717:13718 pv.library <> m1:203 var
+R13715:13715 pv.library <> x:206 var
+R13713:13713 pv.library <> k:205 var
+prf 13773:13784 MapDerived delete_union
+binder 13787:13787 <> A:207
+R13799:13801 pv.library Map map defax
+R13803:13803 pv.library <> A:207 var
+binder 13791:13792 <> m1:208
+binder 13794:13795 <> m2:209
+binder 13806:13806 <> k:210
+R13836:13838 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13814:13819 pv.library MapDerived delete def
+R13824:13828 pv.library MapDerived union def
+R13833:13834 pv.library <> m2:209 var
+R13830:13831 pv.library <> m1:208 var
+R13821:13821 pv.library <> k:210 var
+R13839:13843 pv.library MapDerived union def
+R13860:13865 pv.library MapDerived delete def
+R13869:13870 pv.library <> m2:209 var
+R13867:13867 pv.library <> k:210 var
+R13846:13851 pv.library MapDerived delete def
+R13855:13856 pv.library <> m1:208 var
+R13853:13853 pv.library <> k:210 var
+prf 13909:13922 MapDerived insert_union_l
+binder 13925:13925 <> A:211
+R13937:13939 pv.library Map map defax
+R13941:13941 pv.library <> A:211 var
+binder 13929:13930 <> m1:212
+binder 13932:13933 <> m2:213
+binder 13944:13944 <> k:214
+binder 13946:13946 <> x:215
+R13978:13980 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R13954:13959 pv.library MapDerived insert def
+R13966:13970 pv.library MapDerived union def
+R13975:13976 pv.library <> m2:213 var
+R13972:13973 pv.library <> m1:212 var
+R13963:13963 pv.library <> x:215 var
+R13961:13961 pv.library <> k:214 var
+R13981:13985 pv.library MapDerived union def
+R14003:14004 pv.library <> m2:213 var
+R13988:13993 pv.library MapDerived insert def
+R13999:14000 pv.library <> m1:212 var
+R13997:13997 pv.library <> x:215 var
+R13995:13995 pv.library <> k:214 var
+prf 14042:14058 MapDerived union_singleton_l
+binder 14061:14061 <> A:216
+R14069:14071 pv.library Map map defax
+R14073:14073 pv.library <> A:216 var
+binder 14065:14065 <> m:217
+binder 14076:14076 <> k:218
+binder 14078:14078 <> x:219
+R14109:14111 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14086:14090 pv.library MapDerived union def
+R14108:14108 pv.library <> m:217 var
+R14093:14101 pv.library MapDerived singleton def
+R14105:14105 pv.library <> x:219 var
+R14103:14103 pv.library <> k:218 var
+R14112:14117 pv.library MapDerived insert def
+R14123:14123 pv.library <> m:217 var
+R14121:14121 pv.library <> x:219 var
+R14119:14119 pv.library <> k:218 var
+prf 14161:14177 MapDerived union_singleton_r
+binder 14180:14180 <> A:220
+R14188:14190 pv.library Map map defax
+R14192:14192 pv.library <> A:220 var
+binder 14184:14184 <> m:221
+binder 14195:14195 <> k:222
+binder 14197:14197 <> x:223
+R14228:14230 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14205:14209 pv.library MapDerived union def
+R14214:14222 pv.library MapDerived singleton def
+R14226:14226 pv.library <> x:223 var
+R14224:14224 pv.library <> k:222 var
+R14211:14211 pv.library <> m:221 var
+R14234:14239 pv.library Map lookup defax
+R14243:14243 pv.library <> k:222 var
+R14241:14241 pv.library <> m:221 var
+R14257:14262 pv.library MapDerived insert def
+R14268:14268 pv.library <> m:221 var
+R14266:14266 pv.library <> x:223 var
+R14264:14264 pv.library <> k:222 var
+R14250:14250 pv.library <> m:221 var
+prf 14306:14323 MapDerived difference_empty_l
+binder 14326:14326 <> A:224
+R14334:14336 pv.library Map map defax
+R14338:14338 pv.library <> A:224 var
+binder 14330:14330 <> m:225
+R14365:14367 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14347:14356 pv.library MapDerived difference def
+R14364:14364 pv.library <> m:225 var
+R14358:14362 pv.library Map empty defax
+R14368:14372 pv.library Map empty defax
+prf 14410:14427 MapDerived difference_empty_r
+binder 14430:14430 <> A:226
+R14438:14440 pv.library Map map defax
+R14442:14442 pv.library <> A:226 var
+binder 14434:14434 <> m:227
+R14469:14471 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14451:14460 pv.library MapDerived difference def
+R14464:14468 pv.library Map empty defax
+R14462:14462 pv.library <> m:227 var
+R14472:14472 pv.library <> m:227 var
+prf 14510:14524 MapDerived difference_diag
+binder 14527:14527 <> A:228
+R14535:14537 pv.library Map map defax
+R14539:14539 pv.library <> A:228 var
+binder 14531:14531 <> m:229
+R14562:14564 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14548:14557 pv.library MapDerived difference def
+R14561:14561 pv.library <> m:229 var
+R14559:14559 pv.library <> m:229 var
+R14565:14569 pv.library Map empty defax
+prf 14607:14628 MapDerived difference_singleton_r
+binder 14631:14631 <> A:230
+R14639:14641 pv.library Map map defax
+R14643:14643 pv.library <> A:230 var
+binder 14635:14635 <> m:231
+binder 14646:14646 <> k:232
+binder 14648:14648 <> x:233
+R14684:14686 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14656:14665 pv.library MapDerived difference def
+R14670:14678 pv.library MapDerived singleton def
+R14682:14682 pv.library <> x:233 var
+R14680:14680 pv.library <> k:232 var
+R14667:14667 pv.library <> m:231 var
+R14687:14692 pv.library MapDerived delete def
+R14696:14696 pv.library <> m:231 var
+R14694:14694 pv.library <> k:232 var
+prf 14734:14755 MapDerived difference_singleton_l
+binder 14758:14758 <> A:234
+R14766:14768 pv.library Map map defax
+R14770:14770 pv.library <> A:234 var
+binder 14762:14762 <> m:235
+binder 14773:14773 <> k:236
+binder 14775:14775 <> x:237
+R14811:14813 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14783:14792 pv.library MapDerived difference def
+R14810:14810 pv.library <> m:235 var
+R14795:14803 pv.library MapDerived singleton def
+R14807:14807 pv.library <> x:237 var
+R14805:14805 pv.library <> k:236 var
+R14817:14822 pv.library Map lookup defax
+R14826:14826 pv.library <> k:236 var
+R14824:14824 pv.library <> m:235 var
+R14844:14852 pv.library MapDerived singleton def
+R14856:14856 pv.library <> x:237 var
+R14854:14854 pv.library <> k:236 var
+R14833:14837 pv.library Map empty defax
+prf 14894:14911 MapDerived difference_union_l
+binder 14914:14914 <> A:238
+R14929:14931 pv.library Map map defax
+R14933:14933 pv.library <> A:238 var
+binder 14918:14919 <> m1:239
+binder 14921:14922 <> m2:240
+binder 14924:14925 <> m3:241
+R14969:14971 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R14942:14951 pv.library MapDerived difference def
+R14967:14968 pv.library <> m3:241 var
+R14954:14958 pv.library MapDerived union def
+R14963:14964 pv.library <> m2:240 var
+R14960:14961 pv.library <> m1:239 var
+R14972:14976 pv.library MapDerived union def
+R14998:15007 pv.library MapDerived difference def
+R15012:15013 pv.library <> m3:241 var
+R15009:15010 pv.library <> m2:240 var
+R14979:14988 pv.library MapDerived difference def
+R14993:14994 pv.library <> m3:241 var
+R14990:14991 pv.library <> m1:239 var
+prf 15052:15069 MapDerived difference_union_r
+binder 15072:15072 <> A:242
+R15087:15089 pv.library Map map defax
+R15091:15091 pv.library <> A:242 var
+binder 15076:15077 <> m1:243
+binder 15079:15080 <> m2:244
+binder 15082:15083 <> m3:245
+R15127:15129 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15100:15109 pv.library MapDerived difference def
+R15115:15119 pv.library MapDerived union def
+R15124:15125 pv.library <> m3:245 var
+R15121:15122 pv.library <> m2:244 var
+R15111:15112 pv.library <> m1:243 var
+R15130:15139 pv.library MapDerived difference def
+R15160:15161 pv.library <> m3:245 var
+R15142:15151 pv.library MapDerived difference def
+R15156:15157 pv.library <> m2:244 var
+R15153:15154 pv.library <> m1:243 var
+prf 15199:15217 MapDerived difference_union_r'
+binder 15220:15220 <> A:246
+R15235:15237 pv.library Map map defax
+R15239:15239 pv.library <> A:246 var
+binder 15224:15225 <> m1:247
+binder 15227:15228 <> m2:248
+binder 15230:15231 <> m3:249
+R15275:15277 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15248:15257 pv.library MapDerived difference def
+R15263:15267 pv.library MapDerived union def
+R15272:15273 pv.library <> m3:249 var
+R15269:15270 pv.library <> m2:248 var
+R15259:15260 pv.library <> m1:247 var
+R15278:15287 pv.library MapDerived difference def
+R15308:15309 pv.library <> m2:248 var
+R15290:15299 pv.library MapDerived difference def
+R15304:15305 pv.library <> m3:249 var
+R15301:15302 pv.library <> m1:247 var
+prf 15347:15365 MapDerived difference_delete_l
+binder 15368:15368 <> A:250
+R15380:15382 pv.library Map map defax
+R15384:15384 pv.library <> A:250 var
+binder 15372:15373 <> m1:251
+binder 15375:15376 <> m2:252
+binder 15387:15387 <> k:253
+R15422:15424 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15395:15404 pv.library MapDerived difference def
+R15420:15421 pv.library <> m2:252 var
+R15407:15412 pv.library MapDerived delete def
+R15416:15417 pv.library <> m1:251 var
+R15414:15414 pv.library <> k:253 var
+R15425:15430 pv.library MapDerived delete def
+R15435:15444 pv.library MapDerived difference def
+R15449:15450 pv.library <> m2:252 var
+R15446:15447 pv.library <> m1:251 var
+R15432:15432 pv.library <> k:253 var
+prf 15489:15507 MapDerived difference_delete_r
+binder 15510:15510 <> A:254
+R15522:15524 pv.library Map map defax
+R15526:15526 pv.library <> A:254 var
+binder 15514:15515 <> m1:255
+binder 15517:15518 <> m2:256
+binder 15529:15529 <> k:257
+R15564:15566 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15537:15546 pv.library MapDerived difference def
+R15552:15557 pv.library MapDerived delete def
+R15561:15562 pv.library <> m2:256 var
+R15559:15559 pv.library <> k:257 var
+R15548:15549 pv.library <> m1:255 var
+R15567:15572 pv.library Map update defax
+R15591:15600 pv.library MapDerived difference def
+R15605:15606 pv.library <> m2:256 var
+R15602:15603 pv.library <> m1:255 var
+R15577:15582 pv.library Map lookup defax
+R15587:15587 pv.library <> k:257 var
+R15584:15585 pv.library <> m1:255 var
+R15574:15574 pv.library <> k:257 var
+prf 15645:15663 MapDerived difference_insert_l
+binder 15666:15666 <> A:258
+R15678:15680 pv.library Map map defax
+R15682:15682 pv.library <> A:258 var
+binder 15670:15671 <> m1:259
+binder 15673:15674 <> m2:260
+binder 15685:15685 <> k:261
+binder 15687:15687 <> x:262
+R15724:15732 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15695:15704 pv.library MapDerived difference def
+R15722:15723 pv.library <> m2:260 var
+R15707:15712 pv.library MapDerived insert def
+R15718:15719 pv.library <> m1:259 var
+R15716:15716 pv.library <> x:262 var
+R15714:15714 pv.library <> k:261 var
+R15736:15741 pv.library Map lookup defax
+R15746:15746 pv.library <> k:261 var
+R15743:15744 pv.library <> m2:260 var
+R15781:15786 pv.library MapDerived insert def
+R15793:15802 pv.library MapDerived difference def
+R15807:15808 pv.library <> m2:260 var
+R15804:15805 pv.library <> m1:259 var
+R15790:15790 pv.library <> x:262 var
+R15788:15788 pv.library <> k:261 var
+R15753:15762 pv.library MapDerived difference def
+R15767:15768 pv.library <> m2:260 var
+R15764:15765 pv.library <> m1:259 var
+prf 15847:15865 MapDerived difference_insert_r
+binder 15868:15868 <> A:263
+R15880:15882 pv.library Map map defax
+R15884:15884 pv.library <> A:263 var
+binder 15872:15873 <> m1:264
+binder 15875:15876 <> m2:265
+binder 15887:15887 <> k:266
+binder 15889:15889 <> x:267
+R15926:15928 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R15897:15906 pv.library MapDerived difference def
+R15912:15917 pv.library MapDerived insert def
+R15923:15924 pv.library <> m2:265 var
+R15921:15921 pv.library <> x:267 var
+R15919:15919 pv.library <> k:266 var
+R15908:15909 pv.library <> m1:264 var
+R15929:15934 pv.library MapDerived delete def
+R15939:15948 pv.library MapDerived difference def
+R15953:15954 pv.library <> m2:265 var
+R15950:15951 pv.library <> m1:264 var
+R15936:15936 pv.library <> k:266 var
+prf 15993:16009 MapDerived delete_difference
+binder 16012:16012 <> A:268
+R16024:16026 pv.library Map map defax
+R16028:16028 pv.library <> A:268 var
+binder 16016:16017 <> m1:269
+binder 16019:16020 <> m2:270
+binder 16031:16031 <> k:271
+R16066:16068 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16039:16044 pv.library MapDerived delete def
+R16049:16058 pv.library MapDerived difference def
+R16063:16064 pv.library <> m2:270 var
+R16060:16061 pv.library <> m1:269 var
+R16046:16046 pv.library <> k:271 var
+R16069:16078 pv.library MapDerived difference def
+R16095:16100 pv.library MapDerived delete def
+R16104:16105 pv.library <> m2:270 var
+R16102:16102 pv.library <> k:271 var
+R16081:16086 pv.library MapDerived delete def
+R16090:16091 pv.library <> m1:269 var
+R16088:16088 pv.library <> k:271 var
+prf 16144:16160 MapDerived insert_difference
+binder 16163:16163 <> A:272
+R16175:16177 pv.library Map map defax
+R16179:16179 pv.library <> A:272 var
+binder 16167:16168 <> m1:273
+binder 16170:16171 <> m2:274
+binder 16182:16182 <> k:275
+binder 16184:16184 <> x:276
+R16221:16223 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16192:16197 pv.library MapDerived insert def
+R16204:16213 pv.library MapDerived difference def
+R16218:16219 pv.library <> m2:274 var
+R16215:16216 pv.library <> m1:273 var
+R16201:16201 pv.library <> x:276 var
+R16199:16199 pv.library <> k:275 var
+R16224:16233 pv.library MapDerived difference def
+R16252:16257 pv.library MapDerived delete def
+R16261:16262 pv.library <> m2:274 var
+R16259:16259 pv.library <> k:275 var
+R16236:16241 pv.library MapDerived insert def
+R16247:16248 pv.library <> m1:273 var
+R16245:16245 pv.library <> x:276 var
+R16243:16243 pv.library <> k:275 var
+prf 16301:16318 MapDerived union_difference_r
+binder 16321:16321 <> A:277
+R16336:16338 pv.library Map map defax
+R16340:16340 pv.library <> A:277 var
+binder 16325:16326 <> m1:278
+binder 16328:16329 <> m2:279
+binder 16331:16332 <> m3:280
+R16376:16378 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16349:16353 pv.library MapDerived union def
+R16359:16368 pv.library MapDerived difference def
+R16373:16374 pv.library <> m3:280 var
+R16370:16371 pv.library <> m2:279 var
+R16355:16356 pv.library <> m1:278 var
+R16379:16388 pv.library MapDerived difference def
+R16405:16414 pv.library MapDerived difference def
+R16419:16420 pv.library <> m1:278 var
+R16416:16417 pv.library <> m3:280 var
+R16391:16395 pv.library MapDerived union def
+R16400:16401 pv.library <> m2:279 var
+R16397:16398 pv.library <> m1:278 var
+prf 16459:16480 MapDerived union_difference_irrel
+binder 16483:16483 <> A:281
+R16495:16497 pv.library Map map defax
+R16499:16499 pv.library <> A:281 var
+binder 16487:16488 <> m1:282
+binder 16490:16491 <> m2:283
+R16535:16537 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16508:16512 pv.library MapDerived union def
+R16518:16527 pv.library MapDerived difference def
+R16532:16533 pv.library <> m1:282 var
+R16529:16530 pv.library <> m2:283 var
+R16514:16515 pv.library <> m1:282 var
+R16538:16542 pv.library MapDerived union def
+R16547:16548 pv.library <> m2:283 var
+R16544:16545 pv.library <> m1:282 var
+prf 16620:16628 MapDerived incl_refl
+binder 16631:16631 <> A:284
+R16639:16641 pv.library Map map defax
+R16643:16643 pv.library <> A:284 var
+binder 16635:16635 <> m:285
+R16652:16655 pv.library MapDerived incl def
+R16659:16659 pv.library <> m:285 var
+R16657:16657 pv.library <> m:285 var
+prf 16699:16708 MapDerived incl_trans
+binder 16711:16711 <> A:286
+R16726:16728 pv.library Map map defax
+R16730:16730 pv.library <> A:286 var
+binder 16715:16716 <> m1:287
+binder 16718:16719 <> m2:288
+binder 16721:16722 <> m3:289
+R16749:16752 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16739:16742 pv.library MapDerived incl def
+R16747:16748 pv.library <> m2:288 var
+R16744:16745 pv.library <> m1:287 var
+R16763:16766 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16753:16756 pv.library MapDerived incl def
+R16761:16762 pv.library <> m3:289 var
+R16758:16759 pv.library <> m2:288 var
+R16767:16770 pv.library MapDerived incl def
+R16775:16776 pv.library <> m3:289 var
+R16772:16773 pv.library <> m1:287 var
+prf 16830:16842 MapDerived incl_antisymm
+binder 16845:16845 <> A:290
+R16857:16859 pv.library Map map defax
+R16861:16861 pv.library <> A:290 var
+binder 16849:16850 <> m1:291
+binder 16852:16853 <> m2:292
+R16880:16883 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16870:16873 pv.library MapDerived incl def
+R16878:16879 pv.library <> m2:292 var
+R16875:16876 pv.library <> m1:291 var
+R16894:16897 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R16884:16887 pv.library MapDerived incl def
+R16892:16893 pv.library <> m1:291 var
+R16889:16890 pv.library <> m2:292 var
+R16900:16902 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R16898:16899 pv.library <> m1:291 var
+R16903:16904 pv.library <> m2:292 var
+R16944:16949 pv.library Map map_eq prfax
+R16944:16949 pv.library Map map_eq prfax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+R17029:17034 pv.library Map lookup defax
+prf 17088:17103 MapDerived incl_lookup_None
+binder 17106:17106 <> A:293
+R17118:17120 pv.library Map map defax
+R17122:17122 pv.library <> A:293 var
+binder 17110:17111 <> m1:294
+binder 17113:17114 <> m2:295
+binder 17125:17125 <> k:296
+R17151:17154 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17144:17146 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17133:17138 pv.library Map lookup defax
+R17143:17143 pv.library <> k:296 var
+R17140:17141 pv.library <> m2:295 var
+R17147:17150 Coq.Init.Datatypes <> None constr
+R17165:17168 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R17155:17158 pv.library MapDerived incl def
+R17163:17164 pv.library <> m2:295 var
+R17160:17161 pv.library <> m1:294 var
+R17180:17182 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17169:17174 pv.library Map lookup defax
+R17179:17179 pv.library <> k:296 var
+R17176:17177 pv.library <> m1:294 var
+R17183:17186 Coq.Init.Datatypes <> None constr
+R17230:17235 pv.library Map lookup defax
+R17230:17235 pv.library Map lookup defax
+prf 17321:17332 MapDerived incl_empty_l
+binder 17335:17335 <> A:297
+R17343:17345 pv.library Map map defax
+R17347:17347 pv.library <> A:297 var
+binder 17339:17339 <> m:298
+R17356:17359 pv.library MapDerived incl def
+R17367:17367 pv.library <> m:298 var
+R17361:17365 pv.library Map empty defax
+R17402:17413 pv.library Map lookup_empty prfax
+R17402:17413 pv.library Map lookup_empty prfax
+R17402:17413 pv.library Map lookup_empty prfax
+prf 17429:17440 MapDerived incl_empty_r
+binder 17443:17443 <> A:299
+R17451:17453 pv.library Map map defax
+R17455:17455 pv.library <> A:299 var
+binder 17447:17447 <> m:300
+R17476:17480 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R17464:17467 pv.library MapDerived incl def
+R17471:17475 pv.library Map empty defax
+R17469:17469 pv.library <> m:300 var
+R17482:17484 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17481:17481 pv.library <> m:300 var
+R17485:17489 pv.library Map empty defax
+R17531:17542 pv.library MapDerived incl_empty_l thm
+R17531:17542 pv.library MapDerived incl_empty_l thm
+R17569:17574 pv.library Map map_eq prfax
+R17569:17574 pv.library Map map_eq prfax
+R17622:17627 pv.library Map lookup defax
+R17622:17627 pv.library Map lookup defax
+prf 17686:17701 MapDerived incl_singleton_l
+binder 17704:17704 <> A:301
+R17712:17714 pv.library Map map defax
+R17716:17716 pv.library <> A:301 var
+binder 17708:17708 <> m:302
+binder 17719:17719 <> k:303
+binder 17721:17721 <> y:304
+R17751:17755 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R17729:17732 pv.library MapDerived incl def
+R17750:17750 pv.library <> m:302 var
+R17735:17743 pv.library MapDerived singleton def
+R17747:17747 pv.library <> y:304 var
+R17745:17745 pv.library <> k:303 var
+R17766:17768 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17756:17761 pv.library Map lookup defax
+R17765:17765 pv.library <> k:303 var
+R17763:17763 pv.library <> m:302 var
+R17769:17772 Coq.Init.Datatypes <> Some constr
+R17774:17774 pv.library <> y:304 var
+prf 17889:17904 MapDerived incl_singleton_r
+binder 17907:17907 <> A:305
+R17915:17917 pv.library Map map defax
+R17919:17919 pv.library <> A:305 var
+binder 17911:17911 <> m:306
+binder 17922:17922 <> k:307
+binder 17924:17924 <> y:308
+R17954:17958 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R17932:17935 pv.library MapDerived incl def
+R17940:17948 pv.library MapDerived singleton def
+R17952:17952 pv.library <> y:308 var
+R17950:17950 pv.library <> k:307 var
+R17937:17937 pv.library <> m:306 var
+R17968:17971 Coq.Init.Logic <> ::type_scope:x_'\/'_x not
+R17960:17962 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17959:17959 pv.library <> m:306 var
+R17963:17967 pv.library Map empty defax
+R17973:17975 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R17972:17972 pv.library <> m:306 var
+R17976:17984 pv.library MapDerived singleton def
+R17988:17988 pv.library <> y:308 var
+R17986:17986 pv.library <> k:307 var
+R18037:18048 pv.library MapDerived incl_empty_l thm
+R18056:18064 pv.library MapDerived incl_refl thm
+R18037:18048 pv.library MapDerived incl_empty_l thm
+R18056:18064 pv.library MapDerived incl_refl thm
+binder 18101:18102 <> k':309
+R18112:18115 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R18107:18110 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R18105:18106 pv.library <> k':309 var
+R18127:18129 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R18116:18121 pv.library Map lookup defax
+R18125:18126 pv.library <> k':309 var
+R18130:18133 Coq.Init.Datatypes <> None constr
+binder 18101:18102 <> k':310
+R18112:18115 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R18107:18110 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R18105:18106 pv.library <> k':310 var
+R18127:18129 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R18116:18121 pv.library Map lookup defax
+R18125:18126 pv.library <> k':310 var
+R18130:18133 Coq.Init.Datatypes <> None constr
+R18166:18171 pv.library Map lookup defax
+R18166:18171 pv.library Map lookup defax
+R18247:18262 pv.library MapDerived lookup_singleton thm
+R18247:18262 pv.library MapDerived lookup_singleton thm
+R18247:18262 pv.library MapDerived lookup_singleton thm
+R18292:18299 pv.library K eq_dec defax
+R18292:18299 pv.library K eq_dec defax
+R18323:18328 pv.library Map lookup defax
+R18323:18328 pv.library Map lookup defax
+R18370:18375 pv.library Map map_eq prfax
+R18370:18375 pv.library Map map_eq prfax
+R18397:18412 pv.library MapDerived lookup_singleton thm
+R18397:18412 pv.library MapDerived lookup_singleton thm
+R18397:18412 pv.library MapDerived lookup_singleton thm
+R18431:18438 pv.library K eq_dec defax
+R18431:18438 pv.library K eq_dec defax
+R18508:18523 pv.library MapDerived lookup_singleton thm
+R18508:18523 pv.library MapDerived lookup_singleton thm
+R18508:18523 pv.library MapDerived lookup_singleton thm
+R18550:18557 pv.library K eq_dec defax
+R18550:18557 pv.library K eq_dec defax
+R18599:18604 pv.library Map map_eq prfax
+R18599:18604 pv.library Map map_eq prfax
+R18626:18637 pv.library Map lookup_empty prfax
+R18626:18637 pv.library Map lookup_empty prfax
+R18626:18637 pv.library Map lookup_empty prfax
+R18656:18663 pv.library K eq_dec defax
+R18656:18663 pv.library K eq_dec defax
+prf 18708:18720 MapDerived incl_insert_r
+binder 18723:18723 <> A:311
+R18731:18733 pv.library Map map defax
+R18735:18735 pv.library <> A:311 var
+binder 18727:18727 <> m:312
+binder 18738:18738 <> k:313
+binder 18740:18740 <> x:314
+R18765:18772 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R18758:18760 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R18748:18753 pv.library Map lookup defax
+R18757:18757 pv.library <> k:313 var
+R18755:18755 pv.library <> m:312 var
+R18761:18764 Coq.Init.Datatypes <> None constr
+R18773:18776 pv.library MapDerived incl def
+R18781:18786 pv.library MapDerived insert def
+R18792:18792 pv.library <> m:312 var
+R18790:18790 pv.library <> x:314 var
+R18788:18788 pv.library <> k:313 var
+R18778:18778 pv.library <> m:312 var
+prf 18851:18861 MapDerived insert_mono
+binder 18864:18864 <> A:315
+R18876:18878 pv.library Map map defax
+R18880:18880 pv.library <> A:315 var
+binder 18868:18869 <> m1:316
+binder 18871:18872 <> m2:317
+binder 18883:18883 <> k:318
+binder 18885:18885 <> x:319
+R18903:18910 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R18893:18896 pv.library MapDerived incl def
+R18901:18902 pv.library <> m2:317 var
+R18898:18899 pv.library <> m1:316 var
+R18911:18914 pv.library MapDerived incl def
+R18933:18938 pv.library MapDerived insert def
+R18944:18945 pv.library <> m2:317 var
+R18942:18942 pv.library <> x:319 var
+R18940:18940 pv.library <> k:318 var
+R18917:18922 pv.library MapDerived insert def
+R18928:18929 pv.library <> m1:316 var
+R18926:18926 pv.library <> x:319 var
+R18924:18924 pv.library <> k:318 var
+R18991:19003 pv.library MapDerived lookup_insert thm
+R18991:19003 pv.library MapDerived lookup_insert thm
+R18991:19003 pv.library MapDerived lookup_insert thm
+R18991:19003 pv.library MapDerived lookup_insert thm
+R18991:19003 pv.library MapDerived lookup_insert thm
+R19016:19023 pv.library K eq_dec defax
+R19016:19023 pv.library K eq_dec defax
+prf 19054:19065 MapDerived incl_union_l
+binder 19068:19068 <> A:320
+R19080:19082 pv.library Map map defax
+R19084:19084 pv.library <> A:320 var
+binder 19072:19073 <> m1:321
+binder 19075:19076 <> m2:322
+R19093:19096 pv.library MapDerived incl def
+R19102:19106 pv.library MapDerived union def
+R19111:19112 pv.library <> m2:322 var
+R19108:19109 pv.library <> m1:321 var
+R19098:19099 pv.library <> m1:321 var
+R19145:19156 pv.library MapDerived lookup_union thm
+R19145:19156 pv.library MapDerived lookup_union thm
+R19145:19156 pv.library MapDerived lookup_union thm
+prf 19187:19203 MapDerived lookup_fresh_incl
+binder 19206:19206 <> A:323
+R19218:19220 pv.library Map map defax
+R19222:19222 pv.library <> A:323 var
+binder 19210:19211 <> m1:324
+binder 19213:19214 <> m2:325
+R19241:19248 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R19231:19234 pv.library MapDerived incl def
+R19239:19240 pv.library <> m2:325 var
+R19236:19237 pv.library <> m1:324 var
+R19269:19271 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R19249:19254 pv.library Map lookup defax
+R19260:19264 pv.library MapDerived fresh def
+R19266:19267 pv.library <> m2:325 var
+R19256:19257 pv.library <> m1:324 var
+R19272:19275 Coq.Init.Datatypes <> None constr
+R19293:19308 pv.library MapDerived incl_lookup_None thm
+R19311:19322 pv.library MapDerived lookup_fresh thm
+R19293:19308 pv.library MapDerived incl_lookup_None thm
+R19311:19322 pv.library MapDerived lookup_fresh thm
+prf 19339:19350 MapDerived disjoint_alt
+binder 19353:19353 <> A:326
+R19365:19367 pv.library Map map defax
+R19369:19369 pv.library <> A:326 var
+binder 19357:19358 <> m1:327
+binder 19360:19361 <> m2:328
+R19392:19402 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R19378:19385 pv.library MapDerived disjoint def
+R19390:19391 pv.library <> m2:328 var
+R19387:19388 pv.library <> m1:327 var
+binder 19410:19410 <> k:329
+binder 19412:19413 <> x1:330
+binder 19415:19416 <> x2:331
+R19448:19451 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R19438:19440 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R19427:19432 pv.library Map lookup defax
+R19437:19437 pv.library <> k:329 var
+R19434:19435 pv.library <> m1:327 var
+R19441:19444 Coq.Init.Datatypes <> Some constr
+R19446:19447 pv.library <> x1:330 var
+R19473:19476 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R19463:19465 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R19452:19457 pv.library Map lookup defax
+R19462:19462 pv.library <> k:329 var
+R19459:19460 pv.library <> m2:328 var
+R19466:19469 Coq.Init.Datatypes <> Some constr
+R19471:19472 pv.library <> x2:331 var
+R19477:19481 Coq.Init.Logic <> False ind
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+R19603:19608 pv.library Map lookup defax
+prf 19661:19673 MapDerived disjoint_comm
+binder 19676:19676 <> A:332
+R19688:19690 pv.library Map map defax
+R19692:19692 pv.library <> A:332 var
+binder 19680:19681 <> m1:333
+binder 19683:19684 <> m2:334
+R19715:19719 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R19701:19708 pv.library MapDerived disjoint def
+R19713:19714 pv.library <> m2:334 var
+R19710:19711 pv.library <> m1:333 var
+R19720:19727 pv.library MapDerived disjoint def
+R19732:19733 pv.library <> m1:333 var
+R19729:19730 pv.library <> m2:334 var
+prf 19809:19822 MapDerived disjoint_empty
+binder 19825:19825 <> A:335
+R19833:19835 pv.library Map map defax
+R19837:19837 pv.library <> A:335 var
+binder 19829:19829 <> m:336
+R19846:19853 pv.library MapDerived disjoint def
+R19861:19861 pv.library <> m:336 var
+R19855:19859 pv.library Map empty defax
+R19900:19911 pv.library Map lookup_empty prfax
+R19900:19911 pv.library Map lookup_empty prfax
+R19900:19911 pv.library Map lookup_empty prfax
+prf 19928:19945 MapDerived disjoint_singleton
+binder 19948:19948 <> A:337
+R19956:19958 pv.library Map map defax
+R19960:19960 pv.library <> A:337 var
+binder 19952:19952 <> m:338
+binder 19963:19963 <> k:339
+binder 19965:19965 <> y:340
+R19999:20003 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R19973:19980 pv.library MapDerived disjoint def
+R19998:19998 pv.library <> m:338 var
+R19983:19991 pv.library MapDerived singleton def
+R19995:19995 pv.library <> y:340 var
+R19993:19993 pv.library <> k:339 var
+R20014:20016 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20004:20009 pv.library Map lookup defax
+R20013:20013 pv.library <> k:339 var
+R20011:20011 pv.library <> m:338 var
+R20017:20020 Coq.Init.Datatypes <> None constr
+R20120:20135 pv.library MapDerived lookup_singleton thm
+R20120:20135 pv.library MapDerived lookup_singleton thm
+R20120:20135 pv.library MapDerived lookup_singleton thm
+R20161:20168 pv.library K eq_dec defax
+R20161:20168 pv.library K eq_dec defax
+R20205:20220 pv.library MapDerived lookup_singleton thm
+R20205:20220 pv.library MapDerived lookup_singleton thm
+R20205:20220 pv.library MapDerived lookup_singleton thm
+R20239:20246 pv.library K eq_dec defax
+R20239:20246 pv.library K eq_dec defax
+prf 20285:20298 MapDerived disjoint_union
+binder 20301:20301 <> A:341
+R20315:20317 pv.library Map map defax
+R20319:20319 pv.library <> A:341 var
+binder 20305:20306 <> m1:342
+binder 20308:20309 <> m2:343
+binder 20311:20311 <> m:344
+R20352:20356 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R20328:20335 pv.library MapDerived disjoint def
+R20351:20351 pv.library <> m:344 var
+R20338:20342 pv.library MapDerived union def
+R20347:20348 pv.library <> m2:343 var
+R20344:20345 pv.library <> m1:342 var
+R20370:20373 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R20357:20364 pv.library MapDerived disjoint def
+R20369:20369 pv.library <> m:344 var
+R20366:20367 pv.library <> m1:342 var
+R20374:20381 pv.library MapDerived disjoint def
+R20386:20386 pv.library <> m:344 var
+R20383:20384 pv.library <> m2:343 var
+R20507:20518 pv.library MapDerived lookup_union thm
+R20537:20542 pv.library Map lookup defax
+R20507:20518 pv.library MapDerived lookup_union thm
+R20507:20518 pv.library MapDerived lookup_union thm
+R20507:20518 pv.library MapDerived lookup_union thm
+R20507:20518 pv.library MapDerived lookup_union thm
+R20537:20542 pv.library Map lookup defax
+R20537:20542 pv.library Map lookup defax
+R20600:20611 pv.library MapDerived lookup_union thm
+R20600:20611 pv.library MapDerived lookup_union thm
+R20600:20611 pv.library MapDerived lookup_union thm
+prf 20687:20705 MapDerived disjoint_union_comm
+binder 20708:20708 <> A:345
+R20720:20722 pv.library Map map defax
+R20724:20724 pv.library <> A:345 var
+binder 20712:20713 <> m1:346
+binder 20715:20716 <> m2:347
+R20747:20750 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R20733:20740 pv.library MapDerived disjoint def
+R20745:20746 pv.library <> m2:347 var
+R20742:20743 pv.library <> m1:346 var
+R20762:20764 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20751:20755 pv.library MapDerived union def
+R20760:20761 pv.library <> m2:347 var
+R20757:20758 pv.library <> m1:346 var
+R20765:20769 pv.library MapDerived union def
+R20774:20775 pv.library <> m1:346 var
+R20771:20772 pv.library <> m2:347 var
+R20811:20816 pv.library Map map_eq prfax
+R20811:20816 pv.library Map map_eq prfax
+R20838:20849 pv.library MapDerived lookup_union thm
+R20838:20849 pv.library MapDerived lookup_union thm
+R20838:20849 pv.library MapDerived lookup_union thm
+R20838:20849 pv.library MapDerived lookup_union thm
+R20838:20849 pv.library MapDerived lookup_union thm
+prf 20917:20938 MapDerived disjoint_difference_id
+binder 20941:20941 <> A:348
+R20953:20955 pv.library Map map defax
+R20957:20957 pv.library <> A:348 var
+binder 20945:20946 <> m1:349
+binder 20948:20949 <> m2:350
+R20980:20983 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R20966:20973 pv.library MapDerived disjoint def
+R20978:20979 pv.library <> m2:350 var
+R20975:20976 pv.library <> m1:349 var
+R21000:21002 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R20984:20993 pv.library MapDerived difference def
+R20998:20999 pv.library <> m2:350 var
+R20995:20996 pv.library <> m1:349 var
+R21003:21004 pv.library <> m1:349 var
+R21040:21045 pv.library Map map_eq prfax
+R21040:21045 pv.library Map map_eq prfax
+R21066:21082 pv.library MapDerived lookup_difference thm
+R21066:21082 pv.library MapDerived lookup_difference thm
+R21066:21082 pv.library MapDerived lookup_difference thm
+R21145:21154 pv.library MapDerived <> modtype
+R21172:21174 pv.library Inf <> mod
+mod 21165:21167 <> Nat
+def 21190:21190 Nat t
+R21195:21197 Coq.Init.Datatypes <> nat ind
+def 21213:21218 Nat eq_dec
+R21223:21232 Coq.Arith.PeanoNat Nat eq_dec thm
+def 21246:21250 Nat fresh
+R21258:21261 Coq.Init.Datatypes <> list ind
+R21263:21265 Coq.Init.Datatypes <> nat ind
+binder 21253:21254 <> ns:351
+R21270:21272 Coq.Init.Datatypes <> nat ind
+R21287:21288 pv.library <> ns:351 var
+R21301:21302 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R21316:21319 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R21326:21328 Coq.Init.Nat <> max def
+R21331:21331 Coq.Init.Datatypes <> S constr
+R21337:21341 pv.library <> fresh:352 def
+R21343:21344 pv.library <> ns:351 var
+prf 21364:21375 Nat not_in_fresh
+binder 21377:21378 <> ns:354
+R21382:21382 Coq.Init.Logic <> ::type_scope:'~'_x not
+R21383:21384 Coq.Lists.List <> In def
+R21397:21398 pv.library <> ns:354 var
+R21387:21391 pv.library Nat fresh def
+R21393:21394 pv.library <> ns:354 var
+binder 21429:21429 <> n:355
+R21439:21442 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R21432:21433 Coq.Lists.List <> In def
+R21435:21435 pv.library <> n:355 var
+R21444:21446 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R21443:21443 pv.library <> n:355 var
+R21447:21451 pv.library Nat fresh def
+binder 21429:21429 <> n:356
+R21439:21442 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R21432:21433 Coq.Lists.List <> In def
+R21435:21435 pv.library <> n:356 var
+R21444:21446 Coq.Init.Peano <> ::nat_scope:x_'<'_x not
+R21443:21443 pv.library <> n:356 var
+R21447:21451 pv.library Nat fresh def
+R21617:21626 pv.library InfDerived <> mod
+R21633:21635 pv.library Nat <> mod
+R21651:21653 pv.library Inf <> mod
+mod 21646:21646 <> N
+def 21669:21669 N t
+R21674:21674 Coq.Numbers.BinNums <> N ind
+def 21690:21695 N eq_dec
+R21700:21707 Coq.NArith.BinNat N eq_dec def
+def 21752:21757 N lt_dec
+R21766:21766 Coq.Numbers.BinNums <> N ind
+binder 21760:21760 <> n:357
+binder 21762:21762 <> m:358
+R21771:21772 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R21778:21784 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R21791:21792 Coq.Init.Specif <> ::type_scope:'{'_x_'}'_'+'_'{'_x_'}' not
+R21774:21776 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R21773:21773 pv.library <> n:357 var
+R21777:21777 pv.library <> m:358 var
+R21785:21785 Coq.Init.Logic <> ::type_scope:'~'_x not
+R21787:21789 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R21786:21786 pv.library <> n:357 var
+R21790:21790 pv.library <> m:358 var
+R21818:21822 Coq.NArith.BinNat N ltb def
+R21860:21867 Coq.NArith.BinNat N ltb_lt thm
+R21818:21822 Coq.NArith.BinNat N ltb def
+R21860:21867 Coq.NArith.BinNat N ltb_lt thm
+R21860:21867 Coq.NArith.BinNat N ltb_lt thm
+R21860:21867 Coq.NArith.BinNat N ltb_lt thm
+R21860:21867 Coq.NArith.BinNat N ltb_lt thm
+def 21905:21909 N fresh
+R21917:21920 Coq.Init.Datatypes <> list ind
+R21922:21922 Coq.Numbers.BinNums <> N ind
+binder 21912:21913 <> ns:359
+R21927:21927 Coq.Numbers.BinNums <> N ind
+R21942:21943 pv.library <> ns:359 var
+R21956:21957 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R21971:21974 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R21981:21985 Coq.NArith.BinNat N max def
+R21989:21991 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R21996:22000 pv.library <> fresh:360 def
+R22002:22003 pv.library <> ns:359 var
+prf 22023:22034 N not_in_fresh
+binder 22036:22037 <> ns:362
+R22041:22041 Coq.Init.Logic <> ::type_scope:'~'_x not
+R22042:22043 Coq.Lists.List <> In def
+R22056:22057 pv.library <> ns:362 var
+R22046:22050 pv.library N fresh def
+R22052:22053 pv.library <> ns:362 var
+binder 22088:22088 <> n:363
+R22098:22101 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R22091:22092 Coq.Lists.List <> In def
+R22094:22094 pv.library <> n:363 var
+R22103:22105 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R22102:22102 pv.library <> n:363 var
+R22106:22110 pv.library N fresh def
+binder 22088:22088 <> n:364
+R22098:22101 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R22091:22092 Coq.Lists.List <> In def
+R22094:22094 pv.library <> n:364 var
+R22103:22105 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R22102:22102 pv.library <> n:364 var
+R22106:22110 pv.library N fresh def
+R22276:22285 pv.library InfDerived <> mod
+R22292:22292 pv.library N <> mod
+R22313:22315 pv.library Inf <> mod
+mod 22303:22308 <> String
+def 22331:22331 String t
+R22336:22341 Coq.Strings.String <> string ind
+def 22357:22362 String eq_dec
+R22367:22376 Coq.Strings.String <> string_dec def
+def 22624:22633 String ascii_to_N
+R22640:22650 Coq.Strings.Ascii <> ascii ind
+binder 22636:22636 <> a:365
+R22655:22655 Coq.Numbers.BinNums <> N ind
+R22670:22670 pv.library <> a:365 var
+R22683:22693 Coq.Strings.Ascii <> Ascii constr
+R22856:22858 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22839:22841 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22822:22824 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22798:22807 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22782:22784 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22766:22768 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22750:22752 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22738:22740 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R22741:22745 Coq.NArith.BinNat N b2n def
+R22754:22756 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22757:22761 Coq.NArith.BinNat N b2n def
+R22770:22772 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22773:22777 Coq.NArith.BinNat N b2n def
+R22786:22788 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22789:22793 Coq.NArith.BinNat N b2n def
+R22810:22812 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22813:22817 Coq.NArith.BinNat N b2n def
+R22827:22829 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22830:22834 Coq.NArith.BinNat N b2n def
+R22844:22846 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22847:22851 Coq.NArith.BinNat N b2n def
+R22862:22864 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R22865:22869 Coq.NArith.BinNat N b2n def
+def 22897:22906 String ascii_of_N
+R22913:22913 Coq.Numbers.BinNums <> N ind
+binder 22909:22909 <> n:367
+R22918:22928 Coq.Strings.Ascii <> ascii ind
+R22947:22949 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R22946:22946 pv.library <> n:367 var
+binder 22941:22941 <> n:368
+R22959:22969 Coq.Strings.Ascii <> Ascii constr
+R22972:22976 Coq.NArith.BinNat N odd def
+R22978:22978 pv.library <> n:368 var
+R22982:22986 Coq.NArith.BinNat N odd def
+R22990:22992 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R22989:22989 pv.library <> n:368 var
+R22998:23002 Coq.NArith.BinNat N odd def
+R23006:23008 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23005:23005 pv.library <> n:368 var
+R23014:23018 Coq.NArith.BinNat N odd def
+R23022:23024 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23021:23021 pv.library <> n:368 var
+R23036:23040 Coq.NArith.BinNat N odd def
+R23044:23046 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23043:23043 pv.library <> n:368 var
+R23053:23057 Coq.NArith.BinNat N odd def
+R23061:23063 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23060:23060 pv.library <> n:368 var
+R23070:23074 Coq.NArith.BinNat N odd def
+R23078:23080 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23077:23077 pv.library <> n:368 var
+R23087:23091 Coq.NArith.BinNat N odd def
+R23095:23097 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23094:23094 pv.library <> n:368 var
+prf 23114:23126 String ascii_of_to_N
+binder 23128:23128 <> a:369
+R23157:23159 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R23132:23141 pv.library String ascii_of_N def
+R23144:23153 pv.library String ascii_to_N def
+R23155:23155 pv.library <> a:369 var
+R23160:23160 pv.library <> a:369 var
+prf 23222:23237 String ascii_to_N_bound
+binder 23239:23239 <> a:370
+R23244:23246 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R23259:23262 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R23247:23256 pv.library String ascii_to_N def
+R23258:23258 pv.library <> a:370 var
+R23247:23256 pv.library String ascii_to_N def
+R23258:23258 pv.library <> a:370 var
+prf 23327:23339 String ascii_to_of_N
+binder 23341:23341 <> n:371
+R23357:23360 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R23346:23348 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R23350:23353 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R23349:23349 pv.library <> n:371 var
+R23349:23349 pv.library <> n:371 var
+R23386:23388 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R23361:23370 pv.library String ascii_to_N def
+R23373:23382 pv.library String ascii_of_N def
+R23384:23384 pv.library <> n:371 var
+R23389:23389 pv.library <> n:371 var
+R23425:23427 Coq.Init.Datatypes <> nat ind
+binder 23420:23421 <> n':372
+R23449:23458 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R23437:23439 Coq.Init.Peano <> ::nat_scope:x_'<'_x_'<='_x not
+R23442:23445 Coq.Init.Peano <> ::nat_scope:x_'<'_x_'<='_x not
+R23440:23441 pv.library <> n':372 var
+R23440:23441 pv.library <> n':372 var
+R23496:23498 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R23459:23468 pv.library String ascii_to_N def
+R23471:23480 pv.library String ascii_of_N def
+R23483:23490 Coq.NArith.BinNat N of_nat def
+R23492:23493 pv.library <> n':372 var
+R23499:23506 Coq.NArith.BinNat N of_nat def
+R23508:23509 pv.library <> n':372 var
+R23425:23427 Coq.Init.Datatypes <> nat ind
+binder 23420:23421 <> n':373
+R23449:23458 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R23437:23439 Coq.Init.Peano <> ::nat_scope:x_'<'_x_'<='_x not
+R23442:23445 Coq.Init.Peano <> ::nat_scope:x_'<'_x_'<='_x not
+R23440:23441 pv.library <> n':373 var
+R23440:23441 pv.library <> n':373 var
+R23496:23498 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R23459:23468 pv.library String ascii_to_N def
+R23471:23480 pv.library String ascii_of_N def
+R23483:23490 Coq.NArith.BinNat N of_nat def
+R23492:23493 pv.library <> n':373 var
+R23499:23506 Coq.NArith.BinNat N of_nat def
+R23508:23509 pv.library <> n':373 var
+R23623:23630 Coq.NArith.Nnat N2Nat id thm
+R23623:23630 Coq.NArith.Nnat N2Nat id thm
+R23623:23630 Coq.NArith.Nnat N2Nat id thm
+R23673:23682 pv.library String ascii_to_N def
+R23711:23720 pv.library String ascii_of_N def
+def 23749:23752 String to_N
+R23759:23764 Coq.Strings.String <> string ind
+binder 23755:23755 <> s:374
+R23769:23769 Coq.Numbers.BinNums <> N ind
+R23784:23784 pv.library <> s:374 var
+R23797:23807 Coq.Strings.String <> EmptyString constr
+R23820:23825 Coq.Strings.String <> String constr
+R23846:23848 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R23834:23843 pv.library String ascii_to_N def
+R23852:23854 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R23855:23858 pv.library <> to_N:375 def
+R23860:23860 pv.library <> s:374 var
+prf 23880:23892 String of_N_aux_decr
+binder 23894:23894 <> n:377
+R23908:23915 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R23903:23906 Coq.Init.Logic <> ::type_scope:x_'<>'_x not
+R23902:23902 pv.library <> n:377 var
+R23929:23931 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R23916:23916 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23922:23925 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R23918:23920 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R23917:23917 pv.library <> n:377 var
+R23932:23932 pv.library <> n:377 var
+R23958:23977 Coq.NArith.BinNat N div_lt_upper_bound thm
+R23958:23977 Coq.NArith.BinNat N div_lt_upper_bound thm
+def 24003:24010 String of_N_aux
+R24017:24017 Coq.Numbers.BinNums <> N ind
+binder 24013:24013 <> n:378
+binder 24034:24035 <> n':379
+R24044:24047 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R24040:24042 Coq.NArith.BinNat <> ::N_scope:x_'<'_x not
+R24038:24039 pv.library <> n':379 var
+R24043:24043 pv.library <> n:378 var
+R24048:24053 Coq.Strings.String <> string ind
+binder 24021:24023 <> rec:380
+R24058:24063 Coq.Strings.String <> string ind
+R24078:24085 pv.library N eq_dec def
+R24087:24087 pv.library <> n:378 var
+R24102:24105 Coq.Init.Specif <> left constr
+R24121:24125 Coq.Init.Specif <> right constr
+R24148:24148 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R24154:24157 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R24150:24152 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24149:24149 pv.library <> n:378 var
+binder 24143:24143 <> q:381
+R24171:24176 Coq.Strings.String <> String constr
+R24179:24188 pv.library String ascii_of_N def
+R24192:24194 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24191:24191 pv.library <> n:378 var
+R24196:24198 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24195:24195 pv.library <> q:381 var
+R24206:24208 pv.library <> rec:380 var
+R24213:24225 pv.library String of_N_aux_decr thm
+R24210:24210 pv.library <> q:381 var
+def 24256:24259 String of_N
+R24266:24266 Coq.Numbers.BinNums <> N ind
+binder 24262:24262 <> n:382
+R24271:24276 Coq.Strings.String <> string ind
+R24285:24287 Coq.Init.Wf <> Fix def
+R24335:24335 pv.library <> n:382 var
+R24326:24333 pv.library String of_N_aux def
+R24290:24308 Coq.Init.Wf <> Acc_intro_generator def
+R24313:24321 Coq.NArith.BinNat N lt_wf_0 thm
+prf 24346:24356 String of_N_unfold
+binder 24358:24358 <> n:383
+R24372:24380 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R24366:24369 pv.library String of_N def
+R24371:24371 pv.library <> n:383 var
+R24384:24391 pv.library N eq_dec def
+R24393:24393 pv.library <> n:383 var
+R24425:24425 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R24431:24434 Coq.NArith.BinNat <> ::N_scope:x_'/'_x not
+R24427:24429 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24426:24426 pv.library <> n:383 var
+binder 24420:24420 <> q:384
+R24448:24453 Coq.Strings.String <> String constr
+R24456:24465 pv.library String ascii_of_N def
+R24469:24471 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24468:24468 pv.library <> n:383 var
+R24473:24475 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24472:24472 pv.library <> q:384 var
+R24483:24486 pv.library String of_N def
+R24488:24488 pv.library <> q:384 var
+R24512:24517 Coq.Init.Wf <> Fix_eq thm
+R24523:24530 pv.library String of_N_aux def
+R24512:24517 Coq.Init.Wf <> Fix_eq thm
+R24523:24530 pv.library String of_N_aux def
+R24567:24574 pv.library String of_N_aux def
+R24591:24598 pv.library N eq_dec def
+R24591:24598 pv.library N eq_dec def
+prf 24642:24648 String of_to_N
+binder 24650:24650 <> s:385
+R24667:24669 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R24654:24657 pv.library String of_N def
+R24660:24663 pv.library String to_N def
+R24665:24665 pv.library <> s:385 var
+R24670:24670 pv.library <> s:385 var
+R24741:24743 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R24756:24759 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R24744:24753 pv.library String ascii_to_N def
+R24744:24753 pv.library String ascii_to_N def
+R24774:24789 pv.library String ascii_to_N_bound thm
+R24741:24743 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R24756:24759 Coq.NArith.BinNat <> ::N_scope:x_'<'_x_'<='_x not
+R24744:24753 pv.library String ascii_to_N def
+R24744:24753 pv.library String ascii_to_N def
+R24774:24789 pv.library String ascii_to_N_bound thm
+R24808:24822 Coq.NArith.BinNat N mod_bound_pos thm
+R24852:24854 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24837:24839 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R24825:24834 pv.library String ascii_to_N def
+R24843:24845 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24846:24849 pv.library String to_N def
+R24808:24822 Coq.NArith.BinNat N mod_bound_pos thm
+R24852:24854 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24837:24839 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R24825:24834 pv.library String ascii_to_N def
+R24843:24845 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24846:24849 pv.library String to_N def
+R24908:24916 Coq.NArith.BinNat N div_mod def
+R24946:24948 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24931:24933 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R24919:24928 pv.library String ascii_to_N def
+R24937:24939 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24940:24943 pv.library String to_N def
+R24908:24916 Coq.NArith.BinNat N div_mod def
+R24946:24948 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R24931:24933 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R24919:24928 pv.library String ascii_to_N def
+R24937:24939 Coq.NArith.BinNat <> ::N_scope:x_'*'_x not
+R24940:24943 pv.library String to_N def
+R24981:24991 pv.library String of_N_unfold thm
+R24981:24991 pv.library String of_N_unfold thm
+R24981:24991 pv.library String of_N_unfold thm
+R25004:25011 pv.library N eq_dec def
+R25004:25011 pv.library N eq_dec def
+R25080:25092 pv.library String ascii_of_to_N thm
+R25080:25092 pv.library String ascii_of_to_N thm
+prf 25173:25179 String to_of_N
+binder 25181:25181 <> n:386
+R25198:25200 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R25185:25188 pv.library String to_N def
+R25191:25194 pv.library String of_N def
+R25196:25196 pv.library <> n:386 var
+R25201:25201 pv.library <> n:386 var
+R25228:25236 Coq.NArith.BinNat N lt_wf_0 thm
+R25228:25236 Coq.NArith.BinNat N lt_wf_0 thm
+R25266:25276 pv.library String of_N_unfold thm
+R25266:25276 pv.library String of_N_unfold thm
+R25266:25276 pv.library String of_N_unfold thm
+R25289:25296 pv.library N eq_dec def
+R25289:25296 pv.library N eq_dec def
+R25336:25350 Coq.NArith.BinNat N mod_bound_pos thm
+R25354:25356 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R25336:25350 Coq.NArith.BinNat N mod_bound_pos thm
+R25354:25356 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R25404:25412 Coq.NArith.BinNat N div_mod def
+R25416:25418 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R25404:25412 Coq.NArith.BinNat N div_mod def
+R25416:25418 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R25455:25467 pv.library String ascii_to_of_N thm
+R25455:25467 pv.library String ascii_to_of_N thm
+R25455:25467 pv.library String ascii_to_of_N thm
+R25455:25467 pv.library String ascii_to_of_N thm
+def 25496:25500 String fresh
+R25508:25511 Coq.Init.Datatypes <> list ind
+R25513:25518 Coq.Strings.String <> string ind
+binder 25503:25504 <> ns:387
+R25523:25528 Coq.Strings.String <> string ind
+R25537:25540 pv.library String of_N def
+R25543:25549 pv.library N fresh def
+R25552:25559 Coq.Lists.List <> map def
+R25566:25567 pv.library <> ns:387 var
+R25561:25564 pv.library String to_N def
+prf 25580:25591 String not_in_fresh
+binder 25593:25594 <> ns:388
+R25598:25598 Coq.Init.Logic <> ::type_scope:'~'_x not
+R25599:25600 Coq.Lists.List <> In def
+R25613:25614 pv.library <> ns:388 var
+R25603:25607 pv.library String fresh def
+R25609:25610 pv.library <> ns:388 var
+R25649:25662 pv.library N not_in_fresh thm
+R25665:25672 Coq.Lists.List <> map def
+R25674:25677 pv.library String to_N def
+R25649:25662 pv.library N not_in_fresh thm
+R25665:25672 Coq.Lists.List <> map def
+R25674:25677 pv.library String to_N def
+R25695:25704 Coq.Lists.List <> in_map_iff thm
+R25695:25704 Coq.Lists.List <> in_map_iff thm
+R25715:25719 pv.library String fresh def
+R25715:25719 pv.library String fresh def
+R25748:25754 pv.library String to_of_N thm
+R25748:25754 pv.library String to_of_N thm
+R25775:25784 pv.library InfDerived <> mod
+R25791:25796 pv.library String <> mod
+R25815:25823 pv.library MapAxioms <> mod
+R25825:25825 pv.library N <> modtype
+mod 25807:25810 <> NMap
+def 25841:25843 NMap map
+binder 25845:25845 <> A:389
+R25850:25853 Coq.Init.Datatypes <> list ind
+R25857:25859 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R25856:25856 Coq.Numbers.BinNums <> N ind
+R25860:25860 pv.library <> A:389 var
+def 25904:25909 NMap lookup
+binder 25912:25912 <> A:390
+R25920:25922 pv.library NMap map def
+R25924:25924 pv.library <> A:390 var
+binder 25916:25916 <> m:391
+R25932:25932 Coq.Numbers.BinNums <> N ind
+binder 25928:25928 <> k:392
+R25937:25942 Coq.Init.Datatypes <> option ind
+R25944:25944 pv.library <> A:390 var
+R25959:25959 pv.library <> m:391 var
+R25972:25973 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R25978:25981 Coq.Init.Datatypes <> None constr
+R25995:25998 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R25989:25989 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25992:25992 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R25994:25994 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26014:26021 pv.library N lt_dec def
+R26023:26023 pv.library <> k:392 var
+R26053:26060 pv.library N eq_dec def
+R26062:26062 pv.library <> k:392 var
+R26091:26096 pv.library <> lookup:393 def
+R26102:26104 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R26101:26101 pv.library <> k:392 var
+R26105:26110 Coq.NArith.BinNat N succ def
+R26098:26098 pv.library <> m:391 var
+R26072:26075 Coq.Init.Datatypes <> Some constr
+R26033:26036 Coq.Init.Datatypes <> None constr
+def 26139:26143 NMap empty
+binder 26146:26146 <> A:395
+R26151:26153 pv.library NMap map def
+R26155:26155 pv.library <> A:395 var
+R26160:26161 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+def 26184:26187 NMap key0
+binder 26190:26190 <> A:396
+R26198:26200 pv.library NMap map def
+R26202:26202 pv.library <> A:396 var
+binder 26194:26194 <> m:397
+R26207:26207 Coq.Numbers.BinNums <> N ind
+R26222:26222 pv.library <> m:397 var
+R26229:26230 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R26244:26247 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26239:26239 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26241:26241 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26243:26243 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+def 26279:26286 NMap set_key0
+binder 26289:26289 <> A:399
+R26297:26299 pv.library NMap map def
+R26301:26301 pv.library <> A:399 var
+binder 26293:26293 <> m:400
+R26309:26309 Coq.Numbers.BinNums <> N ind
+binder 26305:26305 <> k:401
+R26314:26316 pv.library NMap map def
+R26318:26318 pv.library <> A:399 var
+R26333:26333 pv.library <> m:400 var
+R26340:26341 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R26346:26347 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R26356:26359 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26351:26351 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26353:26353 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26355:26355 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26370:26373 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26365:26365 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26367:26367 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26369:26369 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26366:26366 pv.library <> k:401 var
+R26374:26374 pv.library <> m:400 var
+def 26393:26398 NMap update
+binder 26401:26401 <> A:403
+R26409:26409 Coq.Numbers.BinNums <> N ind
+binder 26405:26405 <> k:404
+R26418:26423 Coq.Init.Datatypes <> option ind
+R26425:26425 pv.library <> A:403 var
+binder 26413:26414 <> mx:405
+R26433:26435 pv.library NMap map def
+R26437:26437 pv.library <> A:403 var
+binder 26429:26429 <> m:406
+R26442:26444 pv.library NMap map def
+R26446:26446 pv.library <> A:403 var
+R26461:26461 pv.library <> m:406 var
+R26474:26475 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R26486:26487 pv.library <> mx:405 var
+R26494:26497 Coq.Init.Datatypes <> Some constr
+R26504:26504 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R26510:26510 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R26505:26505 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26507:26507 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26509:26509 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26506:26506 pv.library <> k:404 var
+R26514:26517 Coq.Init.Datatypes <> None constr
+R26522:26523 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R26541:26544 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26535:26535 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26538:26538 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26540:26540 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26560:26567 pv.library N lt_dec def
+R26569:26569 pv.library <> k:404 var
+R26705:26712 pv.library N eq_dec def
+R26714:26714 pv.library <> k:404 var
+R26854:26857 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26848:26848 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26851:26851 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26853:26853 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26858:26863 pv.library <> update:407 def
+R26884:26884 pv.library <> m:406 var
+R26881:26882 pv.library <> mx:405 var
+R26867:26869 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R26866:26866 pv.library <> k:404 var
+R26870:26875 Coq.NArith.BinNat N succ def
+R26739:26740 pv.library <> mx:405 var
+R26758:26761 Coq.Init.Datatypes <> Some constr
+R26773:26776 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26768:26768 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26770:26770 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26772:26772 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26769:26769 pv.library <> k:404 var
+R26777:26777 pv.library <> m:406 var
+R26781:26784 Coq.Init.Datatypes <> None constr
+R26789:26796 pv.library NMap set_key0 def
+R26801:26806 Coq.NArith.BinNat N succ def
+R26811:26813 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R26814:26817 pv.library NMap key0 def
+R26819:26819 pv.library <> m:406 var
+R26798:26798 pv.library <> m:406 var
+R26594:26595 pv.library <> mx:405 var
+R26613:26616 Coq.Init.Datatypes <> Some constr
+R26628:26631 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26623:26623 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26625:26625 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26627:26627 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26624:26624 pv.library <> k:404 var
+R26649:26652 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26632:26632 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26646:26646 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26648:26648 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26635:26637 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R26638:26643 Coq.NArith.BinNat N succ def
+R26645:26645 pv.library <> k:404 var
+R26653:26653 pv.library <> m:406 var
+R26657:26660 Coq.Init.Datatypes <> None constr
+R26671:26674 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R26665:26665 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26668:26668 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26670:26670 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R26675:26675 pv.library <> m:406 var
+def 27005:27014 NMap merge_help
+binder 27017:27017 <> A:412
+binder 27019:27019 <> B:413
+binder 27021:27021 <> C:414
+R27037:27040 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27029:27034 Coq.Init.Datatypes <> option ind
+R27036:27036 pv.library <> A:412 var
+R27049:27052 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27041:27046 Coq.Init.Datatypes <> option ind
+R27048:27048 pv.library <> B:413 var
+R27053:27058 Coq.Init.Datatypes <> option ind
+R27060:27060 pv.library <> C:414 var
+binder 27025:27025 <> f:415
+R27075:27077 pv.library NMap map def
+R27079:27079 pv.library <> A:412 var
+binder 27070:27071 <> m1:416
+R27085:27088 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27084:27084 Coq.Numbers.BinNums <> N ind
+R27094:27097 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27089:27091 pv.library NMap map def
+R27093:27093 pv.library <> B:413 var
+R27099:27102 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R27098:27098 Coq.Numbers.BinNums <> N ind
+R27103:27105 pv.library NMap map def
+R27107:27107 pv.library <> C:414 var
+binder 27123:27124 <> k1:418
+binder 27126:27127 <> m2:419
+binder 27129:27130 <> k2:420
+R27149:27150 pv.library <> m2:419 var
+R27145:27146 pv.library <> m1:416 var
+R27163:27164 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27167:27168 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27173:27174 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27182:27183 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27192:27195 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27186:27186 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27188:27188 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27191:27191 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27215:27215 pv.library <> f:415 var
+R27223:27226 Coq.Init.Datatypes <> Some constr
+R27217:27220 Coq.Init.Datatypes <> None constr
+R27246:27249 Coq.Init.Datatypes <> Some constr
+R27262:27265 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27256:27256 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27259:27259 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27261:27261 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27257:27258 pv.library <> k2:420 var
+R27266:27267 pv.library <> go:421 var
+R27275:27278 pv.library NMap key0 def
+R27280:27281 pv.library <> m2:419 var
+R27271:27272 pv.library <> m2:419 var
+R27293:27296 Coq.Init.Datatypes <> None constr
+R27301:27302 pv.library <> go:421 var
+R27310:27315 Coq.NArith.BinNat N succ def
+R27320:27322 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R27318:27319 pv.library <> k2:420 var
+R27323:27326 pv.library NMap key0 def
+R27328:27329 pv.library <> m2:419 var
+R27306:27307 pv.library <> m2:419 var
+R27356:27359 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27350:27350 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27352:27352 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27355:27355 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27364:27365 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27383:27383 pv.library <> f:415 var
+R27395:27398 Coq.Init.Datatypes <> None constr
+R27386:27389 Coq.Init.Datatypes <> Some constr
+R27414:27417 Coq.Init.Datatypes <> Some constr
+R27430:27433 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27424:27424 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27427:27427 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27429:27429 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27425:27426 pv.library <> k1:418 var
+R27434:27443 pv.library <> merge_help:417 def
+R27460:27461 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27451:27454 pv.library NMap key0 def
+R27456:27457 pv.library <> m1:416 var
+R27447:27448 pv.library <> m1:416 var
+R27445:27445 pv.library <> f:415 var
+R27474:27477 Coq.Init.Datatypes <> None constr
+R27482:27491 pv.library <> merge_help:417 def
+R27522:27523 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R27499:27504 Coq.NArith.BinNat N succ def
+R27509:27511 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R27507:27508 pv.library <> k1:418 var
+R27512:27515 pv.library NMap key0 def
+R27517:27518 pv.library <> m1:416 var
+R27495:27496 pv.library <> m1:416 var
+R27493:27493 pv.library <> f:415 var
+R27550:27553 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27544:27544 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27546:27546 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27549:27549 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27564:27567 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27558:27558 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27560:27560 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27563:27563 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27584:27591 pv.library N lt_dec def
+R27593:27594 pv.library <> k1:418 var
+R27596:27597 pv.library <> k2:420 var
+R27835:27842 pv.library N eq_dec def
+R27844:27845 pv.library <> k1:418 var
+R27847:27848 pv.library <> k2:420 var
+R28093:28093 pv.library <> f:415 var
+R28101:28104 Coq.Init.Datatypes <> Some constr
+R28095:28098 Coq.Init.Datatypes <> None constr
+R28126:28129 Coq.Init.Datatypes <> Some constr
+R28142:28145 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R28136:28136 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28139:28139 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28141:28141 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28137:28138 pv.library <> k2:420 var
+R28146:28147 pv.library <> go:421 var
+R28170:28173 pv.library NMap key0 def
+R28175:28176 pv.library <> m2:419 var
+R28166:28167 pv.library <> m2:419 var
+R28152:28154 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R28150:28151 pv.library <> k1:418 var
+R28155:28160 Coq.NArith.BinNat N succ def
+R28162:28163 pv.library <> k2:420 var
+R28190:28193 Coq.Init.Datatypes <> None constr
+R28198:28199 pv.library <> go:421 var
+R28208:28213 Coq.NArith.BinNat N succ def
+R28218:28220 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R28216:28217 pv.library <> k2:420 var
+R28221:28224 pv.library NMap key0 def
+R28226:28227 pv.library <> m2:419 var
+R28204:28205 pv.library <> m2:419 var
+R28201:28202 pv.library <> k1:418 var
+R27870:27870 pv.library <> f:415 var
+R27883:27886 Coq.Init.Datatypes <> Some constr
+R27873:27876 Coq.Init.Datatypes <> Some constr
+R27908:27911 Coq.Init.Datatypes <> Some constr
+R27924:27927 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27918:27918 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27921:27921 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27923:27923 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27919:27920 pv.library <> k1:418 var
+R27928:27937 pv.library <> merge_help:417 def
+R27958:27961 pv.library NMap key0 def
+R27963:27964 pv.library <> m2:419 var
+R27954:27955 pv.library <> m2:419 var
+R27945:27948 pv.library NMap key0 def
+R27950:27951 pv.library <> m1:416 var
+R27941:27942 pv.library <> m1:416 var
+R27939:27939 pv.library <> f:415 var
+R27978:27981 Coq.Init.Datatypes <> None constr
+R27986:27995 pv.library <> merge_help:417 def
+R28030:28035 Coq.NArith.BinNat N succ def
+R28040:28042 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R28038:28039 pv.library <> k2:420 var
+R28043:28046 pv.library NMap key0 def
+R28048:28049 pv.library <> m2:419 var
+R28026:28027 pv.library <> m2:419 var
+R28003:28008 Coq.NArith.BinNat N succ def
+R28013:28015 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R28011:28012 pv.library <> k1:418 var
+R28016:28019 pv.library NMap key0 def
+R28021:28022 pv.library <> m1:416 var
+R27999:28000 pv.library <> m1:416 var
+R27997:27997 pv.library <> f:415 var
+R27619:27619 pv.library <> f:415 var
+R27631:27634 Coq.Init.Datatypes <> None constr
+R27622:27625 Coq.Init.Datatypes <> Some constr
+R27652:27655 Coq.Init.Datatypes <> Some constr
+R27668:27671 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27662:27662 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27665:27665 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27667:27667 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27663:27664 pv.library <> k1:418 var
+R27672:27681 pv.library <> merge_help:417 def
+R27716:27718 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R27714:27715 pv.library <> k2:420 var
+R27719:27724 Coq.NArith.BinNat N succ def
+R27726:27727 pv.library <> k1:418 var
+R27705:27708 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27699:27699 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27701:27701 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27704:27704 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27709:27710 pv.library <> m2:419 var
+R27689:27692 pv.library NMap key0 def
+R27694:27695 pv.library <> m1:416 var
+R27685:27686 pv.library <> m1:416 var
+R27683:27683 pv.library <> f:415 var
+R27741:27744 Coq.Init.Datatypes <> None constr
+R27749:27758 pv.library <> merge_help:417 def
+R27804:27805 pv.library <> k2:420 var
+R27796:27799 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R27790:27790 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27792:27792 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27795:27795 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R27800:27801 pv.library <> m2:419 var
+R27766:27771 Coq.NArith.BinNat N succ def
+R27776:27778 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R27774:27775 pv.library <> k1:418 var
+R27779:27782 pv.library NMap key0 def
+R27784:27785 pv.library <> m1:416 var
+R27762:27763 pv.library <> m1:416 var
+R27760:27760 pv.library <> f:415 var
+def 28266:28270 NMap merge
+binder 28273:28273 <> A:424
+binder 28275:28275 <> B:425
+binder 28277:28277 <> C:426
+R28293:28296 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R28285:28290 Coq.Init.Datatypes <> option ind
+R28292:28292 pv.library <> A:424 var
+R28305:28308 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R28297:28302 Coq.Init.Datatypes <> option ind
+R28304:28304 pv.library <> B:425 var
+R28309:28314 Coq.Init.Datatypes <> option ind
+R28316:28316 pv.library <> C:426 var
+binder 28281:28281 <> f:427
+R28331:28333 pv.library NMap map def
+R28335:28335 pv.library <> A:424 var
+binder 28326:28327 <> m1:428
+R28344:28346 pv.library NMap map def
+R28348:28348 pv.library <> B:425 var
+binder 28339:28340 <> m2:429
+R28353:28355 pv.library NMap map def
+R28357:28357 pv.library <> C:426 var
+R28366:28375 pv.library NMap merge_help def
+R28396:28399 pv.library NMap key0 def
+R28401:28402 pv.library <> m2:429 var
+R28392:28393 pv.library <> m2:429 var
+R28383:28386 pv.library NMap key0 def
+R28388:28389 pv.library <> m1:428 var
+R28379:28380 pv.library <> m1:428 var
+R28377:28377 pv.library <> f:427 var
+def 28424:28431 NMap dom_help
+binder 28434:28434 <> A:430
+R28442:28442 Coq.Numbers.BinNums <> N ind
+binder 28438:28438 <> k:431
+R28450:28452 pv.library NMap map def
+R28454:28454 pv.library <> A:430 var
+binder 28446:28446 <> m:432
+R28459:28462 Coq.Init.Datatypes <> list ind
+R28464:28464 Coq.Numbers.BinNums <> N ind
+R28479:28479 pv.library <> m:432 var
+R28492:28493 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R28498:28499 Coq.Lists.List ListNotations ::list_scope:'['_']' not
+R28513:28516 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R28507:28507 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28510:28510 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28512:28512 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R28528:28531 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R28524:28526 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R28527:28527 pv.library <> k:431 var
+R28532:28539 pv.library <> dom_help:433 def
+R28559:28559 pv.library <> m:432 var
+R28542:28547 Coq.NArith.BinNat N succ def
+R28552:28554 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R28555:28555 pv.library <> k:431 var
+def 28583:28585 NMap dom
+binder 28588:28588 <> A:435
+R28596:28598 pv.library NMap map def
+R28600:28600 pv.library <> A:435 var
+binder 28592:28592 <> m:436
+R28605:28608 Coq.Init.Datatypes <> list ind
+R28610:28610 Coq.Numbers.BinNums <> N ind
+R28615:28622 pv.library NMap dom_help def
+R28626:28626 pv.library <> m:436 var
+prf 28644:28655 NMap set_get_key0
+binder 28658:28658 <> A:437
+R28666:28668 pv.library NMap map def
+R28670:28670 pv.library <> A:437 var
+binder 28662:28662 <> m:438
+R28694:28696 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R28675:28682 pv.library NMap set_key0 def
+R28687:28690 pv.library NMap key0 def
+R28692:28692 pv.library <> m:438 var
+R28684:28684 pv.library <> m:438 var
+R28697:28697 pv.library <> m:438 var
+R28804:28811 pv.library N eq_dec def
+R28854:28861 pv.library N lt_dec def
+R28963:28974 pv.library NMap set_get_key0 thm
+R29029:29031 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29019:29024 pv.library NMap lookup def
+R29029:29031 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29019:29024 pv.library NMap lookup def
+R29148:29155 pv.library NMap set_key0 def
+R29148:29155 pv.library NMap set_key0 def
+prf 29220:29225 NMap map_eq
+binder 29228:29228 <> A:439
+R29240:29242 pv.library NMap map def
+R29244:29244 pv.library <> A:439 var
+binder 29232:29233 <> m1:440
+binder 29235:29236 <> m2:441
+R29260:29264 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R29255:29257 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29253:29254 pv.library <> m1:440 var
+R29258:29259 pv.library <> m2:441 var
+binder 29272:29272 <> k:442
+R29286:29288 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29275:29280 pv.library NMap lookup def
+R29285:29285 pv.library <> k:442 var
+R29282:29283 pv.library <> m1:440 var
+R29289:29294 pv.library NMap lookup def
+R29299:29299 pv.library <> k:442 var
+R29296:29297 pv.library <> m2:441 var
+R29635:29637 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R29638:29643 Coq.NArith.BinNat N succ def
+R29635:29637 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R29638:29643 Coq.NArith.BinNat N succ def
+R29692:29694 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R29680:29682 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R29683:29688 Coq.NArith.BinNat N succ def
+R29695:29700 Coq.NArith.BinNat N succ def
+R29692:29694 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R29680:29682 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R29683:29688 Coq.NArith.BinNat N succ def
+R29695:29700 Coq.NArith.BinNat N succ def
+prf 29748:29759 NMap lookup_empty
+binder 29762:29762 <> A:443
+binder 29765:29765 <> k:444
+R29788:29790 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29769:29774 pv.library NMap lookup def
+R29787:29787 pv.library <> k:444 var
+R29778:29782 pv.library NMap empty def
+R29784:29784 pv.library <> A:443 var
+R29791:29794 Coq.Init.Datatypes <> None constr
+prf 29825:29837 NMap lookup_update
+binder 29840:29840 <> A:445
+R29848:29850 pv.library NMap map def
+R29852:29852 pv.library <> A:445 var
+binder 29844:29844 <> m:446
+binder 29855:29855 <> k:447
+binder 29857:29858 <> k':448
+binder 29860:29861 <> mx:449
+R29894:29896 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R29869:29874 pv.library NMap lookup def
+R29892:29893 pv.library <> k':448 var
+R29877:29882 pv.library NMap update def
+R29889:29889 pv.library <> m:446 var
+R29886:29887 pv.library <> mx:449 var
+R29884:29884 pv.library <> k:447 var
+R29900:29907 pv.library N eq_dec def
+R29909:29910 pv.library <> k':448 var
+R29912:29912 pv.library <> k:447 var
+R29927:29932 pv.library NMap lookup def
+R29936:29937 pv.library <> k':448 var
+R29934:29934 pv.library <> m:446 var
+R29919:29920 pv.library <> mx:449 var
+prf 30045:30056 NMap lookup_merge
+binder 30059:30059 <> A:450
+binder 30061:30061 <> B:451
+binder 30063:30063 <> C:452
+R30079:30082 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R30071:30076 Coq.Init.Datatypes <> option ind
+R30078:30078 pv.library <> A:450 var
+R30091:30094 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R30083:30088 Coq.Init.Datatypes <> option ind
+R30090:30090 pv.library <> B:451 var
+R30095:30100 Coq.Init.Datatypes <> option ind
+R30102:30102 pv.library <> C:452 var
+binder 30067:30067 <> f:453
+R30117:30119 pv.library NMap map def
+R30121:30121 pv.library <> A:450 var
+binder 30112:30113 <> m1:454
+R30130:30132 pv.library NMap map def
+R30134:30134 pv.library <> B:451 var
+binder 30125:30126 <> m2:455
+binder 30137:30137 <> k:456
+R30163:30170 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R30156:30158 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30145:30145 pv.library <> f:453 var
+R30152:30155 Coq.Init.Datatypes <> None constr
+R30147:30150 Coq.Init.Datatypes <> None constr
+R30159:30162 Coq.Init.Datatypes <> None constr
+R30195:30197 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30171:30176 pv.library NMap lookup def
+R30194:30194 pv.library <> k:456 var
+R30179:30183 pv.library NMap merge def
+R30190:30191 pv.library <> m2:455 var
+R30187:30188 pv.library <> m1:454 var
+R30185:30185 pv.library <> f:453 var
+R30198:30198 pv.library <> f:453 var
+R30215:30220 pv.library NMap lookup def
+R30225:30225 pv.library <> k:456 var
+R30222:30223 pv.library <> m2:455 var
+R30201:30206 pv.library NMap lookup def
+R30211:30211 pv.library <> k:456 var
+R30208:30209 pv.library <> m1:454 var
+binder 30265:30266 <> k1:457
+binder 30268:30269 <> k2:458
+R30313:30321 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30278:30283 pv.library NMap lookup def
+R30286:30295 pv.library NMap merge_help def
+R30308:30309 pv.library <> k2:458 var
+R30302:30303 pv.library <> k1:457 var
+R30325:30330 pv.library NMap lookup def
+R30333:30340 pv.library NMap set_key0 def
+R30345:30346 pv.library <> k1:457 var
+R30353:30358 pv.library NMap lookup def
+R30361:30368 pv.library NMap set_key0 def
+R30373:30374 pv.library <> k2:458 var
+binder 30265:30266 <> k1:459
+binder 30268:30269 <> k2:460
+R30313:30321 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30278:30283 pv.library NMap lookup def
+R30286:30295 pv.library NMap merge_help def
+R30308:30309 pv.library <> k2:460 var
+R30302:30303 pv.library <> k1:459 var
+R30325:30330 pv.library NMap lookup def
+R30333:30340 pv.library NMap set_key0 def
+R30345:30346 pv.library <> k1:459 var
+R30353:30358 pv.library NMap lookup def
+R30361:30368 pv.library NMap set_key0 def
+R30373:30374 pv.library <> k2:460 var
+R30553:30557 pv.library NMap merge def
+R30578:30589 pv.library NMap set_get_key0 thm
+R30578:30589 pv.library NMap set_get_key0 thm
+R30578:30589 pv.library NMap set_get_key0 thm
+R30578:30589 pv.library NMap set_get_key0 thm
+R30578:30589 pv.library NMap set_get_key0 thm
+prf 30616:30625 NMap dom_lookup
+binder 30628:30628 <> A:461
+R30636:30638 pv.library NMap map def
+R30640:30640 pv.library <> A:461 var
+binder 30632:30632 <> m:462
+binder 30643:30643 <> k:463
+R30663:30667 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R30651:30652 Coq.Lists.List <> In def
+R30657:30659 pv.library NMap dom def
+R30661:30661 pv.library <> m:462 var
+R30654:30654 pv.library <> k:463 var
+R30668:30674 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R30676:30677 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 30675:30675 <> x:464
+R30688:30690 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30678:30683 pv.library NMap lookup def
+R30687:30687 pv.library <> k:463 var
+R30685:30685 pv.library <> m:462 var
+R30691:30694 Coq.Init.Datatypes <> Some constr
+R30696:30696 pv.library <> x:464 var
+binder 30727:30728 <> k':465
+R30757:30767 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R30737:30738 Coq.Lists.List <> In def
+R30743:30750 pv.library NMap dom_help def
+R30752:30753 pv.library <> k':465 var
+R30768:30774 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R30776:30777 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 30775:30775 <> x:466
+R30785:30788 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R30780:30783 Coq.NArith.BinNat <> ::N_scope:x_'<='_x not
+R30778:30779 pv.library <> k':465 var
+R30806:30808 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30789:30794 pv.library NMap lookup def
+R30800:30802 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R30803:30804 pv.library <> k':465 var
+R30809:30812 Coq.Init.Datatypes <> Some constr
+R30814:30814 pv.library <> x:466 var
+binder 30727:30728 <> k':467
+R30757:30767 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R30737:30738 Coq.Lists.List <> In def
+R30743:30750 pv.library NMap dom_help def
+R30752:30753 pv.library <> k':467 var
+R30768:30774 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R30776:30777 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 30775:30775 <> x:468
+R30785:30788 Coq.Init.Logic <> ::type_scope:x_'/\'_x not
+R30780:30783 Coq.NArith.BinNat <> ::N_scope:x_'<='_x not
+R30778:30779 pv.library <> k':467 var
+R30806:30808 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R30789:30794 pv.library NMap lookup def
+R30800:30802 Coq.NArith.BinNat <> ::N_scope:x_'-'_x not
+R30803:30804 pv.library <> k':467 var
+R30809:30812 Coq.Init.Datatypes <> Some constr
+R30814:30814 pv.library <> x:468 var
+R31124:31131 pv.library N eq_dec def
+R31139:31141 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R31124:31131 pv.library N eq_dec def
+R31139:31141 Coq.NArith.BinNat <> ::N_scope:x_'+'_x not
+R31229:31231 pv.library NMap dom def
+R31248:31256 Coq.NArith.BinNat N sub_0_r thm
+R31248:31256 Coq.NArith.BinNat N sub_0_r thm
+R31248:31256 Coq.NArith.BinNat N sub_0_r thm
+R31383:31388 pv.library NMap lookup def
+R31427:31432 pv.library NMap update def
+R31460:31469 pv.library MapDerived <> mod
+R31471:31471 pv.library N <> modtype
+R31478:31481 pv.library NMap <> mod
+R31502:31510 pv.library MapAxioms <> mod
+R31512:31514 pv.library Nat <> modtype
+mod 31492:31497 <> NatMap
+def 31530:31532 NatMap map
+R31537:31544 pv.library NMap map def
+def 31561:31566 NatMap lookup
+binder 31569:31569 <> A:469
+R31577:31579 pv.library NatMap map def
+R31581:31581 pv.library <> A:469 var
+binder 31573:31573 <> m:470
+R31589:31591 Coq.Init.Datatypes <> nat ind
+binder 31585:31585 <> k:471
+R31596:31601 Coq.Init.Datatypes <> option ind
+R31603:31603 pv.library <> A:469 var
+R31612:31622 pv.library NMap lookup def
+R31627:31634 Coq.NArith.BinNat N of_nat def
+R31636:31636 pv.library <> k:471 var
+R31624:31624 pv.library <> m:470 var
+def 31653:31657 NatMap empty
+binder 31660:31660 <> A:472
+R31665:31667 pv.library NatMap map def
+R31669:31669 pv.library <> A:472 var
+R31674:31683 pv.library NMap empty def
+def 31699:31704 NatMap update
+binder 31707:31707 <> A:473
+R31715:31717 Coq.Init.Datatypes <> nat ind
+binder 31711:31711 <> k:474
+R31726:31731 Coq.Init.Datatypes <> option ind
+R31733:31733 pv.library <> A:473 var
+binder 31721:31722 <> mx:475
+R31743:31746 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31738:31740 pv.library NatMap map def
+R31742:31742 pv.library <> A:473 var
+R31747:31749 pv.library NatMap map def
+R31751:31751 pv.library <> A:473 var
+R31760:31770 pv.library NMap update def
+R31785:31786 pv.library <> mx:475 var
+R31773:31780 Coq.NArith.BinNat N of_nat def
+R31782:31782 pv.library <> k:474 var
+def 31802:31806 NatMap merge
+binder 31809:31809 <> A:476
+binder 31811:31811 <> B:477
+binder 31813:31813 <> C:478
+R31822:31822 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31855:31863 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31831:31834 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31823:31828 Coq.Init.Datatypes <> option ind
+R31830:31830 pv.library <> A:476 var
+R31843:31846 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31835:31840 Coq.Init.Datatypes <> option ind
+R31842:31842 pv.library <> B:477 var
+R31847:31852 Coq.Init.Datatypes <> option ind
+R31854:31854 pv.library <> C:478 var
+R31869:31872 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31864:31866 pv.library NatMap map def
+R31868:31868 pv.library <> A:476 var
+R31878:31881 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R31873:31875 pv.library NatMap map def
+R31877:31877 pv.library <> B:477 var
+R31882:31884 pv.library NatMap map def
+R31886:31886 pv.library <> C:478 var
+R31891:31900 pv.library NMap merge def
+def 31916:31918 NatMap dom
+binder 31921:31921 <> A:479
+R31929:31931 pv.library NatMap map def
+R31933:31933 pv.library <> A:479 var
+binder 31925:31925 <> m:480
+R31938:31941 Coq.Init.Datatypes <> list ind
+R31943:31945 Coq.Init.Datatypes <> nat ind
+R31950:31957 Coq.Lists.List <> map def
+R31969:31976 pv.library NMap dom def
+R31978:31978 pv.library <> m:480 var
+R31959:31966 Coq.NArith.BinNat N to_nat def
+prf 31991:31996 NatMap map_eq
+binder 31999:31999 <> A:481
+R32011:32013 pv.library NatMap map def
+R32015:32015 pv.library <> A:481 var
+binder 32003:32004 <> m1:482
+binder 32006:32007 <> m2:483
+R32031:32035 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R32026:32028 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32024:32025 pv.library <> m1:482 var
+R32029:32030 pv.library <> m2:483 var
+binder 32043:32043 <> k:484
+R32057:32059 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32046:32051 pv.library NatMap lookup def
+R32056:32056 pv.library <> k:484 var
+R32053:32054 pv.library <> m1:482 var
+R32060:32065 pv.library NatMap lookup def
+R32070:32070 pv.library <> k:484 var
+R32067:32068 pv.library <> m2:483 var
+R32127:32137 pv.library NMap map_eq thm
+R32127:32137 pv.library NMap map_eq thm
+R32165:32172 Coq.NArith.Nnat N2Nat id thm
+R32165:32172 Coq.NArith.Nnat N2Nat id thm
+R32165:32172 Coq.NArith.Nnat N2Nat id thm
+prf 32203:32214 NatMap lookup_empty
+binder 32217:32217 <> A:485
+binder 32220:32220 <> k:486
+R32243:32245 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32224:32229 pv.library NatMap lookup def
+R32242:32242 pv.library <> k:486 var
+R32233:32237 pv.library NatMap empty def
+R32239:32239 pv.library <> A:485 var
+R32246:32249 Coq.Init.Datatypes <> None constr
+R32267:32283 pv.library NMap lookup_empty thm
+R32267:32283 pv.library NMap lookup_empty thm
+prf 32299:32311 NatMap lookup_update
+binder 32314:32314 <> A:487
+R32322:32324 pv.library NatMap map def
+R32326:32326 pv.library <> A:487 var
+binder 32318:32318 <> m:488
+binder 32329:32329 <> k:489
+binder 32331:32332 <> k':490
+binder 32334:32335 <> mx:491
+R32368:32370 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32343:32348 pv.library NatMap lookup def
+R32366:32367 pv.library <> k':490 var
+R32351:32356 pv.library NatMap update def
+R32363:32363 pv.library <> m:488 var
+R32360:32361 pv.library <> mx:491 var
+R32358:32358 pv.library <> k:489 var
+R32374:32383 pv.library Nat eq_dec def
+R32385:32386 pv.library <> k':490 var
+R32388:32388 pv.library <> k:489 var
+R32403:32408 pv.library NatMap lookup def
+R32412:32413 pv.library <> k':490 var
+R32410:32410 pv.library <> m:488 var
+R32395:32396 pv.library <> mx:491 var
+R32436:32441 pv.library NatMap lookup def
+R32444:32449 pv.library NatMap update def
+R32460:32477 pv.library NMap lookup_update thm
+R32460:32477 pv.library NMap lookup_update thm
+R32460:32477 pv.library NMap lookup_update thm
+R32494:32501 pv.library N eq_dec def
+R32510:32519 pv.library Nat eq_dec def
+R32494:32501 pv.library N eq_dec def
+R32510:32519 pv.library Nat eq_dec def
+R32510:32519 pv.library Nat eq_dec def
+prf 32555:32566 NatMap lookup_merge
+binder 32569:32569 <> A:492
+binder 32571:32571 <> B:493
+binder 32573:32573 <> C:494
+R32595:32598 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32587:32592 Coq.Init.Datatypes <> option ind
+R32594:32594 pv.library <> A:492 var
+R32607:32610 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32599:32604 Coq.Init.Datatypes <> option ind
+R32606:32606 pv.library <> B:493 var
+R32611:32616 Coq.Init.Datatypes <> option ind
+R32618:32618 pv.library <> C:494 var
+binder 32583:32583 <> f:495
+R32627:32629 pv.library NatMap map def
+R32631:32631 pv.library <> A:492 var
+binder 32622:32623 <> m1:496
+R32640:32642 pv.library NatMap map def
+R32644:32644 pv.library <> B:493 var
+binder 32635:32636 <> m2:497
+binder 32647:32647 <> k:498
+R32673:32680 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R32666:32668 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32655:32655 pv.library <> f:495 var
+R32662:32665 Coq.Init.Datatypes <> None constr
+R32657:32660 Coq.Init.Datatypes <> None constr
+R32669:32672 Coq.Init.Datatypes <> None constr
+R32705:32707 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32681:32686 pv.library NatMap lookup def
+R32704:32704 pv.library <> k:498 var
+R32689:32693 pv.library NatMap merge def
+R32700:32701 pv.library <> m2:497 var
+R32697:32698 pv.library <> m1:496 var
+R32695:32695 pv.library <> f:495 var
+R32708:32708 pv.library <> f:495 var
+R32725:32730 pv.library NatMap lookup def
+R32735:32735 pv.library <> k:498 var
+R32732:32733 pv.library <> m2:497 var
+R32711:32716 pv.library NatMap lookup def
+R32721:32721 pv.library <> k:498 var
+R32718:32719 pv.library <> m1:496 var
+R32754:32770 pv.library NMap lookup_merge thm
+R32754:32770 pv.library NMap lookup_merge thm
+prf 32786:32795 NatMap dom_lookup
+binder 32798:32798 <> A:499
+R32806:32808 pv.library NatMap map def
+R32810:32810 pv.library <> A:499 var
+binder 32802:32802 <> m:500
+binder 32813:32813 <> k:501
+R32833:32837 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R32821:32822 Coq.Lists.List <> In def
+R32827:32829 pv.library NatMap dom def
+R32831:32831 pv.library <> m:500 var
+R32824:32824 pv.library <> k:501 var
+R32838:32844 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R32846:32847 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 32845:32845 <> x:502
+R32858:32860 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R32848:32853 pv.library NatMap lookup def
+R32857:32857 pv.library <> k:501 var
+R32855:32855 pv.library <> m:500 var
+R32861:32864 Coq.Init.Datatypes <> Some constr
+R32866:32866 pv.library <> x:502 var
+R32889:32894 pv.library NatMap lookup def
+R32897:32899 pv.library NatMap dom def
+R32912:32926 pv.library NMap dom_lookup thm
+R32912:32926 pv.library NMap dom_lookup thm
+R32912:32926 pv.library NMap dom_lookup thm
+R32941:32950 Coq.Lists.List <> in_map_iff thm
+R32941:32950 Coq.Lists.List <> in_map_iff thm
+R32941:32950 Coq.Lists.List <> in_map_iff thm
+R32990:32997 Coq.NArith.Nnat N2Nat id thm
+R32990:32997 Coq.NArith.Nnat N2Nat id thm
+R32990:32997 Coq.NArith.Nnat N2Nat id thm
+R33022:33029 Coq.NArith.BinNat N of_nat def
+R33022:33029 Coq.NArith.BinNat N of_nat def
+R33046:33053 Coq.NArith.Nnat Nat2N id thm
+R33046:33053 Coq.NArith.Nnat Nat2N id thm
+R33046:33053 Coq.NArith.Nnat Nat2N id thm
+R33074:33083 pv.library MapDerived <> mod
+R33085:33087 pv.library Nat <> modtype
+R33094:33099 pv.library NatMap <> mod
+abbrev 33112:33117 <> natmap
+R33122:33131 pv.library <> map def
+R33155:33163 pv.library MapAxioms <> mod
+R33165:33170 pv.library String <> modtype
+mod 33142:33150 <> StringMap
+rec 33182:33185 StringMap map'
+proj 33204:33210 StringMap map_car
+binder 33187:33187 <> A:503
+R33214:33221 pv.library NMap map def
+R33223:33223 pv.library <> A:503 var
+R33236:33271 pv.library StringMap map_car proj
+R33286:33294 pv.library StringMap StringMap constr
+R33286:33294 pv.library StringMap StringMap constr
+def 33314:33316 StringMap map
+R33321:33324 pv.library StringMap map' rec
+def 33341:33346 StringMap lookup
+binder 33349:33349 <> A:506
+R33357:33359 pv.library StringMap map def
+R33361:33361 pv.library <> A:506 var
+binder 33353:33353 <> m:507
+R33369:33374 Coq.Strings.String <> string ind
+binder 33365:33365 <> k:508
+R33379:33384 Coq.Init.Datatypes <> option ind
+R33386:33386 pv.library <> A:506 var
+R33395:33405 pv.library NMap lookup def
+R33410:33420 pv.library String to_N def
+R33422:33422 pv.library <> k:508 var
+R33407:33407 pv.library <> m:507 var
+def 33439:33443 StringMap empty
+binder 33446:33446 <> A:509
+R33451:33453 pv.library StringMap map def
+R33455:33455 pv.library <> A:509 var
+R33460:33468 pv.library StringMap StringMap constr
+R33470:33479 pv.library NMap empty def
+def 33495:33500 StringMap update
+binder 33503:33503 <> A:510
+R33511:33516 Coq.Strings.String <> string ind
+binder 33507:33507 <> k:511
+R33525:33530 Coq.Init.Datatypes <> option ind
+R33532:33532 pv.library <> A:510 var
+binder 33520:33521 <> mx:512
+R33540:33542 pv.library StringMap map def
+R33544:33544 pv.library <> A:510 var
+binder 33536:33536 <> m:513
+R33549:33551 pv.library StringMap map def
+R33553:33553 pv.library <> A:510 var
+R33562:33570 pv.library StringMap StringMap constr
+R33573:33583 pv.library NMap update def
+R33604:33604 pv.library <> m:513 var
+R33601:33602 pv.library <> mx:512 var
+R33586:33596 pv.library String to_N def
+R33598:33598 pv.library <> k:511 var
+def 33621:33625 StringMap merge
+binder 33628:33628 <> A:514
+binder 33630:33630 <> B:515
+binder 33632:33632 <> C:516
+R33648:33651 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R33640:33645 Coq.Init.Datatypes <> option ind
+R33647:33647 pv.library <> A:514 var
+R33660:33663 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R33652:33657 Coq.Init.Datatypes <> option ind
+R33659:33659 pv.library <> B:515 var
+R33664:33669 Coq.Init.Datatypes <> option ind
+R33671:33671 pv.library <> C:516 var
+binder 33636:33636 <> f:517
+R33686:33688 pv.library StringMap map def
+R33690:33690 pv.library <> A:514 var
+binder 33681:33682 <> m1:518
+R33699:33701 pv.library StringMap map def
+R33703:33703 pv.library <> B:515 var
+binder 33694:33695 <> m2:519
+R33708:33710 pv.library StringMap map def
+R33712:33712 pv.library <> C:516 var
+R33721:33729 pv.library StringMap StringMap constr
+R33732:33741 pv.library NMap merge def
+R33748:33749 pv.library <> m2:519 var
+R33745:33746 pv.library <> m1:518 var
+R33743:33743 pv.library <> f:517 var
+def 33766:33768 StringMap dom
+binder 33771:33771 <> A:520
+R33779:33781 pv.library StringMap map def
+R33783:33783 pv.library <> A:520 var
+binder 33775:33775 <> m:521
+R33788:33791 Coq.Init.Datatypes <> list ind
+R33793:33798 Coq.Strings.String <> string ind
+R33807:33814 Coq.Lists.List <> map def
+R33829:33836 pv.library NMap dom def
+R33838:33838 pv.library <> m:521 var
+R33816:33826 pv.library String of_N def
+prf 33851:33856 StringMap map_eq
+binder 33859:33859 <> A:522
+R33871:33873 pv.library StringMap map def
+R33875:33875 pv.library <> A:522 var
+binder 33863:33864 <> m1:523
+binder 33866:33867 <> m2:524
+R33891:33895 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R33886:33888 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R33884:33885 pv.library <> m1:523 var
+R33889:33890 pv.library <> m2:524 var
+binder 33903:33903 <> k:525
+R33917:33919 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R33906:33911 pv.library StringMap lookup def
+R33916:33916 pv.library <> k:525 var
+R33913:33914 pv.library <> m1:523 var
+R33920:33925 pv.library StringMap lookup def
+R33930:33930 pv.library <> k:525 var
+R33927:33928 pv.library <> m2:524 var
+R34033:34043 pv.library NMap map_eq thm
+R34033:34043 pv.library NMap map_eq thm
+R34067:34080 pv.library String to_of_N thm
+R34067:34080 pv.library String to_of_N thm
+R34067:34080 pv.library String to_of_N thm
+prf 34111:34122 StringMap lookup_empty
+binder 34125:34125 <> A:526
+binder 34128:34128 <> k:527
+R34151:34153 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34132:34137 pv.library StringMap lookup def
+R34150:34150 pv.library <> k:527 var
+R34141:34145 pv.library StringMap empty def
+R34147:34147 pv.library <> A:526 var
+R34154:34157 Coq.Init.Datatypes <> None constr
+R34175:34191 pv.library NMap lookup_empty thm
+R34175:34191 pv.library NMap lookup_empty thm
+prf 34207:34219 StringMap lookup_update
+binder 34222:34222 <> A:528
+R34230:34232 pv.library StringMap map def
+R34234:34234 pv.library <> A:528 var
+binder 34226:34226 <> m:529
+binder 34237:34237 <> k:530
+binder 34239:34240 <> k':531
+binder 34242:34243 <> mx:532
+R34276:34278 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34251:34256 pv.library StringMap lookup def
+R34274:34275 pv.library <> k':531 var
+R34259:34264 pv.library StringMap update def
+R34271:34271 pv.library <> m:529 var
+R34268:34269 pv.library <> mx:532 var
+R34266:34266 pv.library <> k:530 var
+R34282:34294 pv.library String eq_dec def
+R34296:34297 pv.library <> k':531 var
+R34299:34299 pv.library <> k:530 var
+R34314:34319 pv.library StringMap lookup def
+R34323:34324 pv.library <> k':531 var
+R34321:34321 pv.library <> m:529 var
+R34306:34307 pv.library <> mx:532 var
+R34347:34352 pv.library StringMap lookup def
+R34355:34360 pv.library StringMap update def
+R34397:34414 pv.library NMap lookup_update thm
+R34397:34414 pv.library NMap lookup_update thm
+R34397:34414 pv.library NMap lookup_update thm
+R34431:34438 pv.library N eq_dec def
+R34447:34459 pv.library String eq_dec def
+R34431:34438 pv.library N eq_dec def
+R34447:34459 pv.library String eq_dec def
+R34447:34459 pv.library String eq_dec def
+R34520:34533 pv.library String of_to_N thm
+R34543:34556 pv.library String of_to_N thm
+R34520:34533 pv.library String of_to_N thm
+R34520:34533 pv.library String of_to_N thm
+R34543:34556 pv.library String of_to_N thm
+R34543:34556 pv.library String of_to_N thm
+prf 34593:34604 StringMap lookup_merge
+binder 34607:34607 <> A:533
+binder 34609:34609 <> B:534
+binder 34611:34611 <> C:535
+R34633:34636 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R34625:34630 Coq.Init.Datatypes <> option ind
+R34632:34632 pv.library <> A:533 var
+R34645:34648 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R34637:34642 Coq.Init.Datatypes <> option ind
+R34644:34644 pv.library <> B:534 var
+R34649:34654 Coq.Init.Datatypes <> option ind
+R34656:34656 pv.library <> C:535 var
+binder 34621:34621 <> f:536
+R34665:34667 pv.library StringMap map def
+R34669:34669 pv.library <> A:533 var
+binder 34660:34661 <> m1:537
+R34678:34680 pv.library StringMap map def
+R34682:34682 pv.library <> B:534 var
+binder 34673:34674 <> m2:538
+binder 34685:34685 <> k:539
+R34711:34718 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R34704:34706 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34693:34693 pv.library <> f:536 var
+R34700:34703 Coq.Init.Datatypes <> None constr
+R34695:34698 Coq.Init.Datatypes <> None constr
+R34707:34710 Coq.Init.Datatypes <> None constr
+R34743:34745 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34719:34724 pv.library StringMap lookup def
+R34742:34742 pv.library <> k:539 var
+R34727:34731 pv.library StringMap merge def
+R34738:34739 pv.library <> m2:538 var
+R34735:34736 pv.library <> m1:537 var
+R34733:34733 pv.library <> f:536 var
+R34746:34746 pv.library <> f:536 var
+R34763:34768 pv.library StringMap lookup def
+R34773:34773 pv.library <> k:539 var
+R34770:34771 pv.library <> m2:538 var
+R34749:34754 pv.library StringMap lookup def
+R34759:34759 pv.library <> k:539 var
+R34756:34757 pv.library <> m1:537 var
+R34792:34808 pv.library NMap lookup_merge thm
+R34792:34808 pv.library NMap lookup_merge thm
+prf 34824:34833 StringMap dom_lookup
+binder 34836:34836 <> A:540
+R34844:34846 pv.library StringMap map def
+R34848:34848 pv.library <> A:540 var
+binder 34840:34840 <> m:541
+binder 34851:34851 <> k:542
+R34871:34875 Coq.Init.Logic <> ::type_scope:x_'<->'_x not
+R34859:34860 Coq.Lists.List <> In def
+R34865:34867 pv.library StringMap dom def
+R34869:34869 pv.library <> m:541 var
+R34862:34862 pv.library <> k:542 var
+R34876:34882 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+R34884:34885 Coq.Init.Logic <> ::type_scope:'exists'_x_'..'_x_','_x not
+binder 34883:34883 <> x:543
+R34896:34898 Coq.Init.Logic <> ::type_scope:x_'='_x not
+R34886:34891 pv.library StringMap lookup def
+R34895:34895 pv.library <> k:542 var
+R34893:34893 pv.library <> m:541 var
+R34899:34902 Coq.Init.Datatypes <> Some constr
+R34904:34904 pv.library <> x:543 var
+R34927:34932 pv.library StringMap lookup def
+R34935:34937 pv.library StringMap dom def
+R34950:34964 pv.library NMap dom_lookup thm
+R34950:34964 pv.library NMap dom_lookup thm
+R34950:34964 pv.library NMap dom_lookup thm
+R34979:34988 Coq.Lists.List <> in_map_iff thm
+R34979:34988 Coq.Lists.List <> in_map_iff thm
+R34979:34988 Coq.Lists.List <> in_map_iff thm
+R35028:35041 pv.library String to_of_N thm
+R35028:35041 pv.library String to_of_N thm
+R35028:35041 pv.library String to_of_N thm
+R35066:35076 pv.library String to_N def
+R35066:35076 pv.library String to_N def
+R35093:35106 pv.library String of_to_N thm
+R35093:35106 pv.library String of_to_N thm
+R35093:35106 pv.library String of_to_N thm
+R35127:35136 pv.library MapDerived <> mod
+R35138:35143 pv.library String <> modtype
+R35150:35158 pv.library StringMap <> mod
+abbrev 35171:35179 <> stringmap
+R35184:35196 pv.library <> map def

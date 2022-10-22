@@ -1,0 +1,464 @@
+DIGEST 2ca127c1dbcf4251609066e91da3a22c
+Fpv.abstract_interpreter
+R23:29 pv.library <> <> lib
+R47:52 Coq.Strings.String <> <> lib
+R54:59 Coq.ZArith.ZArith <> <> lib
+R61:64 Coq.Lists.List <> <> lib
+ind 103:108 <> ABinOp
+constr 119:121 <> add
+constr 129:131 <> sub
+constr 139:141 <> mul
+constr 149:151 <> div
+ind 165:168 <> Aexp
+constr 186:188 <> var
+constr 213:217 <> const
+constr 237:239 <> opp
+constr 262:264 <> aop
+R198:201 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R192:197 Coq.Strings.String <> string ind
+R202:205 pv.abstract_interpreter <> Aexp:3 ind
+R222:225 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R221:221 Coq.Numbers.BinNums <> Z ind
+R226:229 pv.abstract_interpreter <> Aexp:3 ind
+R247:250 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R243:246 pv.abstract_interpreter <> Aexp:3 ind
+R251:254 pv.abstract_interpreter <> Aexp:3 ind
+R274:277 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R268:273 pv.abstract_interpreter <> ABinOp ind
+R282:285 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R278:281 pv.abstract_interpreter <> Aexp:3 ind
+R290:293 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R286:289 pv.abstract_interpreter <> Aexp:3 ind
+R294:297 pv.abstract_interpreter <> Aexp:3 ind
+ind 311:316 <> BBinOp
+constr 327:328 <> eq
+constr 336:337 <> lt
+constr 345:346 <> gt
+constr 354:355 <> le
+constr 363:364 <> ge
+constr 372:373 <> ne
+ind 387:390 <> Bexp
+constr 408:409 <> tt
+constr 424:425 <> ff
+constr 440:442 <> bop
+constr 483:485 <> and
+constr 516:517 <> or
+R413:416 pv.abstract_interpreter <> Bexp:7 ind
+R429:432 pv.abstract_interpreter <> Bexp:7 ind
+R452:455 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R446:451 pv.abstract_interpreter <> BBinOp ind
+R460:463 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R456:459 pv.abstract_interpreter <> Aexp ind
+R468:471 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R464:467 pv.abstract_interpreter <> Aexp ind
+R472:475 pv.abstract_interpreter <> Bexp:7 ind
+R493:496 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R489:492 pv.abstract_interpreter <> Bexp:7 ind
+R501:504 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R497:500 pv.abstract_interpreter <> Bexp:7 ind
+R505:508 pv.abstract_interpreter <> Bexp:7 ind
+R525:528 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R521:524 pv.abstract_interpreter <> Bexp:7 ind
+R533:536 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R529:532 pv.abstract_interpreter <> Bexp:7 ind
+R537:540 pv.abstract_interpreter <> Bexp:7 ind
+ind 554:558 <> While
+constr 576:581 <> assign
+constr 615:618 <> skip
+constr 634:641 <> sequence
+constr 675:686 <> if_then_else
+constr 728:735 <> while_do
+R591:594 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R585:590 Coq.Strings.String <> string ind
+R599:602 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R595:598 pv.abstract_interpreter <> Aexp ind
+R603:607 pv.abstract_interpreter <> While:9 ind
+R622:626 pv.abstract_interpreter <> While:9 ind
+R650:653 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R645:649 pv.abstract_interpreter <> While:9 ind
+R659:662 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R654:658 pv.abstract_interpreter <> While:9 ind
+R663:667 pv.abstract_interpreter <> While:9 ind
+R694:697 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R690:693 pv.abstract_interpreter <> Bexp ind
+R703:706 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R698:702 pv.abstract_interpreter <> While:9 ind
+R712:715 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R707:711 pv.abstract_interpreter <> While:9 ind
+R716:720 pv.abstract_interpreter <> While:9 ind
+R743:746 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R739:742 pv.abstract_interpreter <> Bexp ind
+R752:755 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R747:751 pv.abstract_interpreter <> While:9 ind
+R756:760 pv.abstract_interpreter <> While:9 ind
+modtype 777:790 <> AbstractDomain
+ax 803:803 AbstractDomain A
+def 824:830 AbstractDomain AbState
+R835:838 Coq.Init.Datatypes <> list ind
+R847:849 Coq.Init.Datatypes <> ::type_scope:x_'*'_x not
+R841:846 Coq.Strings.String <> string ind
+R850:850 pv.abstract_interpreter AbstractDomain A defax
+ax 864:866 AbstractDomain bot
+R870:870 pv.abstract_interpreter AbstractDomain A defax
+ax 883:884 AbstractDomain op
+R894:897 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R888:893 pv.abstract_interpreter <> ABinOp ind
+R899:902 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R898:898 pv.abstract_interpreter AbstractDomain A defax
+R904:907 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R903:903 pv.abstract_interpreter AbstractDomain A defax
+R908:908 pv.abstract_interpreter AbstractDomain A defax
+ax 921:935 AbstractDomain alpha_singleton
+R940:943 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R939:939 Coq.Numbers.BinNums <> Z ind
+R944:944 pv.abstract_interpreter AbstractDomain A defax
+ax 957:964 AbstractDomain opposite
+R969:972 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R968:968 pv.abstract_interpreter AbstractDomain A defax
+R973:973 pv.abstract_interpreter AbstractDomain A defax
+ax 986:991 AbstractDomain lookup
+R1001:1004 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R995:1000 Coq.Strings.String <> string ind
+R1012:1015 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1005:1011 pv.abstract_interpreter AbstractDomain AbState def
+R1016:1016 pv.abstract_interpreter AbstractDomain A defax
+ax 1029:1034 AbstractDomain eq_sem
+R1042:1045 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1038:1041 pv.abstract_interpreter <> Aexp ind
+R1050:1053 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1046:1049 pv.abstract_interpreter <> Aexp ind
+R1061:1064 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1054:1060 pv.abstract_interpreter AbstractDomain AbState def
+R1065:1070 Coq.Init.Datatypes <> option ind
+R1072:1078 pv.abstract_interpreter AbstractDomain AbState def
+ax 1091:1096 AbstractDomain lt_sem
+R1104:1107 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1100:1103 pv.abstract_interpreter <> Aexp ind
+R1112:1115 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1108:1111 pv.abstract_interpreter <> Aexp ind
+R1123:1126 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1116:1122 pv.abstract_interpreter AbstractDomain AbState def
+R1127:1132 Coq.Init.Datatypes <> option ind
+R1134:1140 pv.abstract_interpreter AbstractDomain AbState def
+ax 1153:1158 AbstractDomain gt_sem
+R1166:1169 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1162:1165 pv.abstract_interpreter <> Aexp ind
+R1174:1177 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1170:1173 pv.abstract_interpreter <> Aexp ind
+R1185:1188 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1178:1184 pv.abstract_interpreter AbstractDomain AbState def
+R1189:1194 Coq.Init.Datatypes <> option ind
+R1196:1202 pv.abstract_interpreter AbstractDomain AbState def
+ax 1215:1220 AbstractDomain le_sem
+R1228:1231 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1224:1227 pv.abstract_interpreter <> Aexp ind
+R1236:1239 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1232:1235 pv.abstract_interpreter <> Aexp ind
+R1247:1250 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1240:1246 pv.abstract_interpreter AbstractDomain AbState def
+R1251:1256 Coq.Init.Datatypes <> option ind
+R1258:1264 pv.abstract_interpreter AbstractDomain AbState def
+ax 1277:1282 AbstractDomain ge_sem
+R1290:1293 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1286:1289 pv.abstract_interpreter <> Aexp ind
+R1298:1301 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1294:1297 pv.abstract_interpreter <> Aexp ind
+R1309:1312 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1302:1308 pv.abstract_interpreter AbstractDomain AbState def
+R1313:1318 Coq.Init.Datatypes <> option ind
+R1320:1326 pv.abstract_interpreter AbstractDomain AbState def
+ax 1339:1344 AbstractDomain ne_sem
+R1352:1355 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1348:1351 pv.abstract_interpreter <> Aexp ind
+R1360:1363 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1356:1359 pv.abstract_interpreter <> Aexp ind
+R1371:1374 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1364:1370 pv.abstract_interpreter AbstractDomain AbState def
+R1375:1380 Coq.Init.Datatypes <> option ind
+R1382:1388 pv.abstract_interpreter AbstractDomain AbState def
+ax 1401:1410 AbstractDomain join_state
+R1421:1424 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1414:1420 pv.abstract_interpreter AbstractDomain AbState def
+R1432:1435 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1425:1431 pv.abstract_interpreter AbstractDomain AbState def
+R1436:1442 pv.abstract_interpreter AbstractDomain AbState def
+ax 1455:1465 AbstractDomain join_state'
+R1476:1480 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1469:1475 pv.abstract_interpreter AbstractDomain AbState def
+R1495:1498 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1481:1486 Coq.Init.Datatypes <> option ind
+R1488:1494 pv.abstract_interpreter AbstractDomain AbState def
+R1499:1505 pv.abstract_interpreter AbstractDomain AbState def
+ax 1520:1526 AbstractDomain thinner
+R1531:1534 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1530:1530 Coq.Init.Nat <> t def
+R1536:1539 Coq.Init.Logic <> ::type_scope:x_'->'_x not
+R1535:1535 Coq.Init.Nat <> t def
+R1551:1564 pv.abstract_interpreter AbstractDomain <> modtype
+R1605:1618 pv.abstract_interpreter AbstractDomain <> mod
+mod 1576:1594 <> AbstractInterpreter
+R1629:1633 pv.abstract_interpreter AbDom <> mod
+def 1647:1653 AbstractInterpreter A_sharp
+binder 1655:1655 <> e:26
+binder 1657:1663 <> s_sharp:27
+R1678:1678 pv.abstract_interpreter <> e:26 var
+R1691:1693 pv.abstract_interpreter <> var constr
+R1700:1711 pv.abstract_interpreter AbDom lookup defax
+R1715:1721 pv.abstract_interpreter <> s_sharp:27 var
+R1729:1733 pv.abstract_interpreter <> const constr
+R1740:1760 pv.abstract_interpreter AbDom alpha_singleton defax
+R1770:1772 pv.abstract_interpreter <> aop constr
+R1774:1775 pv.abstract_interpreter AbDom op defax
+R1786:1793 pv.abstract_interpreter AbDom op defax
+R1799:1805 pv.abstract_interpreter <> A_sharp:28 def
+R1810:1816 pv.abstract_interpreter <> s_sharp:27 var
+R1820:1826 pv.abstract_interpreter <> A_sharp:28 def
+R1831:1837 pv.abstract_interpreter <> s_sharp:27 var
+R1846:1848 pv.abstract_interpreter <> opp constr
+R1856:1869 pv.abstract_interpreter AbDom opposite defax
+R1872:1878 pv.abstract_interpreter <> A_sharp:28 def
+R1883:1889 pv.abstract_interpreter <> s_sharp:27 var
+def 1911:1919 AbstractInterpreter ab_update
+binder 1921:1927 <> s_sharp:30
+binder 1929:1929 <> x:31
+binder 1931:1931 <> a:32
+R1935:1941 pv.abstract_interpreter AbDom AbState def
+R1956:1962 pv.abstract_interpreter <> s_sharp:30 var
+R1976:1978 Coq.Init.Datatypes <> nil constr
+R1989:1992 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R1983:1983 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R1985:1986 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R1988:1988 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R1984:1984 pv.abstract_interpreter <> x:31 var
+R1987:1987 pv.abstract_interpreter <> a:32 var
+R1993:1995 Coq.Init.Datatypes <> nil constr
+R2010:2013 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R2003:2003 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2005:2006 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2009:2009 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2023:2032 Coq.Strings.String <> string_dec def
+R2034:2034 pv.abstract_interpreter <> x:31 var
+R2068:2071 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R2061:2061 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2063:2064 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2067:2067 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2072:2080 pv.abstract_interpreter <> ab_update:33 def
+R2087:2087 pv.abstract_interpreter <> a:32 var
+R2085:2085 pv.abstract_interpreter <> x:31 var
+R2049:2052 Coq.Init.Datatypes <> ::list_scope:x_'::'_x not
+R2043:2043 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2045:2046 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2048:2048 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R2047:2047 pv.abstract_interpreter <> a:32 var
+def 2115:2121 AbstractInterpreter B_sharp
+binder 2123:2123 <> b:35
+binder 2125:2131 <> s_sharp:36
+R2146:2146 pv.abstract_interpreter <> b:35 var
+R2159:2160 pv.abstract_interpreter <> tt constr
+R2165:2168 Coq.Init.Datatypes <> Some constr
+R2170:2176 pv.abstract_interpreter <> s_sharp:36 var
+R2184:2185 pv.abstract_interpreter <> ff constr
+R2190:2193 Coq.Init.Datatypes <> None constr
+R2201:2203 pv.abstract_interpreter <> bop constr
+R2205:2206 pv.abstract_interpreter AbDom op defax
+R2258:2259 pv.abstract_interpreter <> eq constr
+R2264:2269 pv.abstract_interpreter AbDom eq_sem defax
+R2277:2283 pv.abstract_interpreter <> s_sharp:36 var
+R2311:2312 pv.abstract_interpreter <> lt constr
+R2317:2322 pv.abstract_interpreter AbDom lt_sem defax
+R2330:2336 pv.abstract_interpreter <> s_sharp:36 var
+R2364:2365 pv.abstract_interpreter <> gt constr
+R2370:2375 pv.abstract_interpreter AbDom gt_sem defax
+R2383:2389 pv.abstract_interpreter <> s_sharp:36 var
+R2417:2418 pv.abstract_interpreter <> le constr
+R2423:2428 pv.abstract_interpreter AbDom le_sem defax
+R2436:2442 pv.abstract_interpreter <> s_sharp:36 var
+R2470:2471 pv.abstract_interpreter <> ge constr
+R2476:2481 pv.abstract_interpreter AbDom ge_sem defax
+R2489:2495 pv.abstract_interpreter <> s_sharp:36 var
+R2523:2524 pv.abstract_interpreter <> ne constr
+R2529:2534 pv.abstract_interpreter AbDom ne_sem defax
+R2542:2548 pv.abstract_interpreter <> s_sharp:36 var
+R2584:2586 pv.abstract_interpreter <> and constr
+R2603:2609 pv.abstract_interpreter <> B_sharp:37 def
+R2614:2620 pv.abstract_interpreter <> s_sharp:36 var
+R2649:2652 Coq.Init.Datatypes <> Some constr
+R2665:2671 pv.abstract_interpreter <> B_sharp:37 def
+R2706:2709 Coq.Init.Datatypes <> None constr
+R2714:2717 Coq.Init.Datatypes <> None constr
+R2749:2750 pv.abstract_interpreter <> or constr
+R2767:2773 pv.abstract_interpreter <> B_sharp:37 def
+R2778:2784 pv.abstract_interpreter <> s_sharp:36 var
+R2814:2817 Coq.Init.Datatypes <> Some constr
+R2830:2833 Coq.Init.Datatypes <> Some constr
+R2836:2846 pv.abstract_interpreter AbDom join_state' defax
+R2857:2863 pv.abstract_interpreter <> B_sharp:37 def
+R2868:2874 pv.abstract_interpreter <> s_sharp:36 var
+R2900:2903 Coq.Init.Datatypes <> None constr
+R2908:2914 pv.abstract_interpreter <> B_sharp:37 def
+R2919:2925 pv.abstract_interpreter <> s_sharp:36 var
+def 2975:2981 AbstractInterpreter neg_sem
+binder 2983:2983 <> b:40
+R3002:3002 pv.abstract_interpreter <> b:40 var
+R3019:3020 pv.abstract_interpreter <> tt constr
+R3025:3026 pv.abstract_interpreter <> ff constr
+R3038:3039 pv.abstract_interpreter <> ff constr
+R3044:3045 pv.abstract_interpreter <> tt constr
+R3057:3059 pv.abstract_interpreter <> bop constr
+R3061:3062 pv.abstract_interpreter <> eq constr
+R3073:3075 pv.abstract_interpreter <> bop constr
+R3077:3078 pv.abstract_interpreter <> ne constr
+R3096:3098 pv.abstract_interpreter <> bop constr
+R3100:3101 pv.abstract_interpreter <> lt constr
+R3112:3114 pv.abstract_interpreter <> bop constr
+R3116:3117 pv.abstract_interpreter <> ge constr
+R3135:3137 pv.abstract_interpreter <> bop constr
+R3139:3140 pv.abstract_interpreter <> gt constr
+R3151:3153 pv.abstract_interpreter <> bop constr
+R3155:3156 pv.abstract_interpreter <> le constr
+R3174:3176 pv.abstract_interpreter <> bop constr
+R3178:3179 pv.abstract_interpreter <> le constr
+R3190:3192 pv.abstract_interpreter <> bop constr
+R3194:3195 pv.abstract_interpreter <> gt constr
+R3213:3215 pv.abstract_interpreter <> bop constr
+R3217:3218 pv.abstract_interpreter <> ge constr
+R3229:3231 pv.abstract_interpreter <> bop constr
+R3233:3234 pv.abstract_interpreter <> lt constr
+R3252:3254 pv.abstract_interpreter <> bop constr
+R3256:3257 pv.abstract_interpreter <> ne constr
+R3268:3270 pv.abstract_interpreter <> bop constr
+R3272:3273 pv.abstract_interpreter <> eq constr
+R3291:3293 pv.abstract_interpreter <> and constr
+R3304:3305 pv.abstract_interpreter <> or constr
+R3308:3314 pv.abstract_interpreter <> neg_sem:41 def
+R3321:3327 pv.abstract_interpreter <> neg_sem:41 def
+R3343:3344 pv.abstract_interpreter <> or constr
+R3355:3357 pv.abstract_interpreter <> and constr
+R3360:3366 pv.abstract_interpreter <> neg_sem:41 def
+R3373:3379 pv.abstract_interpreter <> neg_sem:41 def
+def 3409:3424 AbstractInterpreter Kleene_iteration
+binder 3426:3433 <> AI_state:43
+R3440:3443 pv.abstract_interpreter <> Bexp ind
+binder 3436:3436 <> b:44
+binder 3446:3452 <> s_sharp:45
+binder 3454:3460 <> t_sharp:46
+R3467:3469 Coq.Init.Datatypes <> nat ind
+binder 3463:3463 <> n:47
+R3485:3485 pv.abstract_interpreter <> n:47 var
+R3508:3514 pv.abstract_interpreter <> t_sharp:46 var
+R3522:3522 Coq.Init.Datatypes <> S constr
+R3535:3541 pv.abstract_interpreter AbstractInterpreter B_sharp def
+R3543:3543 pv.abstract_interpreter <> b:44 var
+R3545:3551 pv.abstract_interpreter <> t_sharp:46 var
+R3576:3579 Coq.Init.Datatypes <> Some constr
+R3592:3607 pv.abstract_interpreter <> Kleene_iteration:48 def
+R3629:3639 pv.abstract_interpreter AbDom join_state' defax
+R3641:3647 pv.abstract_interpreter <> s_sharp:45 var
+R3650:3657 pv.abstract_interpreter <> AI_state:43 var
+R3620:3626 pv.abstract_interpreter <> s_sharp:45 var
+R3618:3618 pv.abstract_interpreter <> b:44 var
+R3609:3616 pv.abstract_interpreter <> AI_state:43 var
+R3689:3692 Coq.Init.Datatypes <> None constr
+R3697:3703 pv.abstract_interpreter <> t_sharp:46 var
+def 3745:3746 AbstractInterpreter AI
+R3753:3757 pv.abstract_interpreter <> While ind
+binder 3749:3749 <> P:50
+binder 3760:3766 <> s_sharp:51
+R3781:3781 pv.abstract_interpreter <> P:50 var
+R3794:3799 pv.abstract_interpreter <> assign constr
+R3808:3811 Coq.Init.Datatypes <> Some constr
+R3814:3822 pv.abstract_interpreter AbstractInterpreter ab_update def
+R3824:3830 pv.abstract_interpreter <> s_sharp:51 var
+R3835:3841 pv.abstract_interpreter AbstractInterpreter A_sharp def
+R3845:3851 pv.abstract_interpreter <> s_sharp:51 var
+R3861:3864 pv.abstract_interpreter <> skip constr
+R3869:3872 Coq.Init.Datatypes <> Some constr
+R3874:3880 pv.abstract_interpreter <> s_sharp:51 var
+R3888:3895 pv.abstract_interpreter <> sequence constr
+R3912:3913 pv.abstract_interpreter <> AI:52 def
+R3918:3924 pv.abstract_interpreter <> s_sharp:51 var
+R3953:3956 Coq.Init.Datatypes <> Some constr
+R3969:3970 pv.abstract_interpreter <> AI:52 def
+R4005:4008 Coq.Init.Datatypes <> None constr
+R4013:4016 Coq.Init.Datatypes <> None constr
+R4048:4059 pv.abstract_interpreter <> if_then_else constr
+R4097:4103 pv.abstract_interpreter AbstractInterpreter B_sharp def
+R4106:4112 pv.abstract_interpreter AbstractInterpreter neg_sem def
+R4117:4123 pv.abstract_interpreter <> s_sharp:51 var
+R4078:4084 pv.abstract_interpreter AbstractInterpreter B_sharp def
+R4088:4094 pv.abstract_interpreter <> s_sharp:51 var
+R4160:4163 Coq.Init.Datatypes <> Some constr
+R4174:4177 Coq.Init.Datatypes <> Some constr
+R4196:4197 pv.abstract_interpreter <> AI:52 def
+R4277:4280 Coq.Init.Datatypes <> Some constr
+R4293:4296 Coq.Init.Datatypes <> Some constr
+R4299:4309 pv.abstract_interpreter AbDom join_state' defax
+R4320:4321 pv.abstract_interpreter <> AI:52 def
+R4398:4401 Coq.Init.Datatypes <> None constr
+R4406:4407 pv.abstract_interpreter <> AI:52 def
+R4514:4517 Coq.Init.Datatypes <> Some constr
+R4528:4531 Coq.Init.Datatypes <> None constr
+R4536:4537 pv.abstract_interpreter <> AI:52 def
+R4580:4583 Coq.Init.Datatypes <> None constr
+R4586:4589 Coq.Init.Datatypes <> Some constr
+R4602:4603 pv.abstract_interpreter <> AI:52 def
+R4646:4649 Coq.Init.Datatypes <> None constr
+R4652:4655 Coq.Init.Datatypes <> None constr
+R4660:4663 Coq.Init.Datatypes <> None constr
+R4704:4711 pv.abstract_interpreter <> while_do constr
+R4733:4748 pv.abstract_interpreter AbstractInterpreter Kleene_iteration def
+R4751:4752 pv.abstract_interpreter <> AI:52 def
+R4760:4766 pv.abstract_interpreter <> s_sharp:51 var
+R4768:4774 pv.abstract_interpreter <> s_sharp:51 var
+binder 4725:4727 <> inv:54
+R4782:4788 pv.abstract_interpreter AbstractInterpreter B_sharp def
+R4791:4797 pv.abstract_interpreter AbstractInterpreter neg_sem def
+R4802:4804 pv.abstract_interpreter <> inv:54 var
+R4839:4852 pv.abstract_interpreter AbstractDomain <> mod
+mod 4823:4834 <> AbstractInterpreter.ExtendedSign
+ind 4866:4866 AbstractInterpreter.ExtendedSign A
+constr 4877:4879 AbstractInterpreter.ExtendedSign Top
+constr 4887:4892 AbstractInterpreter.ExtendedSign LeZero
+constr 4900:4905 AbstractInterpreter.ExtendedSign NeZero
+constr 4913:4918 AbstractInterpreter.ExtendedSign GeZero
+constr 4926:4931 AbstractInterpreter.ExtendedSign LtZero
+constr 4939:4944 AbstractInterpreter.ExtendedSign EqZero
+constr 4952:4957 AbstractInterpreter.ExtendedSign GtZero
+constr 4965:4967 AbstractInterpreter.ExtendedSign Bot
+def 4983:4997 AbstractInterpreter.ExtendedSign alpha_singleton
+binder 4999:4999 <> n:57
+R5012:5015 Coq.ZArith.BinInt <> ::Z_scope:x_'=?'_x not
+R5011:5011 pv.abstract_interpreter <> n:57 var
+R5043:5046 Coq.ZArith.BinInt <> ::Z_scope:x_'<?'_x not
+R5042:5042 pv.abstract_interpreter <> n:57 var
+R5074:5079 pv.abstract_interpreter AbstractInterpreter.ExtendedSign GtZero constr
+R5054:5059 pv.abstract_interpreter AbstractInterpreter.ExtendedSign LtZero constr
+R5023:5028 pv.abstract_interpreter AbstractInterpreter.ExtendedSign EqZero constr
+def 5094:5099 AbstractInterpreter.ExtendedSign eq_sem
+binder 5101:5102 <> e1:58
+binder 5104:5105 <> e2:59
+binder 5107:5113 <> s_sharp:60
+R5148:5154 pv.abstract_interpreter AbstractInterpreter A_sharp def
+R5156:5157 pv.abstract_interpreter <> e2:59 var
+R5159:5165 pv.abstract_interpreter <> s_sharp:60 var
+R5128:5134 pv.abstract_interpreter AbstractInterpreter A_sharp def
+R5136:5137 pv.abstract_interpreter <> e1:58 var
+R5139:5145 pv.abstract_interpreter <> s_sharp:60 var
+R5178:5180 pv.abstract_interpreter AbstractInterpreter.ExtendedSign Bot constr
+R5190:5192 pv.abstract_interpreter AbstractInterpreter.ExtendedSign Bot constr
+R5196:5201 pv.abstract_interpreter AbstractInterpreter.ExtendedSign EqZero constr
+R5204:5209 pv.abstract_interpreter AbstractInterpreter.ExtendedSign LtZero constr
+R5213:5218 pv.abstract_interpreter AbstractInterpreter.ExtendedSign EqZero constr
+R5221:5226 pv.abstract_interpreter AbstractInterpreter.ExtendedSign GtZero constr
+R5230:5235 pv.abstract_interpreter AbstractInterpreter.ExtendedSign LtZero constr
+R5238:5243 pv.abstract_interpreter AbstractInterpreter.ExtendedSign EqZero constr
+R5247:5252 pv.abstract_interpreter AbstractInterpreter.ExtendedSign GtZero constr
+R5255:5260 pv.abstract_interpreter AbstractInterpreter.ExtendedSign EqZero constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5265:5268 Coq.Init.Datatypes <> None constr
+R5284:5287 Coq.Init.Datatypes <> Some constr
+R5289:5295 pv.abstract_interpreter <> s_sharp:60 var
