@@ -185,14 +185,14 @@ End AbstractInterpreter.
 Module ExtendedSign <: AbstractDomain.
 
 Inductive extended_sign :=
-    | Top
-    | LeZero
-    | NeZero
-    | GeZero
-    | LtZero
-    | EqZero
-    | GtZero
-    | Bot.
+    | top
+    | le0
+    | ne0
+    | ge0
+    | lt0
+    | eq0
+    | gt0
+    | bot.
 
 Definition A := extended_sign.
 
@@ -206,152 +206,151 @@ Fixpoint ab_update s_sharp x a : AbState :=
 
 Fixpoint lookup s_sharp x :=
     match s_sharp with
-    | nil => Top
+    | nil => top
     | (y, a) :: sl => if string_dec x y then a else lookup sl x
     end.
 
 Definition alpha_singleton n :=
-    if n =? 0 then EqZero
-    else if n <? 0 then LtZero
-        else GtZero.
+    if n =? 0 then eq0
+    else if n <? 0 then lt0
+        else gt0.
 
-
-Definition opp_sem a :=
+Definition ab_opp a :=
     match a with
-    | LtZero => GtZero
-    | GtZero => LtZero
-    | LeZero => GeZero
-    | GeZero => LeZero
+    | lt0 => gt0
+    | gt0 => lt0
+    | le0 => ge0
+    | ge0 => le0
     | a' => a'
     end.
 
 Definition add_op a1 a2 :=
     match a1, a2 with
-    | Bot, _ => Bot
-    | _, Bot => Bot
-    | EqZero, a3 => a3
-    | a3, EqZero => a3
-    | LtZero, LtZero => LtZero
-    | LtZero, LeZero => LtZero
-    | GtZero, GtZero => GtZero
-    | GtZero, GeZero => GtZero
-    | LeZero, LeZero => LeZero
-    | GeZero, GeZero => GeZero
-    | _, _ => Top
+    | bot, _ => bot
+    | _, bot => bot
+    | eq0, a3 => a3
+    | a3, eq0 => a3
+    | lt0, lt0 => lt0
+    | lt0, le0 => lt0
+    | gt0, gt0 => gt0
+    | gt0, ge0 => gt0
+    | le0, le0 => le0
+    | ge0, ge0 => ge0
+    | _, _ => top
     end.
 
 Definition sub_op a1 a2 :=
     match a1, a2 with
-    | Bot, _ => Bot
-    | _, Bot => Bot
-    | EqZero, a3 => opp_sem a3
-    | a3, EqZero => a3
-    | LtZero, GtZero => LtZero
-    | LtZero, GeZero => LtZero
-    | GtZero, LtZero => GtZero
-    | GtZero, LeZero => GtZero
-    | LeZero, GtZero => LtZero
-    | LeZero, GeZero => LeZero
-    | GeZero, LtZero => GtZero
-    | GeZero, LeZero => GeZero
-    | _, _ => Top
+    | bot, _ => bot
+    | _, bot => bot
+    | eq0, a3 => ab_opp a3
+    | a3, eq0 => a3
+    | lt0, gt0 => lt0
+    | lt0, ge0 => lt0
+    | gt0, lt0 => gt0
+    | gt0, le0 => gt0
+    | le0, gt0 => lt0
+    | le0, ge0 => le0
+    | ge0, lt0 => gt0
+    | ge0, le0 => ge0
+    | _, _ => top
     end.
 
 Definition mul_op a1 a2 :=
     match a1, a2 with
-    | Bot, _ => Bot
-    | _, Bot => Bot
-    | EqZero, _ => EqZero
-    | _, EqZero => EqZero
-    | LtZero, LtZero => GtZero
-    | LtZero, GtZero => LtZero
-    | LtZero, LeZero => GeZero
-    | LtZero, GeZero => LeZero
-    | LtZero, NeZero => NeZero
-    | GtZero, LtZero => LtZero
-    | LeZero, LtZero => GeZero
-    | GeZero, LtZero => LeZero
-    | NeZero, LtZero => NeZero
-    | GtZero, GtZero => GtZero
-    | GtZero, LeZero => LeZero
-    | GtZero, GeZero => GeZero
-    | GtZero, NeZero => NeZero
-    | LeZero, GtZero => LeZero
-    | GeZero, GtZero => GeZero
-    | NeZero, GtZero => NeZero
-    | LeZero, LeZero => GeZero
-    | LeZero, GeZero => LeZero
-    | GeZero, GeZero => GeZero
-    | NeZero, NeZero => NeZero
-    | _, _ => Top
+    | bot, _ => bot
+    | _, bot => bot
+    | eq0, _ => eq0
+    | _, eq0 => eq0
+    | lt0, lt0 => gt0
+    | lt0, gt0 => lt0
+    | lt0, le0 => ge0
+    | lt0, ge0 => le0
+    | lt0, ne0 => ne0
+    | gt0, lt0 => lt0
+    | le0, lt0 => ge0
+    | ge0, lt0 => le0
+    | ne0, lt0 => ne0
+    | gt0, gt0 => gt0
+    | gt0, le0 => le0
+    | gt0, ge0 => ge0
+    | gt0, ne0 => ne0
+    | le0, gt0 => le0
+    | ge0, gt0 => ge0
+    | ne0, gt0 => ne0
+    | le0, le0 => ge0
+    | le0, ge0 => le0
+    | ge0, ge0 => ge0
+    | ne0, ne0 => ne0
+    | _, _ => top
     end.
 
 Definition div_op a1 a2 :=
     match a1, a2 with
-    | Bot, _ => Bot
-    | _, Bot => Bot
-    | EqZero, _ => EqZero
-    | _, EqZero => EqZero
-    | LtZero, LtZero => GtZero
-    | LtZero, GtZero => LtZero
-    | LtZero, LeZero => GeZero
-    | LtZero, GeZero => LeZero
-    | LtZero, NeZero => NeZero
-    | GtZero, LtZero => LtZero
-    | LeZero, LtZero => GeZero
-    | GeZero, LtZero => LeZero
-    | NeZero, LtZero => NeZero
-    | GtZero, GtZero => GtZero
-    | GtZero, LeZero => LeZero
-    | GtZero, GeZero => GeZero
-    | GtZero, NeZero => NeZero
-    | LeZero, GtZero => LeZero
-    | GeZero, GtZero => GeZero
-    | NeZero, GtZero => NeZero
-    | LeZero, LeZero => GeZero
-    | LeZero, GeZero => LeZero
-    | GeZero, GeZero => GeZero
-    | NeZero, NeZero => NeZero
-    | _, _ => Top
+    | bot, _ => bot
+    | _, bot => bot
+    | eq0, _ => eq0
+    | _, eq0 => eq0
+    | lt0, lt0 => gt0
+    | lt0, gt0 => lt0
+    | lt0, le0 => ge0
+    | lt0, ge0 => le0
+    | lt0, ne0 => ne0
+    | gt0, lt0 => lt0
+    | le0, lt0 => ge0
+    | ge0, lt0 => le0
+    | ne0, lt0 => ne0
+    | gt0, gt0 => gt0
+    | gt0, le0 => le0
+    | gt0, ge0 => ge0
+    | gt0, ne0 => ne0
+    | le0, gt0 => le0
+    | ge0, gt0 => ge0
+    | ne0, gt0 => ne0
+    | le0, le0 => ge0
+    | le0, ge0 => le0
+    | ge0, ge0 => ge0
+    | ne0, ne0 => ne0
+    | _, _ => top
     end.
 
 (* FINIRE E SISTEMARE SOTTRAZIONE
 
 Definition by_sign a1 a2 :=
     match a1, a2 with
-    | Bot, _ => Bot
-    | _, Bot => Bot
-    | _, EqZero => Bot
-    | EqZero, _ => EqZero
-    | a3, GtZero => a3
-    | a3, GeZero => a3
-    | LtZero
+    | bot, _ => bot
+    | _, bot => bot
+    | _, eq0 => bot
+    | eq0, _ => eq0
+    | a3, gt0 => a3
+    | a3, ge0 => a3
+    | lt0
 
-    | LtZero, LtZero => GtZero
-    | LtZero, GtZero => LtZero
-    | LtZero, LeZero => GeZero
-    | LtZero, GeZero => LeZero
-    | LtZero, NeZero => NeZero
-    | GtZero, LtZero => LtZero
-    | LeZero, LtZero => GeZero
-    | GeZero, LtZero => LeZero
-    | NeZero, LtZero => NeZero
-    | GtZero, GtZero => GtZero
-    | GtZero, LeZero => LeZero
-    | GtZero, GeZero => GeZero
-    | GtZero, NeZero => NeZero
-    | LeZero, GtZero => LeZero
-    | GeZero, GtZero => GeZero
-    | NeZero, GtZero => NeZero
-    | LeZero, LeZero => GeZero
-    | LeZero, GeZero => LeZero
-    | GeZero, GeZero => GeZero
-    | NeZero, NeZero => NeZero
-    | _, _ => Top
+    | lt0, lt0 => gt0
+    | lt0, gt0 => lt0
+    | lt0, le0 => ge0
+    | lt0, ge0 => le0
+    | lt0, ne0 => ne0
+    | gt0, lt0 => lt0
+    | le0, lt0 => ge0
+    | ge0, lt0 => le0
+    | ne0, lt0 => ne0
+    | gt0, gt0 => gt0
+    | gt0, le0 => le0
+    | gt0, ge0 => ge0
+    | gt0, ne0 => ne0
+    | le0, gt0 => le0
+    | ge0, gt0 => ge0
+    | ne0, gt0 => ne0
+    | le0, le0 => ge0
+    | le0, ge0 => le0
+    | ge0, ge0 => ge0
+    | ne0, ne0 => ne0
+    | _, _ => top
     end.
 *)
 
-Definition op_sem op a1 a2 :=
+Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
@@ -363,77 +362,87 @@ Fixpoint A_sharp e s_sharp :=
 match e with
 | var x => lookup s_sharp x
 | const n => alpha_singleton n
-| aop op e1 e2 => op_sem op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
-| opp e' => opp_sem (A_sharp e' s_sharp)
+| aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
+| opp e' => ab_opp (A_sharp e' s_sharp)
 end.
 
-(**
-
-        *)
-
 Definition eq_sem e1 e2 s_sharp :=
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot 
+                | eq0, lt0 | eq0, gt0 | lt0, eq0 | gt0, eq0 | lt0, gt0 | gt0, lt0 
+                | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => None
+                | le0, lt0 | ne0, lt0 | ne0, le0 | le0, ne0 => Some (ab_update s_sharp x lt0)
+                | le0, eq0 | ge0, eq0 | ge0, le0 | le0, ge0 => Some (ab_update s_sharp x eq0)
+                | ne0, gt0 | ge0, gt0 | ge0, ne0 | ne0, ge0 => Some (ab_update s_sharp x gt0)
+                | top, a => Some (ab_update s_sharp x a)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot 
+            | eq0, lt0 | eq0, gt0 | lt0, eq0 | gt0, eq0 | lt0, gt0 | gt0, lt0 
+            | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => None
+            | _, _ => Some s_sharp
+            end
+    end.
+    
+        
+Definition ne_sem e1 e2 s_sharp :=
     match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | Bot, _ | _, Bot | EqZero, LtZero | EqZero, GtZero | LtZero, EqZero | GtZero, EqZero => None
+    | bot, _ | _, bot | eq0, eq0 => None
     | _, _ => Some s_sharp
     end.
-        
-        Definition ne_sem e1 e2 s_sharp :=
-            match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | Bot, _ | _, Bot | EqZero, EqZero => None
-            | _, _ => Some s_sharp
-            end.
-        
-            Definition lt_sem e1 e2 s_sharp :=
-                match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | Bot, _ | _, Bot | EqZero, EqZero => None
-                | _, _ => Some s_sharp
-                end.
-        
-                Definition gt_sem e1 e2 s_sharp :=
-                    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                    | Bot, _ | _, Bot | EqZero, EqZero => None
-                    | _, _ => Some s_sharp
-                    end.
-        
-                    Definition le_sem e1 e2 s_sharp :=
-                        match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                        | Bot, _ | _, Bot | EqZero, EqZero => None
-                        | _, _ => Some s_sharp
-                        end.
-        
-                        Definition ge_sem e1 e2 s_sharp :=
-                            match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                            | Bot, _ | _, Bot | EqZero, EqZero => None
-                            | _, _ => Some s_sharp
-                            end.
 
-                            Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
-                            Proof.
-                            decide equality.
-                            Defined.
+Definition lt_sem e1 e2 s_sharp :=
+match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+| bot, _ | _, bot | eq0, eq0 => None
+| _, _ => Some s_sharp
+end.
 
+Definition gt_sem e1 e2 s_sharp :=
+    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+    | bot, _ | _, bot | eq0, eq0 => None
+    | _, _ => Some s_sharp
+    end.
 
-                            Definition join a1 a2 :=
-                                match a1, a2 with
-                                | Bot,  a3 |  a3,  Bot =>  a3
-                                | EqZero,  LtZero |  LtZero,  EqZero 
-                                | EqZero,  LeZero |  LeZero,  EqZero
-                                | LtZero,  LeZero |  LeZero,  LtZero =>  LeZero
-                                | EqZero,  GtZero |  GtZero,  EqZero 
-                                | EqZero,  GeZero |  GeZero,  EqZero
-                                | GtZero,  GeZero |  GeZero,  GtZero =>  GeZero
-                                | LtZero,  GtZero |  GtZero,  LtZero
-                                | LtZero,  NeZero |  NeZero,  LtZero
-                                | GtZero,  NeZero |  NeZero,  GtZero =>  NeZero
-                                | a3, a4 => if sign_eq_dec a3 a4 then  a3 else Top
-                                end.
+Definition le_sem e1 e2 s_sharp :=
+match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+| bot, _ | _, bot | eq0, eq0 => None
+| _, _ => Some s_sharp
+end.
+
+Definition ge_sem e1 e2 s_sharp :=
+    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+    | bot, _ | _, bot | eq0, eq0 => None
+    | _, _ => Some s_sharp
+    end.
+
+Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
+Proof.
+decide equality.
+Defined.
+
+Definition join a1 a2 :=
+    match a1, a2 with
+    | bot,  a3 |  a3,  bot =>  a3
+    | eq0,  lt0 |  lt0,  eq0 
+    | eq0,  le0 |  le0,  eq0
+    | lt0,  le0 |  le0,  lt0 =>  le0
+    | eq0,  gt0 |  gt0,  eq0 
+    | eq0,  ge0 |  ge0,  eq0
+    | gt0,  ge0 |  ge0,  gt0 =>  ge0
+    | lt0,  gt0 |  gt0,  lt0
+    | lt0,  ne0 |  ne0,  lt0
+    | gt0,  ne0 |  ne0,  gt0 =>  ne0
+    | a3, a4 => if sign_eq_dec a3 a4 then  a3 else top
+    end.
 
 Definition thinner a1 a2 :=
     match a1, a2 with 
-    | Bot, _ | _, Top
-    | EqZero, GeZero | EqZero, LeZero
-    | LtZero, LeZero | LtZero, NeZero
-    | GtZero, GeZero | GtZero, NeZero => true 
+    | bot, _ | _, top
+    | eq0, ge0 | eq0, le0
+    | lt0, le0 | lt0, ne0
+    | gt0, ge0 | gt0, ne0 => true 
     | a3, a4 => if sign_eq_dec a3 a4 then true else false
     end.
 
@@ -447,11 +456,11 @@ End ExtendedSign.
 Module Intervals <: AbstractDomain.
 
 Inductive Interval : Type :=
-| LeftBound : Z -> Interval
-| RightBound : Z -> Interval
-| Bounded : Z -> Z -> Interval
-| IntTop : Interval
-| IntBot : Interval.
+| right_of : Z -> Interval
+| left_of : Z -> Interval
+| between : Z -> Z -> Interval
+| top : Interval
+| bot : Interval.
 
 Definition A := Interval.
 
@@ -465,48 +474,48 @@ Fixpoint ab_update s_sharp x a : AbState :=
 
 Fixpoint lookup s_sharp x :=
     match s_sharp with
-    | nil => IntTop
+    | nil => top
     | (y, a) :: sl => if string_dec x y then a else lookup sl x
     end.
 
-Definition alpha_singleton n := Bounded n n.
+Definition alpha_singleton n := between n n.
 
 
 Definition add_op a1 a2 :=
     match a1, a2 with
-    | LeftBound m, LeftBound n => LeftBound (m + n) 
-    | LeftBound m, Bounded n p => LeftBound (m + n)
-    | RightBound m, RightBound n => RightBound (m + n)
-    | Bounded a b, Bounded c d => Bounded (a + c) (b + d)
-    | _, _ => IntTop
+    | right_of m, right_of n => right_of (m + n) 
+    | right_of m, between n p => right_of (m + n)
+    | left_of m, left_of n => left_of (m + n)
+    | between a b, between c d => between (a + c) (b + d)
+    | _, _ => top
     end.
     
 Definition sub_op a1 a2 :=
     match a1, a2 with
-    | LeftBound m, LeftBound n => LeftBound (m + n) 
-    | LeftBound m, Bounded n p => LeftBound (m + n)
-    | RightBound m, RightBound n => RightBound (m + n)
-    | Bounded a b, Bounded c d => Bounded (a - d) (b - c)
-    | _, _ => IntTop
+    | right_of m, right_of n => right_of (m + n) 
+    | right_of m, between n p => right_of (m + n)
+    | left_of m, left_of n => left_of (m + n)
+    | between a b, between c d => between (a - d) (b - c)
+    | _, _ => top
     end.
 
 Definition mul_op a1 a2 :=
     match a1, a2 with
-    | LeftBound m, LeftBound n => LeftBound (m + n) 
-    | LeftBound m, Bounded n p => LeftBound (m + n)
-    | RightBound m, RightBound n => RightBound (m + n)
-    | _, _ => IntTop
+    | right_of m, right_of n => right_of (m + n) 
+    | right_of m, between n p => right_of (m + n)
+    | left_of m, left_of n => left_of (m + n)
+    | _, _ => top
     end.
 
 Definition div_op a1 a2 :=
     match a1, a2 with
-    | LeftBound m, LeftBound n => LeftBound (m + n) 
-    | LeftBound m, Bounded n p => LeftBound (m + n)
-    | RightBound m, RightBound n => RightBound (m + n)
-    | _, _ => IntTop
+    | right_of m, right_of n => right_of (m + n) 
+    | right_of m, between n p => right_of (m + n)
+    | left_of m, left_of n => left_of (m + n)
+    | _, _ => top
     end.
 
-Definition operation op a1 a2 :=
+Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
@@ -514,49 +523,49 @@ Definition operation op a1 a2 :=
     | div => div_op a1 a2
     end.
 
-Definition opposite a :=
+Definition ab_opp a :=
     match a with
-    | LeftBound n => RightBound (-n)
-    | RightBound n => LeftBound (-n)
-    | Bounded m n => Bounded (-n) (-m)
-    | IntTop => IntTop
-    | IntBot => IntBot
+    | right_of n => left_of (-n)
+    | left_of n => right_of (-n)
+    | between m n => between (-n) (-m)
+    | top => top
+    | bot => bot
     end.
 
 Fixpoint A_sharp e s_sharp :=
     match e with
     | var x => lookup s_sharp x
     | const n => alpha_singleton n
-    | aop op e1 e2 => operation op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
-    | opp e' => opposite (A_sharp e' s_sharp)
+    | aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
+    | opp e' => ab_opp (A_sharp e' s_sharp)
     end.
 
 Definition eq_sem e1 e2 s_sharp := 
     match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | IntBot, IntTop => None
+    | bot, top => None
     | _, _ => Some s_sharp
     end.
         
 Definition ne_sem e1 e2 s_sharp := 
     match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | IntBot, IntTop => None
+    | bot, top => None
     | _, _ => Some s_sharp
     end.
     
 Definition lt_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
-                | IntBot, _ | _, IntBot => None
-                | Bounded a b, Bounded _ d | Bounded a b, RightBound d => if a >=? d then None else 
-                                                                         if b >=? d then Some (ab_update s_sharp x (Bounded a (d - 1)))
+                | bot, _ | _, bot => None
+                | between a b, between _ d | between a b, left_of d => if a >=? d then None else 
+                                                                         if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
                                                                          else Some s_sharp
-                | LeftBound a, Bounded _ d | LeftBound a, RightBound d => if a >=? d then None else Some (ab_update s_sharp x (Bounded a (d - 1)))
+                | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some (ab_update s_sharp x (between a (d - 1)))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | IntBot, _ | _, IntBot => None
-            | Bounded a _, Bounded _ d | Bounded a _, RightBound d
-            | LeftBound a, Bounded _ d | LeftBound a, RightBound d  => if a <? d then Some s_sharp else None
+            | bot, _ | _, bot => None
+            | between a _, between _ d | between a _, left_of d
+            | right_of a, between _ d | right_of a, left_of d  => if a <? d then Some s_sharp else None
             | _, _ => Some s_sharp
             end
     end.
@@ -565,18 +574,18 @@ Definition lt_sem e1 e2 s_sharp :=
 Definition gt_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
-                | IntBot, _ | _, IntBot => None
-                | Bounded a b, Bounded c _ | Bounded a b, LeftBound c => if b <=? c then None else 
-                                                                         if a <=? c then Some (ab_update s_sharp x (Bounded (c + 1) b))
+                | bot, _ | _, bot => None
+                | between a b, between c _ | between a b, right_of c => if b <=? c then None else 
+                                                                         if a <=? c then Some (ab_update s_sharp x (between (c + 1) b))
                                                                          else Some s_sharp
-                | RightBound b, Bounded c _ | RightBound b, LeftBound c => if b <=? c then None else Some (ab_update s_sharp x (Bounded (c + 1) b))
-                | LeftBound a, Bounded c _ | LeftBound a, LeftBound c => if a <=? c then Some (ab_update s_sharp x (LeftBound (c + 1))) else Some s_sharp
+                | left_of b, between c _ | left_of b, right_of c => if b <=? c then None else Some (ab_update s_sharp x (between (c + 1) b))
+                | right_of a, between c _ | right_of a, right_of c => if a <=? c then Some (ab_update s_sharp x (right_of (c + 1))) else Some s_sharp
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | IntBot, _ | _, IntBot => None
-            | Bounded _ b, Bounded c _ | Bounded _ b, LeftBound c
-            | RightBound b, Bounded c _ | RightBound b, LeftBound c  => if b <=? c then None else Some s_sharp
+            | bot, _ | _, bot => None
+            | between _ b, between c _ | between _ b, right_of c
+            | left_of b, between c _ | left_of b, right_of c  => if b <=? c then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
@@ -584,17 +593,17 @@ Definition gt_sem e1 e2 s_sharp :=
 Definition le_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
-                | IntBot, _ | _, IntBot => None
-                | Bounded a b, Bounded _ d | Bounded a b, RightBound d => if d <? a then None else 
-                                                                         if d <? b then Some (ab_update s_sharp x (Bounded a d))
+                | bot, _ | _, bot => None
+                | between a b, between _ d | between a b, left_of d => if d <? a then None else 
+                                                                         if d <? b then Some (ab_update s_sharp x (between a d))
                                                                          else Some s_sharp
-                | LeftBound a, Bounded _ d | LeftBound a, RightBound d => if d <? a then None else Some (ab_update s_sharp x (Bounded a d))
+                | right_of a, between _ d | right_of a, left_of d => if d <? a then None else Some (ab_update s_sharp x (between a d))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | IntBot, _ | _, IntBot => None
-            | Bounded a _, Bounded _ d | Bounded a _, RightBound d
-            | LeftBound a, Bounded _ d | LeftBound a, RightBound d  => if d <? a then None else Some s_sharp
+            | bot, _ | _, bot => None
+            | between a _, between _ d | between a _, left_of d
+            | right_of a, between _ d | right_of a, left_of d  => if d <? a then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
@@ -602,51 +611,51 @@ Definition le_sem e1 e2 s_sharp :=
 Definition ge_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
-                | IntBot, _ | _, IntBot => None
-                | Bounded a b, Bounded c _ | Bounded a b, LeftBound c => if b <? c then None else 
-                                                                         if a <? c then Some (ab_update s_sharp x (Bounded c b))
+                | bot, _ | _, bot => None
+                | between a b, between c _ | between a b, right_of c => if b <? c then None else 
+                                                                         if a <? c then Some (ab_update s_sharp x (between c b))
                                                                          else Some s_sharp
-                | RightBound b, Bounded c _ | RightBound b, LeftBound c => if b <? c then None else Some (ab_update s_sharp x (Bounded c b))
+                | left_of b, between c _ | left_of b, right_of c => if b <? c then None else Some (ab_update s_sharp x (between c b))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | IntBot, _ | _, IntBot => None
-            | Bounded _ b, Bounded c _ | Bounded _ b, LeftBound c
-            | RightBound b, Bounded c _ | RightBound b, LeftBound c  => if b <? c then None else Some s_sharp
+            | bot, _ | _, bot => None
+            | between _ b, between c _ | between _ b, right_of c
+            | left_of b, between c _ | left_of b, right_of c  => if b <? c then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
 
 Definition join a1 a2 :=
     match a1, a2 with
-    | Bounded a b, Bounded c d => Bounded (Z.min a c) (Z.max b d)
-    | _, _ => IntBot
+    | between a b, between c d => between (Z.min a c) (Z.max b d)
+    | _, _ => bot
     end.
 
 Definition thinner a1 a2 :=
     match a1, a2 with 
-    | IntBot, _ | _, IntTop => true
-    | Bounded a b, Bounded c d => (c <=? a) && (b <=? d)
-    | Bounded a _, LeftBound c => c <=? a
-    | Bounded _ a, RightBound c => a <=? c
-    | LeftBound a, LeftBound c => c <=? a
-    | RightBound a, RightBound c => a <=? c
+    | bot, _ | _, top => true
+    | between a b, between c d => (c <=? a) && (b <=? d)
+    | between a _, right_of c => c <=? a
+    | between _ a, left_of c => a <=? c
+    | right_of a, right_of c => c <=? a
+    | left_of a, left_of c => a <=? c
     | _, _ => false
     end.
 
 Definition widen a1 a2 :=
     match a1, a2 with
-    | Bounded a b, Bounded c d => if a <=? c then
+    | between a b, between c d => if a <=? c then
                                     if d <=? b then
-                                        Bounded a b
+                                        between a b
                                     else 
-                                        LeftBound a
+                                        right_of a
                                   else 
                                     if d <=? b then
-                                        RightBound b
+                                        left_of b
                                     else
-                                        IntTop
-    | _, _ => IntTop
+                                        top
+    | _, _ => top
     end.
 
 End Intervals.
@@ -659,13 +668,11 @@ Import B.
 Definition example3_expr :=
     while_do (bop ne (var "x") (const 0)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example3_state := [("x", LtZero)].
+Definition example3_state := [("x", lt0)].
 
-Definition example4_state := [("x", EqZero)].
+Definition example4_state := [("x", eq0)].
 
-Definition example5_state := [("x", GtZero)].
-
-Compute 3+1.
+Definition example5_state := [("x", gt0)].
 
 Compute (AI example3_expr example3_state).
 
@@ -683,9 +690,7 @@ Import C.
 Definition example6_expr :=
     while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
 
-Definition example6_state := [("x", Bounded 10 10); ("y", Bounded 0 0)].
-
-Compute 3+1.
+Definition example6_state := [("x", between 10 10); ("y", between 0 0)].
 
 Compute (AI example6_expr example6_state).
 
@@ -693,7 +698,7 @@ Compute (AI example6_expr example6_state).
 Definition example7_expr :=
     while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example7_state := [("x", Bounded 0 0)].
+Definition example7_state := [("x", between 0 0)].
 
 Compute (AI example7_expr example7_state).
 
@@ -701,15 +706,15 @@ Compute (AI example7_expr example7_state).
 Definition example8_expr :=
     while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example8_state := [("x", Bounded 1 1)].
+Definition example8_state := [("x", between 1 1)].
 
 Compute (AI example8_expr example8_state).
 
-Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", Bounded 1 101)] (bop le (var "x") (const 100))).
+Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", between 1 101)] (bop le (var "x") (const 100))).
 
-Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", Bounded 1 101)].
+Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", between 1 101)].
 
-Compute s_stable [("x", Bounded 1 101)] [("x", Bounded 1 101)].
+Compute s_stable [("x", between 1 101)] [("x", between 1 101)].
 
 
 Definition example9_expr :=
@@ -717,11 +722,11 @@ Definition example9_expr :=
 
 Compute (AI example9_expr nil).
 
-Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", Bounded 1 101)] (bop le (var "x") (const 100))).
+Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", between 1 101)] (bop le (var "x") (const 100))).
 
-Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", Bounded 1 101)].
+Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", between 1 101)].
 
-Compute s_stable [("x", Bounded 1 101)] [("x", Bounded 1 101)].
+Compute s_stable [("x", between 1 101)] [("x", between 1 101)].
 
 
 
@@ -738,7 +743,7 @@ Compute s_stable [("x", Bounded 1 101)] [("x", Bounded 1 101)].
 Definition example1_expr :=
     AOp Plus (AOp Times (Const 2) (Var "y")) (AOp Times (Const 3) (Var "x")).
 
-Definition example1_state := [("x", LtZero); ("y", LtZero)].
+Definition example1_state := [("x", lt0); ("y", lt0)].
 
 Compute abstract_semantics_A example1_expr example1_state.
 
@@ -746,7 +751,7 @@ Compute abstract_semantics_A example1_expr example1_state.
 Definition example2_expr :=
     AOp Minus (AOp Times (Var "x") (Var "y")) (AOp Times (Const 2) (Var "z")).
 
-Definition example2_state := [("x", LtZero); ("y", LtZero); ("z", GtZero)].
+Definition example2_state := [("x", lt0); ("y", lt0); ("z", gt0)].
         
 Compute abstract_semantics_A example2_expr example2_state.
 
@@ -823,11 +828,11 @@ End Sign.
 Definition example3_expr :=
     WhileDo (BOp Neq (Var "x") (Const 0)) (Assign "x" (AOp Plus (Var "x") (Const 1))).
 
-Definition example3_state := [("x", LtZero)].
+Definition example3_state := [("x", lt0)].
 
-Definition example4_state := [("x", EqZero)].
+Definition example4_state := [("x", eq0)].
 
-Definition example5_state := [("x", GtZero)].
+Definition example5_state := [("x", gt0)].
 
 Compute 3+1.
 
