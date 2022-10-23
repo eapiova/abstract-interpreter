@@ -198,6 +198,15 @@ Definition A := extended_sign.
 
 Definition AbState := list (string * A).
 
+Definition inv_sign a :=
+    match a with
+    | lt0 => gt0
+    | gt0 => lt0
+    | le0 => ge0
+    | ge0 => le0
+    | a => a
+    end.
+
 Fixpoint ab_update s_sharp x a : AbState :=
     match s_sharp with 
     | nil => (x, a) :: nil
@@ -385,36 +394,108 @@ Definition eq_sem e1 e2 s_sharp :=
             | _, _ => Some s_sharp
             end
     end.
-    
         
 Definition ne_sem e1 e2 s_sharp :=
-    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | bot, _ | _, bot | eq0, eq0 => None
-    | _, _ => Some s_sharp
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot | eq0, eq0 => None
+                | le0, eq0 => Some (ab_update s_sharp x lt0)
+                | ge0, eq0 => Some (ab_update s_sharp x gt0)
+                | top, eq0 => Some (ab_update s_sharp x ne0)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot | eq0, eq0 => None
+            | _, _ => Some s_sharp
+            end
     end.
 
 Definition lt_sem e1 e2 s_sharp :=
-match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-| bot, _ | _, bot | eq0, eq0 => None
-| _, _ => Some s_sharp
-end.
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot 
+                | eq0, lt0 | eq0, eq0 | eq0, le0
+                | gt0, lt0 | gt0, eq0 | gt0, le0
+                | ge0, lt0 | ge0, eq0 | ge0, le0 => None
+                | le0, lt0 | le0, eq0 | le0, le0
+                | ne0, lt0 | ne0, eq0 | ne0, le0
+                | top, lt0 | top, eq0 | top, le0 => Some (ab_update s_sharp x lt0)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot 
+            | eq0, lt0 | eq0, eq0 | eq0, le0
+            | gt0, lt0 | gt0, eq0 | gt0, le0
+            | ge0, lt0 | ge0, eq0 | ge0, le0 => None
+            | _, _ => Some s_sharp
+            end
+    end.
 
 Definition gt_sem e1 e2 s_sharp :=
-    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | bot, _ | _, bot | eq0, eq0 => None
-    | _, _ => Some s_sharp
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot 
+                | eq0, gt0 | eq0, eq0 | eq0, ge0
+                | lt0, gt0 | lt0, eq0 | lt0, ge0
+                | le0, gt0 | le0, eq0 | le0, ge0 => None
+                | ge0, gt0 | ge0, eq0 | ge0, ge0
+                | ne0, gt0 | ne0, eq0 | ne0, ge0
+                | top, gt0 | top, eq0 | top, ge0 => Some (ab_update s_sharp x gt0)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot 
+            | eq0, gt0 | eq0, eq0 | eq0, ge0
+            | lt0, gt0 | lt0, eq0 | lt0, ge0
+            | le0, gt0 | le0, eq0 | le0, ge0 => None
+            | _, _ => Some s_sharp
+            end
     end.
 
 Definition le_sem e1 e2 s_sharp :=
-match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-| bot, _ | _, bot | eq0, eq0 => None
-| _, _ => Some s_sharp
-end.
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot 
+                | eq0, lt0 
+                | gt0, lt0 | gt0, eq0 | gt0, le0
+                | ge0, lt0 => None
+                | le0, lt0 
+                | ne0, lt0 | ne0, eq0 | ne0, le0
+                | top, lt0 => Some (ab_update s_sharp x lt0)
+                | ge0, eq0 | ge0, le0 => Some (ab_update s_sharp x eq0)
+                | top, eq0 | top, le0 => Some (ab_update s_sharp x ge0)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot 
+            | eq0, lt0
+            | gt0, lt0 | gt0, eq0 | gt0, le0
+            | ge0, lt0 => None
+            | _, _ => Some s_sharp
+            end
+    end.
 
 Definition ge_sem e1 e2 s_sharp :=
-    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | bot, _ | _, bot | eq0, eq0 => None
-    | _, _ => Some s_sharp
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot 
+                | eq0, gt0 
+                | lt0, gt0 | lt0, eq0 | lt0, ge0
+                | le0, gt0 => None
+                | ge0, gt0 
+                | ne0, gt0 | ne0, eq0 | ne0, ge0
+                | top, gt0 => Some (ab_update s_sharp x gt0)
+                | le0, eq0 | le0, ge0 => Some (ab_update s_sharp x eq0)
+                | top, eq0 | top, ge0 => Some (ab_update s_sharp x le0)
+                | _, _ => Some s_sharp
+                end
+    | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot 
+            | eq0, gt0
+            | lt0, gt0 | lt0, eq0 | lt0, ge0
+            | le0, gt0 => None
+            | _, _ => Some s_sharp
+            end
     end.
 
 Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
