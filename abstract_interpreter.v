@@ -614,27 +614,65 @@ Fixpoint A_sharp e s_sharp :=
 
 Definition eq_sem e1 e2 s_sharp := 
     match e1 with
-    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
                 | bot, _ | _, bot => None
-                | between a b, between _ d | between a b, left_of d => if a >=? d then None else 
-                                                                         if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
-                                                                         else Some s_sharp
-                | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some (ab_update s_sharp x (between a (d - 1)))
+                | left_of b, left_of d => if b <=? d then Some s_sharp 
+                                          else Some (ab_update s_sharp x (left_of d))
+                | left_of b, between c d => if b <? c then None
+                                            else if (c <=? b) && (b <=? d) then Some (ab_update s_sharp x (between c b))
+                                            else Some (ab_update s_sharp x (between c d))
+                | left_of b, right_of c => if b <? c then None 
+                                           else Some (ab_update s_sharp x (between c b))
+                | between a b, left_of d => if a >? d then None 
+                                            else if (a <=? d) && (b >? d) then Some (ab_update s_sharp x (between a d))
+                                            else Some s_sharp
+                | between a b, between c d => if (b <? c) || (a >? d) then None 
+                                              else if (b >? d) && (a <? c) then Some (ab_update s_sharp x (between c d))
+                                              else if (b >? d) && (a >=? c) then Some (ab_update s_sharp x (between a d))
+                                              else if (c <=? b) && (b <=? d) && (a <? c) then Some (ab_update s_sharp x (between c b))
+                                              else Some s_sharp
+                | between a b, right_of c => if b <? c then None 
+                                             else if (b >=? c) && (a <? c) then Some (ab_update s_sharp x (between c b))
+                                             else Some s_sharp
+                | right_of a, left_of d => if a >? d then None else Some (ab_update s_sharp x (between a d))
+                | right_of a, between c d => if a >? d then None 
+                                             else if a <? c then Some (ab_update s_sharp x (between c d))
+                                             else Some (ab_update s_sharp x (between a d))
+                | right_of a, right_of c => if a <? c then Some (ab_update s_sharp x (right_of c)) else Some s_sharp
+                | top, left_of d => Some (ab_update s_sharp x (left_of d))
+                | top, between c d => Some (ab_update s_sharp x (between c d))
+                | top, right_of c => Some (ab_update s_sharp x (right_of c))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot => None
             | left_of b, between c _ | left_of b, right_of c | between _ b, right_of c => if b <? c then None else Some s_sharp
             | right_of a, between _ d | right_of a, left_of d | between a _, left_of d => if a >? d then None else Some s_sharp
-            | between a b, between c d => if b <? c 
+            | between a b, between c d => if (b <? c) || (a >? d) then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
         
 Definition ne_sem e1 e2 s_sharp := 
-    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | bot, top => None
-    | _, _ => Some s_sharp
+    match e1 with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+                | bot, _ | _, bot => None
+                | left_of b, between c d => if (b =? c) && (c =? d) then Some (ab_update s_sharp x (left_of (b - 1)))
+                                            else Some s_sharp
+                | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then None
+                                              else if (negb (a =? b)) && (a =? c) && (c =? d) then Some (ab_update s_sharp x (between (a + 1) b))
+                                              else if (negb (a =? b)) && (b =? c) && (c =? d) then Some (ab_update s_sharp x (between a (b - 1)))
+                                              else Some s_sharp
+                | right_of a, between c d => if (a =? c) && (c =? d) then Some (ab_update s_sharp x (right_of (a + 1)))
+                                             else Some s_sharp
+                | _, _ => Some s_sharp
+                end
+    | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot => None
+            | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then None
+                                            else Some s_sharp
+            | _, _ => Some s_sharp
+            end
     end.
     
 Definition lt_sem e1 e2 s_sharp := 

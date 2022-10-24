@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.10.23)  24 OCT 2022 12:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.10.23)  24 OCT 2022 18:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -22,33 +22,49 @@ File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
+) (/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks16
+) (/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+ (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen139
+\Gin@req@width=\dimen140
 ) (/usr/share/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip49
 \multirow@cntb=\count193
 \multirow@dima=\skip50
-\bigstrutjot=\dimen139
+\bigstrutjot=\dimen141
 ) (/usr/share/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
  (/usr/share/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
- (/usr/share/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
-) (/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
+ (/usr/share/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
  (/usr/share/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen140
+\col@sep=\dimen142
 \ar@mcellbox=\box50
-\extrarowheight=\dimen141
-\NC@list=\toks16
+\extrarowheight=\dimen143
+\NC@list=\toks17
 \extratabsurround=\skip51
 \backup@length=\skip52
 \ar@cellbox=\box51
 )
-\everycr=\toks17
+\everycr=\toks18
 \minrowclearance=\skip53
 )
 \rownum=\count194
@@ -85,21 +101,22 @@ LaTeX Font Info:    ... okay on input line 6.
  (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count196
-\scratchdimen=\dimen142
+\scratchdimen=\dimen144
 \scratchbox=\box53
 \nofMPsegments=\count197
 \nofMParguments=\count198
-\everyMPshowfont=\toks18
+\everyMPshowfont=\toks19
 \MPscratchCnt=\count199
-\MPscratchDim=\dimen143
+\MPscratchDim=\dimen145
 \MPnumerator=\count266
 \makeMPintoPDFobject=\count267
-\everyMPtoPDFconversion=\toks19
-)
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 12.
-
+\everyMPtoPDFconversion=\toks20
+) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -110,52 +127,48 @@ Overfull \hbox (121.83582pt too wide) in paragraph at lines 13--22
  []
 
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 26.
+Overfull \hbox (140.83723pt too wide) in paragraph at lines 45--46
+[][] 
+ []
 
 
-Overfull \hbox (258.9609pt too wide) in paragraph at lines 27--44
+Overfull \hbox (121.90585pt too wide) in paragraph at lines 86--87
 [][] 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 49.
+               Default added (so using `tbp') on input line 97.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 68.
+               Default added (so using `tbp') on input line 113.
 
 
-Overfull \hbox (231.96344pt too wide) in paragraph at lines 69--83
-[][] 
- []
-
-
-Overfull \hbox (15.68895pt too wide) in paragraph at lines 88--97
+Overfull \hbox (80.71411pt too wide) in paragraph at lines 127--128
 [][] 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 107.
+               Default added (so using `tbp') on input line 130.
 
 
-Overfull \hbox (166.58514pt too wide) in paragraph at lines 108--121
+Overfull \hbox (66.93634pt too wide) in paragraph at lines 166--167
 [][] 
  []
 
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./intervals_tables.aux) ) 
 Here is how much of TeX's memory you used:
- 1593 strings out of 478238
- 23799 string characters out of 5850455
- 373580 words of memory out of 5000000
- 19884 multiletter control sequences out of 15000+600000
+ 1963 strings out of 478238
+ 30395 string characters out of 5850455
+ 392726 words of memory out of 5000000
+ 20231 multiletter control sequences out of 15000+600000
  469259 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,12n,62p,444b,209s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 55i,13n,62p,431b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on intervals_tables.pdf (2 pages, 47560 bytes).
+Output written on intervals_tables.pdf (2 pages, 49297 bytes).
 PDF statistics:
  31 PDF objects out of 1000 (max. 8388607)
  18 compressed objects within 1 object stream
