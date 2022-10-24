@@ -1,33 +1,126 @@
 \documentclass{article}
 
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
 
 \begin{document}
 
-Boolean expressions
 
-        \begin{table}
-            \begin{tabular}{|l|l|l|l|l|l|}
-            \hline
-            $e_1 \ge e_2$  & $\bot$ & $(-\infty, b]$                     & $[a, b]$                           & $[a, +\infty)$ & $\top$ \\ \hline
-            $\bot$         & $\bot$ & $\bot$                             & $\bot$                             & $\bot$         & $\bot$ \\ \hline
-            $(-\infty, d]$ & $\bot$ & $s^\#$                             & $s^\#$                             & $s^\#$         & $s^\#$ \\ \hline
-            $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$ & $s^\#$         & $s^\#$ \\ \hline
-            $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$ & $s^\#$         & $s^\#$ \\ \hline
-            $\top$         & $\bot$ & $s^\#$                             & $s^\#$                             & $s^\#$         & $s^\#$ \\ \hline
-            \end{tabular}
-            \end{table}
 
-            \begin{table}
-                \begin{tabular}{|l|l|l|l|l|l|}
-                \hline
-                $x \ge e$      & $\bot$ & $(-\infty, b]$                                                                                            & $[a, b]$                                                                                        & $[a, +\infty)$                                            & $\top$ \\ \hline
-                $\bot$         & $\bot$ & $\bot$                                                                                                    & $\bot$                                                                                          & $\bot$                                                    & $\bot$ \\ \hline
-                $(-\infty, d]$ & $\bot$ & $s^\#$                                                                                                    & $s^\#$                                                                                          & $s^\#$                                                    & $s^\#$ \\ \hline
-                $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else if $a < c$ then $s^\#[x \mapsto [c, b]$ else $s^\#$\textbackslash{} & if $a < c$ then $s^\#[x \mapsto [c, +\infty)$ else $s^\#$ & $s^\#$ \\ \hline
-                $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#[x \mapsto [c, b]$                                                       & if $b < c$ then $\bot$ else if $a < c$ then $s^\#[x \mapsto [c, b]$ else $s^\#$                 & if $a < c$ then $s^\#[x \mapsto [c, +\infty)$ else $s^\#$ & $s^\#$ \\ \hline
-                $\top$         & $\bot$ & $s^\#$                                                                                                    & $s^\#$                                                                                          & $s^\#$                                                    & $s^\#$ \\ \hline
-                \end{tabular}
-                \end{table}
+
+
+    \begin{table}[]
+        \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        $e_1 = e_2$    & $\bot$ & $(-\infty, b]$                     & $[a, b]$                                      & $[a, +\infty)$                     & $\top$ \\ \hline
+        $\bot$         & $\bot$ & $\bot$                             & $\bot$                                        & $\bot$                             & $\bot$ \\ \hline
+        $(-\infty, d]$ & $\bot$ & $s^\#$                             & if $a > d$ then $\bot$ else $s^\#$            & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
+        $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $a > d$ or $b < c$ then $\bot$ else $s^\#$ & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
+        $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$            & $s^\#$                             & $s^\#$ \\ \hline
+        $\top$         & $\bot$ & $s^\#$                             & $s^\#$                                        & $s^\#$                             & $s^\#$ \\ \hline
+        \end{tabular}
+        \end{table}
+
+        % Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+    \begin{tabular}{|l|l|ll|ll|ll|l|}
+    \hline
+    $x = e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                                  & \multicolumn{2}{l|}{$[a, +\infty)$}                                          & $\top$                                          \\ \hline
+    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                                    & \multicolumn{2}{l|}{$\bot$}                                                  & $\bot$                                          \\ \hline
+    \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b \le d$                        & $s^\#$                                          & $a > d$                             & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+                                    &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, d]]$} & $a \le d \land b > d$               & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$}       & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                    &                         &                                  &                                                 & $a \le d \land b \le d$             & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+    \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c \lor a > d$                  & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{5}{*}{$s^\#[x \mapsto [c, d]]$}       \\
+                                    &                         & \multirow{2}{*}{$c \le b \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b > d \land a < c$                 & $s^\#[x \mapsto [c, d]]$ & \multirow{2}{*}{$a < c$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$} &                                                 \\
+                                    &                         &                                  &                                                 & $b > d \land a \ge c$               & $s^\#[x \mapsto [a, d]]$ &                                  &                                           &                                                 \\
+                                    &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$}       & $c \le b \le d \land a < c$         & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$c \le a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                    &                         &                                  &                                                 & $c \le b \le d \land c \le a \le d$ & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c$                             & $\bot$                   & $a < c$                          & $s^\#[x \mapsto [c, +\infty)]$            & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                    &                         & \multirow{2}{*}{$b \ge c$}       & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b \ge c \land a < c$               & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$}       & \multirow{2}{*}{$s^\#$}                   &                                                 \\
+                                    &                         &                                  &                                                 & $a \ge c$                           & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+    $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                                    & \multicolumn{2}{l|}{$s^\#$}                                                  & $s^\#$                                          \\ \hline
+    \end{tabular}
+    \end{table}
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+    \begin{tabular}{|l|l|ll|ll|ll|l|}
+    \hline
+    $e_1 \ne e_2$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}          & \multicolumn{2}{l|}{$[a, b]$}                & \multicolumn{2}{l|}{$[a, +\infty)$}          & $\top$                  \\ \hline
+    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & $\bot$                  \\ \hline
+    $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                     &                 & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+    \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & $a = b = c = d$            & $\bot$          & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & \multirow{2}{*}{$s^\#$} \\
+                                    &                         & \multicolumn{2}{l|}{}                        & otherwise                  & $s^\#$          & \multicolumn{2}{l|}{}                        &                         \\ \hline
+    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multirow{3}{*}{$s^\#$} \\
+                                    &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\
+                                    &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\ \hline
+    $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+    \end{tabular}
+    \end{table}
+
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+    \begin{tabular}{|l|l|ll|ll|ll|l|}
+    \hline
+    $x \ne e$                       & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                            & \multicolumn{2}{l|}{$[a, +\infty)$}                                                & $\top$                  \\ \hline
+    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                              & \multicolumn{2}{l|}{$\bot$}                                                        & $\bot$                  \\ \hline
+    $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                    &                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+    \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$\bot$} & \multirow{2}{*}{$b = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, b - 1]]$} & $a = c = d \land a \ne b$ & $s^\#[x \mapsto [a + 1, b]]$ & \multirow{2}{*}{$a = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto [a + 1, +\infty)]$} & \multirow{4}{*}{$s^\#$} \\
+                                    &                         &                              &                                                     & $b = c = d \land a \ne b$ & $s^\#[x \mapsto [a, b - 1]]$ &                              &                                                     &                         \\
+                                    &                         & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             & $a = b = c = d$           & $\bot$                       & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             &                         \\
+                                    &                         &                              &                                                     & otherwise                 & $s^\#[x \mapsto [c, b]]$     &                              &                                                     &                         \\ \hline
+    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}             & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multirow{3}{*}{$s^\#$} \\
+                                    &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\
+                                    &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\ \hline
+    $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+    \end{tabular}
+    \end{table}
+
+
+
+    \begin{table}
+        \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        $e_1 \ge e_2$  & $\bot$ & $(-\infty, b]$                     & $[a, b]$                           & $[a, +\infty)$ & $\top$ \\ \hline
+        $\bot$         & $\bot$ & $\bot$                             & $\bot$                             & $\bot$         & $\bot$ \\ \hline
+        $(-\infty, d]$ & $\bot$ & $s^\#$                             & $s^\#$                             & $s^\#$         & $s^\#$ \\ \hline
+        $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$ & $s^\#$         & $s^\#$ \\ \hline
+        $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$ & $s^\#$         & $s^\#$ \\ \hline
+        $\top$         & $\bot$ & $s^\#$                             & $s^\#$                             & $s^\#$         & $s^\#$ \\ \hline
+        \end{tabular}
+        \end{table}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\begin{tabular}{|l|l|ll|ll|ll|l|}
+\hline
+$x \ge e$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                      & \multicolumn{2}{l|}{$[a, +\infty)$}                         & $\top$                                          \\ \hline
+$\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                        & \multicolumn{2}{l|}{$\bot$}                                 & $\bot$                                          \\ \hline
+$(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+\multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
+\multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
+$\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+\end{tabular}
+\end{table}
+
+
 
 
 \end{document}

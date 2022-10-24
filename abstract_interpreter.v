@@ -198,15 +198,6 @@ Definition A := extended_sign.
 
 Definition AbState := list (string * A).
 
-Definition inv_sign a :=
-    match a with
-    | lt0 => gt0
-    | gt0 => lt0
-    | le0 => ge0
-    | ge0 => le0
-    | a => a
-    end.
-
 Fixpoint ab_update s_sharp x a : AbState :=
     match s_sharp with 
     | nil => (x, a) :: nil
@@ -622,9 +613,22 @@ Fixpoint A_sharp e s_sharp :=
     end.
 
 Definition eq_sem e1 e2 s_sharp := 
-    match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-    | bot, top => None
-    | _, _ => Some s_sharp
+    match e1 with
+    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+                | bot, _ | _, bot => None
+                | between a b, between _ d | between a b, left_of d => if a >=? d then None else 
+                                                                         if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
+                                                                         else Some s_sharp
+                | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some (ab_update s_sharp x (between a (d - 1)))
+                | _, _ => Some s_sharp
+                end
+    | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
+            | bot, _ | _, bot => None
+            | left_of b, between c _ | left_of b, right_of c | between _ b, right_of c => if b <? c then None else Some s_sharp
+            | right_of a, between _ d | right_of a, left_of d | between a _, left_of d => if a >? d then None else Some s_sharp
+            | between a b, between c d => if b <? c 
+            | _, _ => Some s_sharp
+            end
     end.
         
 Definition ne_sem e1 e2 s_sharp := 
