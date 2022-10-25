@@ -226,7 +226,7 @@ Definition ab_opp a :=
 
 Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
 Proof.
-decide equality.
+    decide equality.
 Defined.
 
 Definition add_op a1 a2 :=
@@ -254,97 +254,27 @@ Definition sub_op a1 a2 :=
 
 Definition mul_op a1 a2 :=
     match a1, a2 with
-    | bot, _ => bot
-    | _, bot => bot
-    | eq0, _ => eq0
-    | _, eq0 => eq0
-    | lt0, lt0 => gt0
-    | lt0, gt0 => lt0
-    | lt0, le0 => ge0
-    | lt0, ge0 => le0
-    | lt0, ne0 => ne0
-    | gt0, lt0 => lt0
-    | le0, lt0 => ge0
-    | ge0, lt0 => le0
-    | ne0, lt0 => ne0
-    | gt0, gt0 => gt0
-    | gt0, le0 => le0
-    | gt0, ge0 => ge0
-    | gt0, ne0 => ne0
-    | le0, gt0 => le0
-    | ge0, gt0 => ge0
-    | ne0, gt0 => ne0
-    | le0, le0 => ge0
-    | le0, ge0 => le0
-    | ge0, ge0 => ge0
+    | bot, _ | _, bot => bot
+    | eq0, _ | _, eq0 => eq0
+    | lt0, a3 | a3, lt0 => ab_opp a3
+    | gt0, a3 | a3, gt0 => a3
+    | le0, le0 | ge0, ge0 => ge0
+    | le0, ge0 | ge0, le0 => le0
     | ne0, ne0 => ne0
     | _, _ => top
     end.
 
 Definition div_op a1 a2 :=
     match a1, a2 with
-    | bot, _ => bot
-    | _, bot => bot
+    | bot, _ | _, bot | _, eq0 => bot
     | eq0, _ => eq0
-    | _, eq0 => eq0
-    | lt0, lt0 => gt0
-    | lt0, gt0 => lt0
-    | lt0, le0 => ge0
-    | lt0, ge0 => le0
-    | lt0, ne0 => ne0
-    | gt0, lt0 => lt0
-    | le0, lt0 => ge0
-    | ge0, lt0 => le0
-    | ne0, lt0 => ne0
-    | gt0, gt0 => gt0
-    | gt0, le0 => le0
-    | gt0, ge0 => ge0
-    | gt0, ne0 => ne0
-    | le0, gt0 => le0
-    | ge0, gt0 => ge0
-    | ne0, gt0 => ne0
-    | le0, le0 => ge0
-    | le0, ge0 => le0
-    | ge0, ge0 => ge0
-    | ne0, ne0 => ne0
+    | ne0, _ | lt0, ne0 | lt0, top | gt0, ne0 | gt0, top => ne0
+    | lt0, lt0 | lt0, le0 | gt0, gt0 | gt0, ge0 => gt0
+    | lt0, gt0 | lt0, ge0 | gt0, lt0 | gt0, le0 => lt0
+    | le0, lt0 | le0, le0 | ge0, gt0 | ge0, ge0 => ge0
+    | le0, gt0 | le0, ge0 | ge0, lt0 | ge0, le0 => le0
     | _, _ => top
     end.
-
-(* FINIRE E SISTEMARE SOTTRAZIONE
-
-Definition by_sign a1 a2 :=
-    match a1, a2 with
-    | bot, _ => bot
-    | _, bot => bot
-    | _, eq0 => bot
-    | eq0, _ => eq0
-    | a3, gt0 => a3
-    | a3, ge0 => a3
-    | lt0
-
-    | lt0, lt0 => gt0
-    | lt0, gt0 => lt0
-    | lt0, le0 => ge0
-    | lt0, ge0 => le0
-    | lt0, ne0 => ne0
-    | gt0, lt0 => lt0
-    | le0, lt0 => ge0
-    | ge0, lt0 => le0
-    | ne0, lt0 => ne0
-    | gt0, gt0 => gt0
-    | gt0, le0 => le0
-    | gt0, ge0 => ge0
-    | gt0, ne0 => ne0
-    | le0, gt0 => le0
-    | ge0, gt0 => ge0
-    | ne0, gt0 => ne0
-    | le0, le0 => ge0
-    | le0, ge0 => le0
-    | ge0, ge0 => ge0
-    | ne0, ne0 => ne0
-    | _, _ => top
-    end.
-*)
 
 Definition ab_op op a1 a2 :=
     match op with
@@ -355,12 +285,12 @@ Definition ab_op op a1 a2 :=
     end.
 
 Fixpoint A_sharp e s_sharp :=
-match e with
-| var x => lookup s_sharp x
-| const n => alpha_singleton n
-| aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
-| opp e' => ab_opp (A_sharp e' s_sharp)
-end.
+    match e with
+    | var x => lookup s_sharp x
+    | const n => alpha_singleton n
+    | aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
+    | opp e' => ab_opp (A_sharp e' s_sharp)
+    end.
 
 Definition eq_sem e1 e2 s_sharp :=
     match e1 with
@@ -511,8 +441,8 @@ Definition thinner a1 a2 :=
     | a3, a4 => if sign_eq_dec a3 a4 then true else false
     end.
 
+    (** sistemo *)
 Definition widen a1 a2 := join a1 a2.
-
 
 End ExtendedSign.
 

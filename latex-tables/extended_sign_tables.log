@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.10.23)  25 OCT 2022 12:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.10.23)  25 OCT 2022 15:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -57,40 +57,48 @@ LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 22.
 
 
-Overfull \hbox (46.59355pt too wide) in paragraph at lines 56--68
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 38.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 54.
+
+
+Overfull \hbox (46.59355pt too wide) in paragraph at lines 87--99
 [][] 
  []
 
 
-Overfull \hbox (10.78801pt too wide) in paragraph at lines 86--98
+Overfull \hbox (10.78801pt too wide) in paragraph at lines 117--129
 [][] 
  []
 
 
-Overfull \hbox (10.78801pt too wide) in paragraph at lines 118--130
+Overfull \hbox (10.78801pt too wide) in paragraph at lines 149--161
 [][] 
  []
 
 
-Overfull \hbox (10.78801pt too wide) in paragraph at lines 150--162
+Overfull \hbox (10.78801pt too wide) in paragraph at lines 181--193
 [][] 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 164.
+               Default added (so using `tbp') on input line 195.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 180.
+               Default added (so using `tbp') on input line 211.
 
 
-Overfull \hbox (46.59355pt too wide) in paragraph at lines 181--193
+Overfull \hbox (46.59355pt too wide) in paragraph at lines 212--224
 [][] 
  []
 
 
-Overfull \hbox (46.59355pt too wide) in paragraph at lines 213--225
+Overfull \hbox (46.59355pt too wide) in paragraph at lines 244--256
 [][] 
  []
 
@@ -98,13 +106,13 @@ Overfull \hbox (46.59355pt too wide) in paragraph at lines 213--225
 Here is how much of TeX's memory you used:
  425 strings out of 478238
  8425 string characters out of 5850455
- 411598 words of memory out of 5000000
+ 424598 words of memory out of 5000000
  18745 multiletter control sequences out of 15000+600000
  469259 words of font info for 28 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  34i,9n,38p,271b,191s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on extended_sign_tables.pdf (4 pages, 50802 bytes).
+Output written on extended_sign_tables.pdf (4 pages, 52374 bytes).
 PDF statistics:
  37 PDF objects out of 1000 (max. 8388607)
  22 compressed objects within 1 object stream

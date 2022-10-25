@@ -35,6 +35,37 @@
         \end{table}
 
 
+        \begin{table}[]
+            \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+            \hline
+            $*$     & $\bot$ & $<0$    & $=0$ & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
+            $\bot$  & $\bot$ &         &      &         &         &         &         &        \\ \hline
+            $<0$    & $\bot$ & $>0$    &      &         &         &         &         &        \\ \hline
+            $=0$    & $\bot$ & $=0$    & $=0$ &         &         &         &         &        \\ \hline
+            $>0$    & $\bot$ & $<0$    & $=0$ & $>0$    &         &         &         &        \\ \hline
+            $\le 0$ & $\bot$ & $\ge 0$ & $=0$ & $\le 0$ & $\ge 0$ &         &         &        \\ \hline
+            $\ne 0$ & $\bot$ & $\ne 0$ & $=0$ & $\ne 0$ & $\top$  & $\ne 0$ &         &        \\ \hline
+            $\ge 0$ & $\bot$ & $\le 0$ & $=0$ & $\ge 0$ & $\le 0$ & $\top$  & $\ge 0$ &        \\ \hline
+            $\top$  & $\bot$ & $\top$  & $=0$ & $\top$  & $\top$  & $\top$  & $\top$  & $\top$ \\ \hline
+            \end{tabular}
+            \end{table}
+
+
+        \begin{table}[]
+            \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+            \hline
+            $/$     & $\bot$ & $<0$    & $=0$   & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
+            $\bot$  & $\bot$ & $\bot$  & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
+            $<0$    & $\bot$ & $>0$    & $=0$   & $<0$    & $\ge 0$ & $\ne 0$ & $\le 0$ & $\top$ \\ \hline
+            $=0$    & $\bot$ & $\bot$  & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
+            $>0$    & $\bot$ & $<0$    & $=0$   & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
+            $\le 0$ & $\bot$ & $>0$    & $=0$   & $<0$    & $\ge 0$ & $\ne 0$ & $\le 0$ & $\top$ \\ \hline
+            $\ne 0$ & $\bot$ & $\ne 0$ & $=0$   & $\ne 0$ & $\top$  & $\ne 0$ & $\top$  & $\top$ \\ \hline
+            $\ge 0$ & $\bot$ & $<0$    & $=0$   & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
+            $\top$  & $\bot$ & $\ne 0$ & $=0$   & $\ne 0$ & $\top$  & $\ne 0$ & $\top$  & $\top$ \\ \hline
+            \end{tabular}
+            \end{table}
+
 
 
 \begin{table}
