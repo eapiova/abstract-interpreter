@@ -224,19 +224,19 @@ Definition ab_opp a :=
     | a' => a'
     end.
 
+Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
+Proof.
+decide equality.
+Defined.
+
 Definition add_op a1 a2 :=
     match a1, a2 with
-    | bot, _ => bot
-    | _, bot => bot
-    | eq0, a3 => a3
-    | a3, eq0 => a3
-    | lt0, lt0 => lt0
-    | lt0, le0 => lt0
-    | gt0, gt0 => gt0
-    | gt0, ge0 => gt0
-    | le0, le0 => le0
-    | ge0, ge0 => ge0
-    | _, _ => top
+    | bot, _ | _, bot => bot
+    | eq0, a3 | a3, eq0 => a3
+    | lt0, le0 | le0, lt0 => lt0
+    | gt0, ge0 | ge0, gt0 => gt0
+    | ne0, ne0 => top
+    | a3, a4 => if sign_eq_dec a3 a4 then a3 else top
     end.
 
 Definition sub_op a1 a2 :=
@@ -245,13 +245,9 @@ Definition sub_op a1 a2 :=
     | _, bot => bot
     | eq0, a3 => ab_opp a3
     | a3, eq0 => a3
-    | lt0, gt0 => lt0
-    | lt0, ge0 => lt0
-    | gt0, lt0 => gt0
-    | gt0, le0 => gt0
-    | le0, gt0 => lt0
+    | lt0, gt0 | lt0, ge0 | le0, gt0 => lt0
+    | gt0, lt0 | gt0, le0 | ge0, lt0 => gt0
     | le0, ge0 => le0
-    | ge0, lt0 => gt0
     | ge0, le0 => ge0
     | _, _ => top
     end.
@@ -489,10 +485,7 @@ Definition ge_sem e1 e2 s_sharp :=
             end
     end.
 
-Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
-Proof.
-decide equality.
-Defined.
+
 
 Definition join a1 a2 :=
     match a1, a2 with
@@ -506,7 +499,7 @@ Definition join a1 a2 :=
     | lt0,  gt0 |  gt0,  lt0
     | lt0,  ne0 |  ne0,  lt0
     | gt0,  ne0 |  ne0,  gt0 =>  ne0
-    | a3, a4 => if sign_eq_dec a3 a4 then  a3 else top
+    | a3, a4 => if sign_eq_dec a3 a4 then a3 else top
     end.
 
 Definition thinner a1 a2 :=
@@ -677,18 +670,21 @@ Definition ne_sem e1 e2 s_sharp :=
     
 Definition lt_sem e1 e2 s_sharp := 
     match e1 with
-    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
                 | bot, _ | _, bot => None
-                | between a b, between _ d | between a b, left_of d => if a >=? d then None else 
-                                                                         if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
-                                                                         else Some s_sharp
+                | left_of b, left_of d | left_of b, between _ d => if b >=? d then Some (ab_update s_sharp x (left_of (d - 1))) 
+                                                                   else Some s_sharp
+                | between a b, between _ d | between a b, left_of d => if a >=? d then None 
+                                                                       else if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
+                                                                       else Some s_sharp
                 | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some (ab_update s_sharp x (between a (d - 1)))
+                | top, left_of d | top, between _ d => Some (ab_update s_sharp x (left_of (d - 1)))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot => None
-            | between a _, between _ d | between a _, left_of d
-            | right_of a, between _ d | right_of a, left_of d  => if a <? d then Some s_sharp else None
+            | between a _, between _ d | between a _, left_of d 
+            | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
@@ -696,13 +692,14 @@ Definition lt_sem e1 e2 s_sharp :=
 
 Definition gt_sem e1 e2 s_sharp := 
     match e1 with
-    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
                 | bot, _ | _, bot => None
                 | between a b, between c _ | between a b, right_of c => if b <=? c then None else 
                                                                          if a <=? c then Some (ab_update s_sharp x (between (c + 1) b))
                                                                          else Some s_sharp
                 | left_of b, between c _ | left_of b, right_of c => if b <=? c then None else Some (ab_update s_sharp x (between (c + 1) b))
                 | right_of a, between c _ | right_of a, right_of c => if a <=? c then Some (ab_update s_sharp x (right_of (c + 1))) else Some s_sharp
+                | top, between c _ | top, right_of c => Some (ab_update s_sharp x (right_of (c + 1)))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
@@ -715,18 +712,21 @@ Definition gt_sem e1 e2 s_sharp :=
 
 Definition le_sem e1 e2 s_sharp := 
     match e1 with
-    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
                 | bot, _ | _, bot => None
-                | between a b, between _ d | between a b, left_of d => if d <? a then None else 
-                                                                         if d <? b then Some (ab_update s_sharp x (between a d))
-                                                                         else Some s_sharp
-                | right_of a, between _ d | right_of a, left_of d => if d <? a then None else Some (ab_update s_sharp x (between a d))
+                | left_of b, left_of d | left_of b, between _ d => if b >? d then Some (ab_update s_sharp x (left_of d)) 
+                                                                   else Some s_sharp
+                | between a b, between _ d | between a b, left_of d => if a >? d then None 
+                                                                       else if b >? d then Some (ab_update s_sharp x (between a d))
+                                                                       else Some s_sharp
+                | right_of a, between _ d | right_of a, left_of d => if a >? d then None else Some (ab_update s_sharp x (between a d))
+                | top, left_of d | top, between _ d => Some (ab_update s_sharp x (left_of d))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot => None
-            | between a _, between _ d | between a _, left_of d
-            | right_of a, between _ d | right_of a, left_of d  => if d <? a then None else Some s_sharp
+            | between a _, between _ d | between a _, left_of d 
+            | right_of a, between _ d | right_of a, left_of d => if a >? d then None else Some s_sharp
             | _, _ => Some s_sharp
             end
     end.
@@ -739,6 +739,8 @@ Definition ge_sem e1 e2 s_sharp :=
                                                                          if a <? c then Some (ab_update s_sharp x (between c b))
                                                                          else Some s_sharp
                 | left_of b, between c _ | left_of b, right_of c => if b <? c then None else Some (ab_update s_sharp x (between c b))
+                | right_of a, between c _ | right_of a, right_of c => if a <? c then Some (ab_update s_sharp x (right_of c)) else Some s_sharp
+                | top, between c _ | top, right_of c => Some (ab_update s_sharp x (right_of c))
                 | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
