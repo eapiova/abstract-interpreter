@@ -478,27 +478,47 @@ Definition alpha_singleton n := between n n.
 
 Definition add_op a1 a2 :=
     match a1, a2 with
-    | right_of m, right_of n => right_of (m + n) 
-    | right_of m, between n p => right_of (m + n)
-    | left_of m, left_of n => left_of (m + n)
+    | bot, _ | _, bot => bot
+    | left_of b, left_of d | left_of b, between _ d | between _ b, left_of d => left_of (b + d)
     | between a b, between c d => between (a + c) (b + d)
+    | between a _, right_of c | right_of a, right_of c | right_of a, between c _ => right_of (a + c)
     | _, _ => top
     end.
     
 Definition sub_op a1 a2 :=
     match a1, a2 with
-    | right_of m, right_of n => right_of (m + n) 
-    | right_of m, between n p => right_of (m + n)
-    | left_of m, left_of n => left_of (m + n)
+    | bot, _ | _, bot => bot
+    | left_of b, between c _ | left_of b, right_of c | between _ b, right_of c => left_of (b - c)
     | between a b, between c d => between (a - d) (b - c)
+    | between a _, left_of d | right_of a, left_of d | right_of a, between _ d => right_of (a - d)
     | _, _ => top
     end.
 
 Definition mul_op a1 a2 :=
     match a1, a2 with
-    | right_of m, right_of n => right_of (m + n) 
-    | right_of m, between n p => right_of (m + n)
-    | left_of m, left_of n => left_of (m + n)
+    | left_of b, left_of d => if (b >? 0) && (d >? 0) then top else right_of (b * d)
+    | left_of b, between c d => if ((c <? 0) && (d >? 0)) || ((c >? 0) && (d <? 0)) then top
+                                else if (c =? 0) && (d =? 0) then between 0 0
+                                else if (c <=? 0) && (d <=? 0) then right_of (Z.min (b * c) (b * d))
+                                else left_of (Z.max (b * c) (b * d))
+    | left_of b, right_of c => if (b >? 0) && (c <? 0) then top else left_of (b * c)
+    | between a b, left_of d => if ((a <? 0) && (b >? 0)) || ((a >? 0) && (b <? 0)) then top
+                                else if (a =? 0) && (b =? 0) then between 0 0
+                                else if (a <=? 0) && (b <=? 0) then right_of (Z.min (a * d) (b * d))
+                                else left_of (Z.max (a * d) (b * d))
+    | between a b, between c d => between (Z.min (Z.min (a * c) (a * d)) (Z.min (b * c) (b * d))) (Z.max (Z.max (a * c) (a * d)) (Z.max (b * c) (b * d)))
+    | between a b, right_of c => if ((a <? 0) && (b >? 0)) || ((a >? 0) && (b <? 0)) then top
+                                 else if (a =? 0) && (b =? 0) then between 0 0
+                                 else if (a <=? 0) && (b <=? 0) then right_of (Z.min (a * c) (b * c))
+                                 else left_of (Z.max (a * c) (b * c))
+    | right_of a, left_of d => if (d >? 0) && (a <? 0) then top else left_of (a * d)
+    | right_of a, between c d => if ((c <? 0) && (d >? 0)) || ((c >? 0) && (d <? 0)) then top
+                                else if (c =? 0) && (d =? 0) then between 0 0
+                                else if (c <=? 0) && (d <=? 0) then left_of (Z.max (a * c) (a * d))
+                                else right_of (Z.min (a * c) (a * d))
+    | right_of a, right_of c => if (a <? 0) && (c <? 0) then top else left_of (a * c)
+    | between a b, top => if (a =? 0) && (b =? 0) then between 0 0 else top
+    | top, between c d => if (c =? 0) && (d =? 0) then between 0 0 else top
     | _, _ => top
     end.
 
