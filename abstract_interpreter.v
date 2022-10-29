@@ -1,7 +1,8 @@
-From pv Require Export library.
+From pv Require Import library.
 Require Import String ZArith List.
 Open Scope Z_scope.
-    
+
+From ReductionEffect Require Import PrintingEffect.
 
 
 Inductive ABinOp :=
@@ -57,7 +58,7 @@ Parameter ge_sem : Aexp -> Aexp -> AbState -> option AbState.
 Parameter ne_sem : Aexp -> Aexp -> AbState -> option AbState.
 Parameter join : A -> A -> A.
 Parameter A_sharp : Aexp -> AbState -> A.
-Parameter thinner : A -> A -> bool.
+Parameter ab_le : A -> A -> bool.
 Parameter widen : A -> A -> A.
 
 End AbstractDomain.
@@ -128,7 +129,7 @@ Definition step1 AI_state b s_sharp t_sharp :=
 Fixpoint s_stable s_sharp t_sharp :=
     match s_sharp with
     | nil => true
-    | (x, a) :: sl => thinner (lookup t_sharp x) a && s_stable sl t_sharp
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
     end.
 
 Definition is_inv AI_state s_sharp t_sharp b := s_stable t_sharp (step1 AI_state b s_sharp t_sharp).
@@ -175,7 +176,7 @@ Fixpoint AI (P : While) s_sharp :=
                             | None, Some u_sharp => AI S2 u_sharp
                             | None, None => None 
                             end
-    | while_do b S' => let inv := (find_inv (AI S') b s_sharp 6 3) in B_sharp (neg_sem b) inv
+    | while_do b S' => let inv := (find_inv (AI S') b s_sharp 20 20) in B_sharp (neg_sem b) inv
     end.
 
 End AbstractInterpreter.
@@ -213,7 +214,7 @@ Fixpoint lookup s_sharp x :=
 Definition alpha_singleton n :=
     if n =? 0 then eq0
     else if n <? 0 then lt0
-        else gt0.
+    else gt0.
 
 Definition ab_opp a :=
     match a with
@@ -415,8 +416,6 @@ Definition ge_sem e1 e2 s_sharp :=
             end
     end.
 
-
-
 Definition join a1 a2 :=
     match a1, a2 with
     | bot,  a3 |  a3,  bot =>  a3
@@ -432,16 +431,8 @@ Definition join a1 a2 :=
     | a3, a4 => if sign_eq_dec a3 a4 then a3 else top
     end.
 
-Definition thinner a1 a2 :=
-    match a1, a2 with 
-    | bot, _ | _, top
-    | eq0, ge0 | eq0, le0
-    | lt0, le0 | lt0, ne0
-    | gt0, ge0 | gt0, ne0 => true 
-    | a3, a4 => if sign_eq_dec a3 a4 then true else false
-    end.
+Definition ab_le a1 a2 := if sign_eq_dec (join a1 a2) a2 then true else false.
 
-    (** sistemo *)
 Definition widen a1 a2 := join a1 a2.
 
 End ExtendedSign.
@@ -522,11 +513,49 @@ Definition mul_op a1 a2 :=
     | _, _ => top
     end.
 
+Definition join a1 a2 :=
+    match a1, a2 with
+    | bot, a3 | a3, bot => a3
+    | left_of b, left_of d | left_of b, between _ d | between _ b, left_of d => left_of (Z.max b d)
+    | right_of a, right_of c | right_of a, between c _ | between a _, right_of c => right_of (Z.min a c)
+    | between a b, between c d => between (Z.min a c) (Z.max b d)
+    | _, _ => top
+    end.
+
 Definition div_op a1 a2 :=
     match a1, a2 with
-    | right_of m, right_of n => right_of (m + n) 
-    | right_of m, between n p => right_of (m + n)
-    | left_of m, left_of n => left_of (m + n)
+    | left_of b, left_of d => if d <=? 0 then right_of (Z.min 0 (b / d)) else top
+    | left_of b, between c d => if (c =? 0) && (d =? 0) then bot
+                                else if (c >? 0) && (d >=? c) then left_of (Z.max (b / c) (b / d))
+                                else if (c =? 0) && (d >? c) && (b <=? 0) then left_of (b / d)
+                                else if (c <=? d) && (d <? 0) then right_of (Z.min (b / c) (b / d))
+                                else top
+    | left_of b, right_of c => if c >=? 0 then left_of (Z.max (b / c) 0) else top
+    | between a b, left_of d => if d <=? 0 then between (Z.min (Z.min (a / d) (b / d)) 0) (Z.max (Z.max (a / d) (b / d)) 0)
+                                 else if (a =? 0) && (b =? 0) then between 0 0
+                                 else if (a >=? 0) && (b >? 0) then left_of (Z.max (a / d) (b / d))
+                                 else if (a <? 0) && (b <=? 0) then right_of (Z.min (a / d) (b / d))
+                                 else top
+    | between a b, between c d => if (c =? 0) && (d =? 0) then bot
+                                    else if (c <? 0) && (d >? 0) then join (between (Z.min (Z.min (a / c) (b / c)) 0) (Z.max (Z.max (a / c) (b / c)) 0)) (between (Z.min (Z.min (a / d) (b / d)) 0) (Z.max (Z.max (a / d) (b / d)) 0))
+                                    else between (Z.min (Z.min (a / c) (a / d)) (Z.min (b / c) (b / d))) (Z.max (Z.max (a / c) (a / d)) (Z.max (b / c) (b / d)))
+    
+    
+    
+    | between a b, right_of c => if c >=? 0 then between (Z.min (Z.min (a / c) (b / c)) 0) (Z.max (Z.max (a / c) (b / c)) 0)
+                                    else if (a =? 0) && (b =? 0) then between 0 0
+                                    else if (a >=? 0) && (b >? 0) then left_of (Z.max (a / c) (b / c))
+                                    else if (a <? 0) && (b <=? 0) then right_of (Z.min (a / c) (b / c))
+                                    else top
+    | between a b, top => if (a =? 0) && (b =? 0) then between 0 0 else top
+    | right_of a, left_of d => if d <=? 0 then left_of (Z.max 0 (a / d)) else top
+    | right_of a, between c d => if (c =? 0) && (d =? 0) then bot
+                                    else if (c >? 0) && (d >=? c) then right_of (Z.min (a / c) (a / d))
+                                    else if (c =? 0) && (d >? c) && (a >=? 0) then right_of (a / d)
+                                    else if (c <=? d) && (d <? 0) then left_of (Z.max (a / c) (a / d))
+                                    else top
+    | right_of a, right_of c => if c >=? 0 then right_of (Z.min (a / c) 0) else top
+    | top, between c d => if (c =? 0) && (d =? 0) then bot else top
     | _, _ => top
     end.
 
@@ -701,13 +730,9 @@ Definition ge_sem e1 e2 s_sharp :=
             end
     end.
 
-Definition join a1 a2 :=
-    match a1, a2 with
-    | between a b, between c d => between (Z.min a c) (Z.max b d)
-    | _, _ => bot
-    end.
 
-Definition thinner a1 a2 :=
+
+Definition ab_le a1 a2 :=
     match a1, a2 with 
     | bot, _ | _, top => true
     | between a b, between c d => (c <=? a) && (b <=? d)
@@ -735,73 +760,6 @@ Definition widen a1 a2 :=
 
 End Intervals.
 
-
-
-Module B := AbstractInterpreter ExtendedSign.
-Import ExtendedSign.
-Import B.
-Definition example3_expr :=
-    while_do (bop ne (var "x") (const 0)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example3_state := [("x", lt0)].
-
-Definition example4_state := [("x", eq0)].
-
-Definition example5_state := [("x", gt0)].
-
-Compute (AI example3_expr example3_state).
-
-Compute (AI example3_expr example4_state).
-
-Compute (AI example3_expr example5_state).
-
-
-
-Module C := AbstractInterpreter Intervals.
-
-Import Intervals.
-Import C.
-
-Definition example6_expr :=
-    while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
-
-Definition example6_state := [("x", between 10 10); ("y", between 0 0)].
-
-Compute (AI example6_expr example6_state).
-
-
-Definition example7_expr :=
-    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example7_state := [("x", between 0 0)].
-
-Compute (AI example7_expr example7_state).
-
-
-Definition example8_expr :=
-    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example8_state := [("x", between 1 1)].
-
-Compute (AI example8_expr example8_state).
-
-Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", between 1 101)] (bop le (var "x") (const 100))).
-
-Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", between 1 101)].
-
-Compute s_stable [("x", between 1 101)] [("x", between 1 101)].
-
-
-Definition example9_expr :=
-    sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
-
-Compute (AI example9_expr nil).
-
-Compute (is_inv (AI (assign "x" (aop add (var "x") (const 1)))) example8_state [("x", between 1 101)] (bop le (var "x") (const 100))).
-
-Compute step1 (AI (assign "x" (aop add (var "x") (const 1)))) (bop le (var "x") (const 100)) example8_state [("x", between 1 101)].
-
-Compute s_stable [("x", between 1 101)] [("x", between 1 101)].
 
 
 

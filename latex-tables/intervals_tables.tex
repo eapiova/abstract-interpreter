@@ -7,6 +7,17 @@
 
 \begin{document}
 
+\begin{table}[]
+    \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    $\lor$         & $\bot$         & $(-\infty, b]$         & $[a, b]$                 & $[a, +\infty)$         & $\top$ \\ \hline
+    $\bot$         & $\bot$         & $(-\infty, b]$         & $[a, b]$                 & $[a, +\infty)$         & $\top$ \\ \hline
+    $(-\infty, d]$ & $(-\infty, d]$ & $(-\infty, max(b, d)]$ & $(-\infty, max(b, d)]$   & $\top$                 & $\top$ \\ \hline
+    $[c, d]$       & $[c, d]$       & $(-\infty, max(b, d)]$ & $[min(a, c), max(b, d)]$ & $[min(a, c), +\infty)$ & $\top$ \\ \hline
+    $[c, +\infty)$ & $[c, +\infty)$ & $\top$                 & $[min(a, c), +\infty)$   & $[min(a, c), +\infty)$ & $\top$ \\ \hline
+    $\top$         & $\top$         & $\top$                 & $\top$                   & $\top$                 & $\top$ \\ \hline
+    \end{tabular}
+    \end{table}
 
 \begin{table}[]
     \begin{tabular}{|l|l|l|l|l|l|}
@@ -41,7 +52,7 @@
 
 
 \begin{table}[]
-    \scalebox{0.7}{
+    \scalebox{0.6}{
     \begin{tabular}{|l|l|ll|ll|ll|ll|}
     \hline
     $*$                             & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                       & \multicolumn{2}{l|}{$[a, b]$}                                                      & \multicolumn{2}{l|}{$[a, +\infty)$}                                                       & \multicolumn{2}{l|}{$\top$}                                         \\ \hline
@@ -62,6 +73,35 @@
                                     &                         & \multicolumn{2}{l|}{}                                                                     & $a \ne 0 \lor b \ne 0$                                  & $\top$                   & \multicolumn{2}{l|}{}                                                                     & \multicolumn{2}{l|}{}                                               \\ \hline
     \end{tabular}}
     \end{table}
+
+
+\begin{table}[]
+    \scalebox{0.5}{
+    \begin{tabular}{|l|l|ll|ll|ll|ll|}
+    \hline
+    $/$                             & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                                                                                                         & \multicolumn{2}{l|}{$[a, +\infty)$}                                    & \multicolumn{2}{l|}{$\top$}                          \\ \hline
+    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                                                                                                           & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                          \\ \hline
+    \multirow{5}{*}{$(-\infty, d]$} & \multirow{5}{*}{$\bot$} & \multirow{2}{*}{$d \le 0$} & \multirow{2}{*}{$[min(0, b/d), +\infty)$} & $d \le 0$                         & $[min(0, a/d, b/d), max(0, a/d, b/d)]$                                                            & \multirow{2}{*}{$d \le 0$} & \multirow{2}{*}{$(-\infty, max(a/d, 0)]$} & \multicolumn{2}{l|}{\multirow{5}{*}{$\top$}}         \\
+                                    &                         &                            &                                           & $d > 0 \land a = b = 0$           & $[0, 0]$                                                                                          &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                    &                         & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & $d > 0 \land a \ge 0 \land b > 0$ & $(-\infty, max(a/d, b/d)]$                                                                        & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & \multicolumn{2}{l|}{}                                \\
+                                    &                         &                            &                                           & $d > 0 \land a < 0 \land b \le 0$ & $[min(a/d, b/d), +\infty)$                                                                        &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                    &                         &                            &                                           & otherwise                         & $\top$                                                                                            &                            &                                           & \multicolumn{2}{l|}{}                                \\ \hline
+    \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot$} & $c = d = 0$                & $\bot$                                    & \multirow{2}{*}{$c = d = 0$}      & \multirow{2}{*}{$\bot$}                                                                           & $c = d = 0$                & $\bot$                                    & $c = d = 0$                & $\bot$                  \\
+                                    &                         & $0 < c \le d$              & $(-\infty, max(b/c, b/d)]$                &                                   &                                                                                                   & $0 < c \le d$              & $[min(a/c, a/d), +\infty)$                &                            &                         \\
+                                    &                         & $0 = c < d \land b \le 0$  & $(-\infty, b/d]$                          & \multirow{2}{*}{$c < 0 < d$}      & \multirow{2}{*}{$[min(0, a/c, b/c), max(0, a/c, b/c)] \lor [min(0, a/d, b/d), max(0, a/d, b/d)]$} & $0 = c < d \land a \ge 0$  & $[a/d, +\infty)$                          & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$} \\
+                                    &                         & $c \le d < 0$              & $[min(b/c, b/d), +\infty)$                &                                   &                                                                                                   & $c \le d < 0$              & $(-\infty, max(a/c, a/d)]$                &                            &                         \\
+                                    &                         & otherwise                  & $\top$                                    & otherwise                         & $[min(a/c, a/d, b/c, b/d), max(a/c, a/d, b/c, b/d)]$                                              & otherwise                  & $\top$                                    &                            &                         \\ \hline
+    \multirow{5}{*}{$[c, +\infty)$} & \multirow{5}{*}{$\bot$} & \multirow{2}{*}{$c \ge 0$} & \multirow{2}{*}{$(-\infty, max(0, b/c)]$} & $c \ge 0$                         & $[min(0, a/c, b/c), max(0, a/c, b/c)]$                                                            & \multirow{2}{*}{$c \ge 0$} & \multirow{2}{*}{$[min(a/c, 0), +\infty)$} & \multicolumn{2}{l|}{\multirow{5}{*}{$\top$}}         \\
+                                    &                         &                            &                                           & $c < 0 \land a = b = 0$           & $[0, 0]$                                                                                          &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                    &                         & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & $c < 0 \land a \ge 0 \land b > 0$ & $[min(a/c, b/c), +\infty)$                                                                        & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & \multicolumn{2}{l|}{}                                \\
+                                    &                         &                            &                                           & $c < 0 \land a < 0 \land b \le 0$ & $(-\infty, max(a/c, b/c)]$                                                                        &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                    &                         &                            &                                           & otherwise                         & $\top$                                                                                            &                            &                                           & \multicolumn{2}{l|}{}                                \\ \hline
+    \multirow{2}{*}{$\top$}         & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                           & $a = b = 0$                       & $[0, 0]$                                                                                          & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                           & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}         \\
+                                    &                         & \multicolumn{2}{l|}{}                                                  & otherwise                         & $\top$                                                                                            & \multicolumn{2}{l|}{}                                                  & \multicolumn{2}{l|}{}                                \\ \hline
+    \end{tabular}}
+    \end{table}
+
+
 
 \end{landscape}
 

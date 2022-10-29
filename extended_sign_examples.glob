@@ -1,0 +1,22 @@
+DIGEST 9f4e92058f5322e9384a5e0632ca1d23
+Fpv.extended_sign_examples
+R24:43 pv.abstract_interpreter <> <> lib
+R61:66 Coq.Strings.String <> <> lib
+R68:73 Coq.ZArith.ZArith <> <> lib
+R75:78 Coq.Lists.List <> <> lib
+R114:132 pv.abstract_interpreter AbstractInterpreter <> modtype
+R134:145 pv.abstract_interpreter ExtendedSign <> modtype
+mod 109:109 <> B
+R155:166 pv.abstract_interpreter ExtendedSign <> mod
+R176:176 pv.extended_sign_examples B <> mod
+def 190:202 <> example3_expr
+R211:218 pv.abstract_interpreter <> while_do constr
+R221:223 pv.abstract_interpreter <> bop constr
+R225:226 pv.abstract_interpreter <> ne constr
+R229:231 pv.abstract_interpreter <> var constr
+R239:243 pv.abstract_interpreter <> const constr
+R250:255 pv.abstract_interpreter <> assign constr
+R262:264 pv.abstract_interpreter <> aop constr
+R266:268 pv.abstract_interpreter <> add constr
+R271:273 pv.abstract_interpreter <> var constr
+R281:285 pv.abstract_interpreter <> const constr
