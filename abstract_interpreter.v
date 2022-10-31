@@ -159,25 +159,27 @@ Definition find_inv AI_state b s_sharp n_iter n_widen :=
     else
         widening AI_state b s' s' n_widen.
 
-Fixpoint AI (P : While) s_sharp :=
+Fixpoint AI (P : While) n_iter n_widen s_sharp :=
     match P with
     | assign x e => Some (ab_update s_sharp x (A_sharp e s_sharp))
     | skip => Some s_sharp
-    | sequence S1 S2 => match AI S1 s_sharp with
-                    | Some t_sharp => AI S2 t_sharp
+    | sequence S1 S2 => match AI S1 n_iter n_widen s_sharp with
+                    | Some t_sharp => AI S2 n_iter n_widen t_sharp 
                     | None => None
                     end
     | if_then_else b S1 S2 => match B_sharp b s_sharp, B_sharp (neg_sem b) s_sharp with
-                            | Some t_sharp, Some u_sharp => match AI S1 t_sharp with
-                                                            | Some v_sharp => Some (join_state' v_sharp (AI S2 u_sharp))
-                                                            | None => AI S2 u_sharp
+                            | Some t_sharp, Some u_sharp => match AI S1 n_iter n_widen t_sharp with
+                                                            | Some v_sharp => Some (join_state' v_sharp (AI S2 n_iter n_widen u_sharp))
+                                                            | None => AI S2 n_iter n_widen u_sharp 
                                                             end
-                            | Some t_sharp, None => AI S1 t_sharp
-                            | None, Some u_sharp => AI S2 u_sharp
+                            | Some t_sharp, None => AI S1 n_iter n_widen t_sharp 
+                            | None, Some u_sharp => AI S2 n_iter n_widen u_sharp 
                             | None, None => None 
                             end
-    | while_do b S' => let inv := (find_inv (AI S') b s_sharp 20 20) in B_sharp (neg_sem b) inv
+    | while_do b S' => let inv := (find_inv (AI S' n_iter n_widen) b s_sharp n_iter n_widen ) in B_sharp (neg_sem b) inv
     end.
+
+(*  *)
 
 End AbstractInterpreter.
 
@@ -764,14 +766,73 @@ End Intervals.
 
 
 
+Module B := AbstractInterpreter ExtendedSign.
+Import ExtendedSign.
+Import B.
+Definition example3_expr :=
+    while_do (bop ne (var "x") (const 0)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example3_state := [("x", lt0)].
+
+Definition example4_state := [("x", eq0)].
+
+Definition example5_state := [("x", gt0)].
+
+Compute (AI example3_expr 5 3 example3_state).
+
+Compute (AI example3_expr 5 3 example4_state).
+
+Compute (AI example3_expr 5 3 example5_state).
+
+
+Module C := AbstractInterpreter Intervals.
+     Import C.
+Import Intervals.
+
+
+Definition example6_expr :=
+    while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
+
+Definition example6_state := [("x", between 10 10); ("y", between 0 0)].
+
+Compute (AI example6_expr 0 0 example6_state). 
+Compute (AI example6_expr 0 2 example6_state).
+Compute (AI example6_expr 10 2 example6_state).
+Compute (AI example6_expr 11 2 example6_state).
+
+Definition example7_expr :=
+    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example7_state := [("x", between 0 0)].
+
+Compute (AI example7_expr 5 3 example7_state).
+
+
+Definition example8_expr :=
+    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example8_state := [("x", between 1 1)].
+
+(** no need for widening here *)
+Compute (AI example8_expr 0 0 example8_state).
+Compute (AI example8_expr 100 0 example8_state).
+
+
+
+Definition example9_expr :=
+    sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
+
+Compute (AI example9_expr 0 0 nil).
+Compute (AI example9_expr 40 0 nil).
 
 
 
 
-(**
 
 
-    
+
+
+   (** 
     
 Definition example1_expr :=
     AOp Plus (AOp Times (Const 2) (Var "y")) (AOp Times (Const 3) (Var "x")).
@@ -789,99 +850,6 @@ Definition example2_state := [("x", lt0); ("y", lt0); ("z", gt0)].
 Compute abstract_semantics_A example2_expr example2_state.
 
 
-
-
-    
-
-
-
-
-(* FINIRE CASI *)
-
-
-
-
-
-
-
-
-
+*)
 
     
-
-
-
-Fixpoint neg_sem b :=
-    match b with
-    | TT => FF
-    | FF => TT
-    | BOp Eq e1 e2 => BOp Neq e1 e2
-    | BOp Lt e1 e2 => BOp Ge e1 e2
-    | BOp Gt e1 e2 => BOp Le e1 e2
-    | BOp Le e1 e2 => BOp Gt e1 e2
-    | BOp Ge e1 e2 => BOp Lt e1 e2
-    | BOp Neq e1 e2 => BOp Eq e1 e2
-    | And b1 b2 => Or (neg_sem b1) (neg_sem b2)
-    | Or b1 b2 => And (neg_sem b1) (neg_sem b2)
-    end.
-
-Fixpoint abstract_semantics_B (b : Bexp) (s_sharp : AbstractState) : option AbstractState :=
-    match b with
-    | TT => Some s_sharp
-    | FF => None
-    | BOp op e1 e2 => match op with 
-                        | Eq => eq_sem e1 e2 s_sharp
-                        | Lt => lt_sem e1 e2 s_sharp
-                        | Gt => gt_sem e1 e2 s_sharp
-                        | Le => le_sem e1 e2 s_sharp
-                        | Ge => ge_sem e1 e2 s_sharp
-                        | Neq => neq_sem e1 e2 s_sharp
-                        end
-    | And b1 b2 => match abstract_semantics_B b1 s_sharp with
-                    | Some t_sharp => abstract_semantics_B b2 t_sharp
-                    | None => None
-                    end
-    | Or b1 b2 => match abstract_semantics_B b1 s_sharp with 
-                    | Some t_sharp => Some (join_state' t_sharp (abstract_semantics_B b2 s_sharp))
-                    | None => abstract_semantics_B b2 s_sharp
-                    end
-    end. 
-
-Definition n_iter_Kleene_chain := 3.
-
-
-
-
-End Sign.
-    
-
-
-
-
-Definition example3_expr :=
-    WhileDo (BOp Neq (Var "x") (Const 0)) (Assign "x" (AOp Plus (Var "x") (Const 1))).
-
-Definition example3_state := [("x", lt0)].
-
-Definition example4_state := [("x", eq0)].
-
-Definition example5_state := [("x", gt0)].
-
-Compute 3+1.
-
-Compute (AI example3_expr example3_state).
-
-Compute (AI example3_expr example4_state).
-
-Compute (AI example3_expr example5_state).
-
-
-     *)       
-
-
-
-
-
-
-
-
