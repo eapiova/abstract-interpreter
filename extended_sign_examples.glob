@@ -1,22 +1,53 @@
-DIGEST 9f4e92058f5322e9384a5e0632ca1d23
+DIGEST 21d08d085335b92ddc718e6ad83de607
 Fpv.extended_sign_examples
-R24:43 pv.abstract_interpreter <> <> lib
-R61:66 Coq.Strings.String <> <> lib
-R68:73 Coq.ZArith.ZArith <> <> lib
-R75:78 Coq.Lists.List <> <> lib
-R114:132 pv.abstract_interpreter AbstractInterpreter <> modtype
-R134:145 pv.abstract_interpreter ExtendedSign <> modtype
-mod 109:109 <> B
-R155:166 pv.abstract_interpreter ExtendedSign <> mod
-R176:176 pv.extended_sign_examples B <> mod
-def 190:202 <> example3_expr
-R211:218 pv.abstract_interpreter <> while_do constr
-R221:223 pv.abstract_interpreter <> bop constr
-R225:226 pv.abstract_interpreter <> ne constr
-R229:231 pv.abstract_interpreter <> var constr
-R239:243 pv.abstract_interpreter <> const constr
-R250:255 pv.abstract_interpreter <> assign constr
-R262:264 pv.abstract_interpreter <> aop constr
-R266:268 pv.abstract_interpreter <> add constr
-R271:273 pv.abstract_interpreter <> var constr
-R281:285 pv.abstract_interpreter <> const constr
+R24:30 pv.library <> <> lib
+R57:76 pv.abstract_interpreter <> <> lib
+R94:99 Coq.Strings.String <> <> lib
+R101:106 Coq.ZArith.ZArith <> <> lib
+R108:111 Coq.Lists.List <> <> lib
+R147:165 pv.abstract_interpreter AbstractInterpreter <> modtype
+R167:178 pv.abstract_interpreter ExtendedSign <> modtype
+mod 142:142 <> B
+R188:199 pv.abstract_interpreter ExtendedSign <> mod
+R209:209 pv.extended_sign_examples B <> mod
+def 223:235 <> example3_expr
+R244:251 pv.abstract_interpreter <> while_do constr
+R254:256 pv.abstract_interpreter <> bop constr
+R258:259 pv.abstract_interpreter <> ne constr
+R262:264 pv.abstract_interpreter <> var constr
+R272:276 pv.abstract_interpreter <> const constr
+R283:288 pv.abstract_interpreter <> assign constr
+R295:297 pv.abstract_interpreter <> aop constr
+R299:301 pv.abstract_interpreter <> add constr
+R304:306 pv.abstract_interpreter <> var constr
+R314:318 pv.abstract_interpreter <> const constr
+def 338:351 <> example3_state
+R356:356 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R367:367 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R357:357 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R361:362 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R366:366 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R363:365 pv.abstract_interpreter ExtendedSign lt0 constr
+def 382:395 <> example4_state
+R400:400 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R411:411 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R401:401 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R405:406 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R410:410 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R407:409 pv.abstract_interpreter ExtendedSign eq0 constr
+def 426:439 <> example5_state
+R444:444 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R455:455 Coq.Lists.List ListNotations ::list_scope:'['_x_']' not
+R445:445 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R449:450 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R454:454 Coq.Init.Datatypes <> ::core_scope:'('_x_','_x_','_'..'_','_x_')' not
+R451:453 pv.abstract_interpreter ExtendedSign gt0 constr
+R468:469 pv.extended_sign_examples <> AI def
+R471:483 pv.extended_sign_examples <> example3_expr def
+R485:498 pv.extended_sign_examples <> example3_state def
+R512:513 pv.extended_sign_examples <> AI def
+R515:527 pv.extended_sign_examples <> example3_expr def
+R529:542 pv.extended_sign_examples <> example4_state def
+R556:557 pv.extended_sign_examples <> AI def
+R559:571 pv.extended_sign_examples <> example3_expr def
+R573:586 pv.extended_sign_examples <> example5_state def
