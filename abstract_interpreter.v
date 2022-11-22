@@ -2,8 +2,9 @@ From pv Require Import library.
 Require Import String ZArith List.
 Open Scope Z_scope.
 
-From ReductionEffect Require Import PrintingEffect.
 
+
+(* Language *)
 
 Inductive ABinOp :=
     | add
@@ -41,48 +42,49 @@ Inductive While : Type :=
 
 
 
+(* Abstract Domain structure *)
+
 Module Type AbstractDomain.
 
-Parameter A : Type.
-Definition AbState := list (string * A).
-Parameter ab_op : ABinOp -> A -> A -> A.
-Parameter alpha_singleton : Z -> A.
-Parameter ab_opp : A -> A.
-Parameter ab_update : AbState -> string -> A -> AbState.
-Parameter lookup : AbState -> string -> A.
-Parameter eq_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter lt_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter gt_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter le_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter ge_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter ne_sem : Aexp -> Aexp -> AbState -> option AbState.
-Parameter join : A -> A -> A.
-Parameter A_sharp : Aexp -> AbState -> A.
-Parameter ab_le : A -> A -> bool.
-Parameter widen : A -> A -> A.
+Parameter AbD : Type.
+Parameter AbS : Type.
+Parameter top_AbS : AbS.
+
+Parameter ab_update : AbS -> string -> AbD -> AbS.
+Parameter lookup : AbS -> string -> AbD.
+Parameter alpha_singleton : Z -> AbD.
+Parameter ab_opp : AbD -> AbD.
+Parameter ab_op : ABinOp -> AbD -> AbD -> AbD.
+Parameter A_sharp : Aexp -> AbS -> AbD.
+
+Parameter eq_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter ne_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter lt_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter gt_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter le_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter ge_sem : Aexp -> Aexp -> AbS -> option AbS.
+
+Parameter join : AbD -> AbD -> AbD.
+Parameter join_state : AbS -> AbS -> AbS.
+Parameter ab_le : AbD -> AbD -> bool.
+Parameter s_stable : AbS -> AbS -> bool.
+Parameter widen : AbD -> AbD -> AbD.
+Parameter widen_state : AbS -> AbS -> AbS.
 
 End AbstractDomain.
 
 
+
+(* Abstract Interpreter function *)
+
 Module AbstractInterpreter (AbDom : AbstractDomain).
 Import AbDom.
-
-
-
-Fixpoint join_state s1_sharp s2_sharp :=
-    match s1_sharp with 
-    | nil => nil 
-    | (x, a) :: sl => ab_update (join_state sl s2_sharp) x (join a (lookup s2_sharp x)) 
-    end.
     
 Definition join_state' s s' :=
     match s' with
     | Some s' => join_state s s'
     | None => s
     end.
-
-Definition widen_state s s' :=
-    map (fun p : string * A => let (x, v) := p in (x, widen v (lookup s' x))) s.
     
 Fixpoint B_sharp b s_sharp :=
     match b with
@@ -120,70 +122,64 @@ Fixpoint neg_sem b :=
     | or b1 b2 => and (neg_sem b1) (neg_sem b2)
     end.
 
-Definition step1 AI_state b s_sharp t_sharp :=
+Definition step (AI_state : AbS -> option AbS * list AbS) b s_sharp t_sharp :=
     match B_sharp b t_sharp with
-    | Some u_sharp => join_state' s_sharp (AI_state u_sharp)
-    | None => s_sharp
+    | Some u_sharp => let (v_sharp, invs) := (AI_state u_sharp) in (join_state' s_sharp v_sharp, invs)
+    | None => (s_sharp, nil)
     end.
 
-Fixpoint s_stable s_sharp t_sharp :=
-    match s_sharp with
-    | nil => true
-    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
-    end.
+Definition is_inv AI_state s_sharp t_sharp b := let (u_sharp, _) := step AI_state b s_sharp t_sharp in s_stable t_sharp u_sharp.
 
-Definition is_inv AI_state s_sharp t_sharp b := s_stable t_sharp (step1 AI_state b s_sharp t_sharp).
-
-Fixpoint step2 AI_state (b : Bexp) s_sharp t_sharp (n : nat) :=
+Fixpoint steps AI_state (b : Bexp) s_sharp t_sharp (n : nat) :=
     match n with 
-    | 0%nat => t_sharp
+    | 0%nat => (t_sharp, nil)
     | S m => if is_inv AI_state s_sharp t_sharp b
-                then t_sharp
+                then (t_sharp, nil)
              else 
-                step2 AI_state b s_sharp (step1 AI_state b s_sharp t_sharp) m
+                let (u_sharp, invs1) := step AI_state b s_sharp t_sharp in let (v_sharp, invs2) := steps AI_state b s_sharp u_sharp m in (v_sharp, invs1 ++ invs2)
     end.
 
 Fixpoint widening AI_state b s_sharp t_sharp n :=
     match n with 
-    | 0%nat => nil
+    | 0%nat => (top_AbS, [top_AbS])
     | S m => if is_inv AI_state s_sharp t_sharp b
-                then t_sharp
+                then (t_sharp, [t_sharp])
             else 
-                widening AI_state b s_sharp (widen_state t_sharp (step1 AI_state b s_sharp t_sharp)) m
+                let (u_sharp, invs1) := step AI_state b s_sharp t_sharp in let (v_sharp, invs2) := widening AI_state b s_sharp (widen_state t_sharp u_sharp) m in (v_sharp, invs1 ++ invs2) 
     end.
 
 Definition find_inv AI_state b s_sharp n_iter n_widen :=
-    let s' := step2 AI_state b s_sharp s_sharp n_iter in
+    let (s', invs) := steps AI_state b s_sharp s_sharp n_iter in
     if is_inv AI_state s_sharp s' b then 
-        s' 
+        (s', s' :: invs) 
     else
         widening AI_state b s' s' n_widen.
 
 Fixpoint AI (P : While) n_iter n_widen s_sharp :=
     match P with
-    | assign x e => Some (ab_update s_sharp x (A_sharp e s_sharp))
-    | skip => Some s_sharp
+    | assign x e => (Some (ab_update s_sharp x (A_sharp e s_sharp)), nil)
+    | skip => (Some s_sharp, nil)
     | sequence S1 S2 => match AI S1 n_iter n_widen s_sharp with
-                    | Some t_sharp => AI S2 n_iter n_widen t_sharp 
-                    | None => None
-                    end
+                        | (Some t_sharp, invs1) => let (u_sharp, invs2) := AI S2 n_iter n_widen t_sharp in (u_sharp, invs1 ++ invs2)
+                        | (None, invs1) => (None, invs1)
+                        end
     | if_then_else b S1 S2 => match B_sharp b s_sharp, B_sharp (neg_sem b) s_sharp with
                             | Some t_sharp, Some u_sharp => match AI S1 n_iter n_widen t_sharp with
-                                                            | Some v_sharp => Some (join_state' v_sharp (AI S2 n_iter n_widen u_sharp))
-                                                            | None => AI S2 n_iter n_widen u_sharp 
+                                                            | (Some v_sharp, invs1) => let (w_sharp, invs2) := AI S2 n_iter n_widen u_sharp in (Some (join_state' v_sharp w_sharp), invs1 ++ invs2)
+                                                            | (None, invs1) => AI S2 n_iter n_widen u_sharp 
                                                             end
                             | Some t_sharp, None => AI S1 n_iter n_widen t_sharp 
                             | None, Some u_sharp => AI S2 n_iter n_widen u_sharp 
-                            | None, None => None 
+                            | None, None => (None, nil) 
                             end
-    | while_do b S' => let inv := (find_inv (AI S' n_iter n_widen) b s_sharp n_iter n_widen ) in B_sharp (neg_sem b) inv
+    | while_do b S' => let (inv, invs) := (find_inv (AI S' n_iter n_widen) b s_sharp n_iter n_widen) in (B_sharp (neg_sem b) inv, invs)
     end.
-
-(*  *)
 
 End AbstractInterpreter.
 
 
+
+(* Extended Sign domain *)
 
 Module ExtendedSign <: AbstractDomain.
 
@@ -197,11 +193,13 @@ Inductive extended_sign :=
     | gt0
     | bot.
 
-Definition A := extended_sign.
+Definition AbD := extended_sign.
 
-Definition AbState := list (string * A).
+Definition AbS := list (string * AbD).
 
-Fixpoint ab_update s_sharp x a : AbState :=
+Definition top_AbS : AbS := nil.
+
+Fixpoint ab_update s_sharp x a : AbS :=
     match s_sharp with 
     | nil => (x, a) :: nil
     | (y, a') :: sl => if string_dec x y then (y, a) :: sl else (y, a') :: ab_update sl x a
@@ -218,6 +216,11 @@ Definition alpha_singleton n :=
     else if n <? 0 then lt0
     else gt0.
 
+Definition sign_eq_dec : forall (x y : AbD), { x = y } + { x <> y }.
+Proof.
+    decide equality.
+Defined.
+
 Definition ab_opp a :=
     match a with
     | lt0 => gt0
@@ -226,11 +229,6 @@ Definition ab_opp a :=
     | ge0 => le0
     | a' => a'
     end.
-
-Definition sign_eq_dec : forall (x y : A), { x = y } + { x <> y }.
-Proof.
-    decide equality.
-Defined.
 
 Definition add_op a1 a2 :=
     match a1, a2 with
@@ -433,13 +431,30 @@ Definition join a1 a2 :=
     | a3, a4 => if sign_eq_dec a3 a4 then a3 else top
     end.
 
+Fixpoint join_state s1_sharp s2_sharp :=
+    match s1_sharp with 
+    | nil => nil 
+    | (x, a) :: sl => ab_update (join_state sl s2_sharp) x (join a (lookup s2_sharp x)) 
+    end.
+
 Definition ab_le a1 a2 := if sign_eq_dec (join a1 a2) a2 then true else false.
 
+Fixpoint s_stable s_sharp t_sharp :=
+    match s_sharp with
+    | nil => true
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
+    end.
+
 Definition widen a1 a2 := join a1 a2.
+
+Definition widen_state s s' :=
+    map (fun p : string * AbD => let (x, v) := p in (x, widen v (lookup s' x))) s.
 
 End ExtendedSign.
 
 
+
+(* Intervals domain *)
 
 Module Intervals <: AbstractDomain.
 
@@ -450,11 +465,13 @@ Inductive Interval : Type :=
 | right_of : Z -> Interval
 | bot : Interval.
 
-Definition A := Interval.
+Definition AbD := Interval.
 
-Definition AbState := list (string * A). 
+Definition AbS := list (string * AbD). 
 
-Fixpoint ab_update s_sharp x a : AbState :=
+Definition top_AbS : AbS := nil.
+
+Fixpoint ab_update s_sharp x a : AbS :=
     match s_sharp with 
     | nil => (x, a) :: nil
     | (y, a') :: sl => if string_dec x y then (y, a) :: sl else (y, a') :: ab_update sl x a
@@ -468,6 +485,14 @@ Fixpoint lookup s_sharp x :=
 
 Definition alpha_singleton n := between n n.
 
+Definition ab_opp a :=
+    match a with
+    | right_of n => left_of (-n)
+    | left_of n => right_of (-n)
+    | between m n => between (-n) (-m)
+    | top => top
+    | bot => bot
+    end.
 
 Definition add_op a1 a2 :=
     match a1, a2 with
@@ -569,15 +594,6 @@ Definition ab_op op a1 a2 :=
     | div => div_op a1 a2
     end.
 
-Definition ab_opp a :=
-    match a with
-    | right_of n => left_of (-n)
-    | left_of n => right_of (-n)
-    | between m n => between (-n) (-m)
-    | top => top
-    | bot => bot
-    end.
-
 Fixpoint A_sharp e s_sharp :=
     match e with
     | var x => lookup s_sharp x
@@ -670,7 +686,6 @@ Definition lt_sem e1 e2 s_sharp :=
             end
     end.
 
-
 Definition gt_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
@@ -732,7 +747,11 @@ Definition ge_sem e1 e2 s_sharp :=
             end
     end.
 
-
+Fixpoint join_state s1_sharp s2_sharp :=
+    match s1_sharp with 
+    | nil => nil 
+    | (x, a) :: sl => ab_update (join_state sl s2_sharp) x (join a (lookup s2_sharp x)) 
+    end.
 
 Definition ab_le a1 a2 :=
     match a1, a2 with 
@@ -743,6 +762,12 @@ Definition ab_le a1 a2 :=
     | right_of a, right_of c => c <=? a
     | left_of a, left_of c => a <=? c
     | _, _ => false
+    end.
+
+Fixpoint s_stable s_sharp t_sharp :=
+    match s_sharp with
+    | nil => true
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
     end.
 
 Definition widen a1 a2 :=
@@ -760,96 +785,195 @@ Definition widen a1 a2 :=
     | _, _ => top
     end.
 
+Definition widen_state s s' :=
+    map (fun p : string * AbD => let (x, v) := p in (x, widen v (lookup s' x))) s.
+
 End Intervals.
 
 
 
-
+(* Extended Sign examples *)
 
 Module B := AbstractInterpreter ExtendedSign.
 Import ExtendedSign.
 Import B.
-Definition example3_expr :=
+
+
+(** 
+    Example 1
+
+    while x != 0 do
+        x := x + 1
+*)
+
+Definition example1_expr :=
     while_do (bop ne (var "x") (const 0)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example3_state := [("x", lt0)].
+Definition example1_1_state := [("x", lt0)].
 
-Definition example4_state := [("x", eq0)].
+Definition example1_2_state := [("x", eq0)].
 
-Definition example5_state := [("x", gt0)].
+Definition example1_3_state := [("x", gt0)].
 
-Compute (AI example3_expr 5 3 example3_state).
+Compute (AI example1_expr 5 3 example1_1_state).
 
-Compute (AI example3_expr 5 3 example4_state).
+Compute (AI example1_expr 5 3 example1_2_state).
 
-Compute (AI example3_expr 5 3 example5_state).
-
-
-Module C := AbstractInterpreter Intervals.
-     Import C.
-Import Intervals.
+Compute (AI example1_expr 5 3 example1_3_state).
 
 
-Definition example6_expr :=
-    while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
+(** 
+    Example 2
 
-Definition example6_state := [("x", between 10 10); ("y", between 0 0)].
-
-Compute (AI example6_expr 0 0 example6_state). 
-Compute (AI example6_expr 0 2 example6_state).
-Compute (AI example6_expr 10 2 example6_state).
-Compute (AI example6_expr 11 2 example6_state).
-
-Definition example7_expr :=
-    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example7_state := [("x", between 0 0)].
-
-Compute (AI example7_expr 5 3 example7_state).
-
-
-Definition example8_expr :=
-    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example8_state := [("x", between 1 1)].
-
-(** no need for widening here *)
-Compute (AI example8_expr 0 0 example8_state).
-Compute (AI example8_expr 100 0 example8_state).
-
-
-
-Definition example9_expr :=
-    sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
-
-Compute (AI example9_expr 0 0 nil).
-Compute (AI example9_expr 40 0 nil).
-
-
-
-
-
-
-
-
-   (** 
-    
-Definition example1_expr :=
-    AOp Plus (AOp Times (Const 2) (Var "y")) (AOp Times (Const 3) (Var "x")).
-
-Definition example1_state := [("x", lt0); ("y", lt0)].
-
-Compute abstract_semantics_A example1_expr example1_state.
-
+    x := x + y
+    y := y + 1
+*)
 
 Definition example2_expr :=
-    AOp Minus (AOp Times (Var "x") (Var "y")) (AOp Times (Const 2) (Var "z")).
+    (sequence (assign "x" (aop add (var "x") (var "y"))) (assign "y" (aop add (var "y") (const 1)))).
 
-Definition example2_state := [("x", lt0); ("y", lt0); ("z", gt0)].
-        
-Compute abstract_semantics_A example2_expr example2_state.
+Definition example2_state := [("x", le0); ("y", lt0)].
+
+Compute (AI example2_expr 5 3 example2_state).
 
 
+
+(* Intervals examples *)
+
+Module C := AbstractInterpreter Intervals.
+Import Intervals.
+Import C.
+
+
+(** 
+    Example 3
+
+    while x >= 0 do
+        x := x - 1
+        y := y + 1
 *)
+
+Definition example3_expr :=
+    while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
+
+Definition example3_state := [("x", between 10 10); ("y", between 0 0)].
+
+Compute (AI example3_expr 0 0 example3_state). 
+Compute (AI example3_expr 0 2 example3_state).
+Compute (AI example3_expr 10 2 example3_state).
+Compute (AI example3_expr 11 2 example3_state).
+
+
+(** 
+    Example 4
+
+    while x < 10 do
+        x := x + 1
+*)
+
+Definition example4_expr :=
+    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example4_state := [("x", between 0 0)].
+
+Compute (AI example4_expr 0 0 example4_state).
+Compute (AI example4_expr 9 0 example4_state).
+Compute (AI example4_expr 10 0 example4_state).
+
+
+(** 
+    Example 5
+
+    while x <= 100 do
+        x := x + 1
+*)
+
+Definition example5_expr :=
+    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example5_state := [("x", between 1 1)].
+
+(** no need for widening here *)
+Compute (AI example5_expr 0 0 example5_state).
+Compute (AI example5_expr 100 0 example5_state).
+Compute (AI example5_expr 101 0 example5_state).
+
+
+(** 
+    Example 6
+
+    x := 0
+    while x < 40 do
+        x := x + 1
+*)
+
+Definition example6_expr :=
+    sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
+
+Compute (AI example6_expr 0 0 nil).
+Compute (AI example6_expr 40 0 nil).
+Compute (AI example6_expr 41 0 nil).
+
+
+(** 
+    Example 7
+
+    i := 1
+    while i <= 3 do
+        j := 1
+        while j <= i do
+            j := j + 1
+        i := i + 1
+*)
+
+Definition nested_while_1_expr :=
+    sequence (assign "i" (const 1)) 
+             (while_do (bop le (var "i") (const 3)) 
+                (sequence (sequence (assign "j" (const 1)) 
+                                    (while_do (bop le (var "j") (var "i")) 
+                                        (assign "j" (aop add (var "j") (const 1))))) 
+                          (assign "i" (aop add (var "i") (const 1))))).
+
+Compute (AI nested_while_1_expr 0 2 nil).
+
+
+(** 
+    Example 8
+
+    i := 1
+    while i <= 4 do
+        j := 0
+        while j <= 3 do
+            k := 0
+            while k <= 5 do
+                z := i * j * k
+                x := x + 1
+            j := j + 1
+        i := i + 1
+*)
+
+Definition nested_while_2_expr :=
+    sequence (assign "i" (const 1)) 
+             (while_do (bop le (var "i") (const 4)) 
+                (sequence (sequence (assign "j" (const 0)) 
+                                    (while_do (bop le (var "j") (var "3")) 
+                                        (sequence (sequence (assign "k" (const 0)) 
+                                                            (while_do (bop le (var "k") (var "5")) 
+                                                                (sequence (assign "z" (aop mul (aop mul (var "i") (var "j")) (var "k"))) 
+                                                                            (assign "x" (aop add (var "x") (const 1))))))
+                                                  (assign "j" (aop add (var "j") (const 1))))))
+                          (assign "i" (aop add (var "i") (const 1))))).
+
+Compute (AI nested_while_2_expr 5 5 nil).
+
+
+
+Definition nested_while_3_expr :=
+    sequence (assign "c" (const 3)) (while_do (bop gt (var "c") (const 0)) (sequence (sequence (assign "j" (const 1)) (while_do (bop le (var "j") (var "i")) (assign "j" (aop add (var "j") (const 1))))) (assign "i" (aop add (var "i") (const 1))))).
+
+
+
+Definition 
+
 
     
