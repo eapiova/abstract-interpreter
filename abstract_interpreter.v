@@ -2,6 +2,11 @@ From pv Require Import library.
 Require Import String ZArith List.
 Open Scope Z_scope.
 
+From ReductionEffect Require Import PrintingEffect.
+
+Require Coq.extraction.Extraction.
+Extraction Language OCaml.
+
 
 
 (* Language *)
@@ -10,7 +15,7 @@ Inductive ABinOp :=
     | add
     | sub
     | mul
-    | div.
+    (**| div *).
 
 Inductive Aexp : Type :=
     | var : string -> Aexp
@@ -67,7 +72,7 @@ Parameter ge_sem : Aexp -> Aexp -> AbS -> option AbS.
 Parameter join : AbD -> AbD -> AbD.
 Parameter join_state : AbS -> AbS -> AbS.
 Parameter ab_le : AbD -> AbD -> bool.
-Parameter s_stable : AbS -> AbS -> bool.
+Parameter ab_le_state : AbS -> AbS -> bool.
 Parameter widen : AbD -> AbD -> AbD.
 Parameter widen_state : AbS -> AbS -> AbS.
 
@@ -80,10 +85,10 @@ End AbstractDomain.
 Module AbstractInterpreter (AbDom : AbstractDomain).
 Import AbDom.
     
-Definition join_state' s s' :=
-    match s' with
-    | Some s' => join_state s s'
-    | None => s
+Definition join_state' s_sharp opt_t_sharp :=
+    match opt_t_sharp with
+    | Some t_sharp => join_state s_sharp t_sharp
+    | None => s_sharp
     end.
     
 Fixpoint B_sharp b s_sharp :=
@@ -124,55 +129,48 @@ Fixpoint neg_sem b :=
 
 Definition step (AI_state : AbS -> option AbS * list AbS) b s_sharp t_sharp :=
     match B_sharp b t_sharp with
-    | Some u_sharp => let (v_sharp, invs) := (AI_state u_sharp) in (join_state' s_sharp v_sharp, invs)
+    | Some u_sharp => let (opt_v_sharp, invs) := (AI_state u_sharp) in (join_state' s_sharp opt_v_sharp, invs)
     | None => (s_sharp, nil)
     end.
 
-Definition is_inv AI_state s_sharp t_sharp b := let (u_sharp, _) := step AI_state b s_sharp t_sharp in s_stable t_sharp u_sharp.
+Definition is_inv AI_state s_sharp t_sharp b := let (u_sharp, _) := step AI_state b s_sharp t_sharp in ab_le_state t_sharp u_sharp.
 
-Fixpoint steps AI_state (b : Bexp) s_sharp t_sharp (n : nat) :=
-    match n with 
-    | 0%nat => (t_sharp, nil)
-    | S m => if is_inv AI_state s_sharp t_sharp b
-                then (t_sharp, nil)
-             else 
-                let (u_sharp, invs1) := step AI_state b s_sharp t_sharp in let (v_sharp, invs2) := steps AI_state b s_sharp u_sharp m in (v_sharp, invs1 ++ invs2)
-    end.
+Unset Guard Checking.
 
-Fixpoint widening AI_state b s_sharp t_sharp n :=
-    match n with 
-    | 0%nat => (top_AbS, [top_AbS])
-    | S m => if is_inv AI_state s_sharp t_sharp b
-                then (t_sharp, [t_sharp])
-            else 
-                let (u_sharp, invs1) := step AI_state b s_sharp t_sharp in let (v_sharp, invs2) := widening AI_state b s_sharp (widen_state t_sharp u_sharp) m in (v_sharp, invs1 ++ invs2) 
-    end.
+Fixpoint steps AI_state (b : Bexp) s_sharp t_sharp {struct b} :=
+    if is_inv AI_state s_sharp t_sharp b
+        then (t_sharp, [t_sharp])
+    else 
+        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := steps AI_state b s_sharp u_sharp in (v_sharp, invs1 ++ invs2).        
 
-Definition find_inv AI_state b s_sharp n_iter n_widen :=
-    let (s', invs) := steps AI_state b s_sharp s_sharp n_iter in
-    if is_inv AI_state s_sharp s' b then 
-        (s', s' :: invs) 
-    else
-        widening AI_state b s' s' n_widen.
+Fixpoint widening AI_state b s_sharp t_sharp {struct b} :=
+    if is_inv AI_state s_sharp t_sharp b
+        then (t_sharp, [t_sharp])
+    else 
+        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := widening AI_state b s_sharp (widen_state t_sharp u_sharp) in (v_sharp, invs1 ++ invs2).
 
-Fixpoint AI (P : While) n_iter n_widen s_sharp :=
+Definition ab_lfp AI_state b s_sharp (widen_toggle : bool) :=
+    if widen_toggle then widening AI_state b s_sharp s_sharp
+    else steps AI_state b s_sharp s_sharp.
+
+Fixpoint AI (P : While) widen_toggle s_sharp :=
     match P with
     | assign x e => (Some (ab_update s_sharp x (A_sharp e s_sharp)), nil)
     | skip => (Some s_sharp, nil)
-    | sequence S1 S2 => match AI S1 n_iter n_widen s_sharp with
-                        | (Some t_sharp, invs1) => let (u_sharp, invs2) := AI S2 n_iter n_widen t_sharp in (u_sharp, invs1 ++ invs2)
+    | sequence S1 S2 => match AI S1 widen_toggle s_sharp with
+                        | (Some t_sharp, invs1) => let (opt_u_sharp, invs2) := AI S2 widen_toggle t_sharp in (opt_u_sharp, invs1 ++ invs2)
                         | (None, invs1) => (None, invs1)
                         end
     | if_then_else b S1 S2 => match B_sharp b s_sharp, B_sharp (neg_sem b) s_sharp with
-                            | Some t_sharp, Some u_sharp => match AI S1 n_iter n_widen t_sharp with
-                                                            | (Some v_sharp, invs1) => let (w_sharp, invs2) := AI S2 n_iter n_widen u_sharp in (Some (join_state' v_sharp w_sharp), invs1 ++ invs2)
-                                                            | (None, invs1) => AI S2 n_iter n_widen u_sharp 
+                            | Some t_sharp, Some u_sharp => match AI S1 widen_toggle t_sharp with
+                                                            | (Some v_sharp, invs1) => let (opt_w_sharp, invs2) := AI S2 widen_toggle u_sharp in (Some (join_state' v_sharp opt_w_sharp), invs1 ++ invs2)
+                                                            | (None, invs1) => AI S2 widen_toggle u_sharp 
                                                             end
-                            | Some t_sharp, None => AI S1 n_iter n_widen t_sharp 
-                            | None, Some u_sharp => AI S2 n_iter n_widen u_sharp 
+                            | Some t_sharp, None => AI S1 widen_toggle t_sharp 
+                            | None, Some u_sharp => AI S2 widen_toggle u_sharp 
                             | None, None => (None, nil) 
                             end
-    | while_do b S' => let (inv, invs) := (find_inv (AI S' n_iter n_widen) b s_sharp n_iter n_widen) in (B_sharp (neg_sem b) inv, invs)
+    | while_do b S' => let (inv, invs) := (ab_lfp (AI S' widen_toggle) b s_sharp widen_toggle) in (B_sharp (neg_sem b) inv, invs)
     end.
 
 End AbstractInterpreter.
@@ -265,6 +263,7 @@ Definition mul_op a1 a2 :=
     | _, _ => top
     end.
 
+(**
 Definition div_op a1 a2 :=
     match a1, a2 with
     | bot, _ | _, bot | _, eq0 => bot
@@ -276,13 +275,14 @@ Definition div_op a1 a2 :=
     | le0, gt0 | le0, ge0 | ge0, lt0 | ge0, le0 => le0
     | _, _ => top
     end.
+*)
 
 Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
     | mul => mul_op a1 a2
-    | div => div_op a1 a2
+    (* | div => div_op a1 a2 *)
     end.
 
 Fixpoint A_sharp e s_sharp :=
@@ -439,16 +439,16 @@ Fixpoint join_state s1_sharp s2_sharp :=
 
 Definition ab_le a1 a2 := if sign_eq_dec (join a1 a2) a2 then true else false.
 
-Fixpoint s_stable s_sharp t_sharp :=
+Fixpoint ab_le_state s_sharp t_sharp :=
     match s_sharp with
     | nil => true
-    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && ab_le_state sl t_sharp
     end.
 
 Definition widen a1 a2 := join a1 a2.
 
-Definition widen_state s s' :=
-    map (fun p : string * AbD => let (x, v) := p in (x, widen v (lookup s' x))) s.
+Definition widen_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
 
 End ExtendedSign.
 
@@ -549,6 +549,7 @@ Definition join a1 a2 :=
     | _, _ => top
     end.
 
+(**
 Definition div_op a1 a2 :=
     match a1, a2 with
     | left_of b, left_of d => if d <=? 0 then right_of (Z.min 0 (b / d)) else top
@@ -585,13 +586,14 @@ Definition div_op a1 a2 :=
     | top, between c d => if (c =? 0) && (d =? 0) then bot else top
     | _, _ => top
     end.
+*)
 
 Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
     | mul => mul_op a1 a2
-    | div => div_op a1 a2
+    (* | div => div_op a1 a2 *)
     end.
 
 Fixpoint A_sharp e s_sharp :=
@@ -764,14 +766,17 @@ Definition ab_le a1 a2 :=
     | _, _ => false
     end.
 
-Fixpoint s_stable s_sharp t_sharp :=
+Fixpoint ab_le_state s_sharp t_sharp :=
     match s_sharp with
     | nil => true
-    | (x, a) :: sl => ab_le (lookup t_sharp x) a && s_stable sl t_sharp
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && ab_le_state sl t_sharp
     end.
+
 
 Definition widen a1 a2 :=
     match a1, a2 with
+    | bot, a3 | a3, bot => a3
+    | right_of a, right_of c | right_of a, between c _ | between a _, right_of c => if a <=? c then right_of a else top
     | between a b, between c d => if a <=? c then
                                     if d <=? b then
                                         between a b
@@ -782,11 +787,12 @@ Definition widen a1 a2 :=
                                         left_of b
                                     else
                                         top
+    | between _ b, left_of d | left_of b, between _ d | left_of b, left_of d => if d <=? b then left_of b else top
     | _, _ => top
     end.
 
-Definition widen_state s s' :=
-    map (fun p : string * AbD => let (x, v) := p in (x, widen v (lookup s' x))) s.
+Definition widen_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
 
 End Intervals.
 
@@ -815,11 +821,13 @@ Definition example1_2_state := [("x", eq0)].
 
 Definition example1_3_state := [("x", gt0)].
 
-Compute (AI example1_expr 5 3 example1_1_state).
 
-Compute (AI example1_expr 5 3 example1_2_state).
 
-Compute (AI example1_expr 5 3 example1_3_state).
+Eval compute in (AI example1_expr false example1_1_state).
+
+Eval compute in (AI example1_expr false example1_2_state).
+
+Eval compute in (AI example1_expr false example1_3_state).
 
 
 (** 
@@ -834,7 +842,7 @@ Definition example2_expr :=
 
 Definition example2_state := [("x", le0); ("y", lt0)].
 
-Compute (AI example2_expr 5 3 example2_state).
+Eval compute in (AI example1_expr false example2_state).
 
 
 
@@ -858,10 +866,10 @@ Definition example3_expr :=
 
 Definition example3_state := [("x", between 10 10); ("y", between 0 0)].
 
-Compute (AI example3_expr 0 0 example3_state). 
-Compute (AI example3_expr 0 2 example3_state).
-Compute (AI example3_expr 10 2 example3_state).
-Compute (AI example3_expr 11 2 example3_state).
+
+(* Eval compute in (AI example3_expr false example3_state). *)
+Eval compute in (AI example3_expr true example3_state).
+
 
 
 (** 
@@ -876,9 +884,8 @@ Definition example4_expr :=
 
 Definition example4_state := [("x", between 0 0)].
 
-Compute (AI example4_expr 0 0 example4_state).
-Compute (AI example4_expr 9 0 example4_state).
-Compute (AI example4_expr 10 0 example4_state).
+Compute (AI example4_expr true example4_state).
+
 
 
 (** 
@@ -893,11 +900,8 @@ Definition example5_expr :=
 
 Definition example5_state := [("x", between 1 1)].
 
-(** no need for widening here *)
-Compute (AI example5_expr 0 0 example5_state).
-Compute (AI example5_expr 100 0 example5_state).
-Compute (AI example5_expr 101 0 example5_state).
-
+Eval compute in (AI example5_expr false example5_state).
+Eval compute in (AI example5_expr true example5_state).
 
 (** 
     Example 6
@@ -910,9 +914,8 @@ Compute (AI example5_expr 101 0 example5_state).
 Definition example6_expr :=
     sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
 
-Compute (AI example6_expr 0 0 nil).
-Compute (AI example6_expr 40 0 nil).
-Compute (AI example6_expr 41 0 nil).
+Eval compute in (AI example6_expr true nil).
+Eval compute in (AI example6_expr false nil).
 
 
 (** 
@@ -934,7 +937,8 @@ Definition nested_while_1_expr :=
                                         (assign "j" (aop add (var "j") (const 1))))) 
                           (assign "i" (aop add (var "i") (const 1))))).
 
-Compute (AI nested_while_1_expr 0 2 nil).
+Eval compute in (AI nested_while_1_expr false nil).
+Eval compute in (AI nested_while_1_expr true nil).
 
 
 (** 
@@ -964,16 +968,8 @@ Definition nested_while_2_expr :=
                                                   (assign "j" (aop add (var "j") (const 1))))))
                           (assign "i" (aop add (var "i") (const 1))))).
 
-Compute (AI nested_while_2_expr 5 5 nil).
-
-
-
-Definition nested_while_3_expr :=
-    sequence (assign "c" (const 3)) (while_do (bop gt (var "c") (const 0)) (sequence (sequence (assign "j" (const 1)) (while_do (bop le (var "j") (var "i")) (assign "j" (aop add (var "j") (const 1))))) (assign "i" (aop add (var "i") (const 1))))).
-
-
-
-Definition 
+(* Eval compute in (AI nested_while_2_expr false nil). *)
+Eval compute in (AI nested_while_2_expr true nil).
 
 
     

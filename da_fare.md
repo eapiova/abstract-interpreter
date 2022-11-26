@@ -1,0 +1,6 @@
+- narrowing
+- controllare esempi
+- beamer slides
+- sistemare divisione
+- controllare tail call
+- sistemare github

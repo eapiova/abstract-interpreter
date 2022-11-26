@@ -1,4 +1,8 @@
+- check the division
 
+- no need for widening in finite domains
+
+- intervalli con infinito diviso, altrimenti bisognava definire Z esteso a -inf e +inf
 
 - AI ha due argomenti aggiuntivi: numero di iterazioni nel loop, numero di iterazioni di widening. Vengono passati direttamente ad AI per motivi di controllo.
 
