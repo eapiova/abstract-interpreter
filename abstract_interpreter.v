@@ -75,6 +75,8 @@ Parameter ab_le : AbD -> AbD -> bool.
 Parameter ab_le_state : AbS -> AbS -> bool.
 Parameter widen : AbD -> AbD -> AbD.
 Parameter widen_state : AbS -> AbS -> AbS.
+Parameter narrow : AbD -> AbD -> AbD.
+Parameter narrow_state : AbS -> AbS -> AbS.
 
 End AbstractDomain.
 
@@ -149,8 +151,14 @@ Fixpoint widening AI_state b s_sharp t_sharp {struct b} :=
     else 
         let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := widening AI_state b s_sharp (widen_state t_sharp u_sharp) in (v_sharp, invs1 ++ invs2).
 
+Fixpoint narrowing AI_state b s_sharp t_sharp {struct b} :=
+    if is_inv AI_state s_sharp t_sharp b
+        then (t_sharp, [t_sharp])
+    else 
+        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := narrowing AI_state b s_sharp (narrow_state t_sharp u_sharp) in (v_sharp, invs1 ++ invs2).
+
 Definition ab_lfp AI_state b s_sharp (widen_toggle : bool) :=
-    if widen_toggle then widening AI_state b s_sharp s_sharp
+    if widen_toggle then let (t_sharp, invs1) := widening AI_state b s_sharp s_sharp in let (v_sharp, invs2) := narrowing AI_state b s_sharp t_sharp in (v_sharp, invs1 ++ invs2)
     else steps AI_state b s_sharp s_sharp.
 
 Fixpoint AI (P : While) widen_toggle s_sharp :=
@@ -449,6 +457,11 @@ Definition widen a1 a2 := join a1 a2.
 
 Definition widen_state s_sharp t_sharp :=
     map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
+
+Definition narrow (a1 a2 : AbD) := a1.
+
+Definition narrow_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, narrow a (lookup t_sharp x))) s_sharp.
 
 End ExtendedSign.
 
@@ -794,6 +807,20 @@ Definition widen a1 a2 :=
 Definition widen_state s_sharp t_sharp :=
     map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
 
+Definition narrow a1 a2 :=
+    match a1, a2 with
+    | bot, _ | _, bot => bot
+    | top, a3 | a3, top => a3
+    | right_of a, right_of _ => right_of a
+    | right_of a, between _ d | right_of a, left_of d => between a d
+    | between a b, _ => between a b
+    | left_of b, right_of c | left_of b, between c _ => between c b
+    | left_of b, left_of _ => left_of b
+    end.
+
+Definition narrow_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, narrow a (lookup t_sharp x))) s_sharp.
+
 End Intervals.
 
 
@@ -884,7 +911,7 @@ Definition example4_expr :=
 
 Definition example4_state := [("x", between 0 0)].
 
-Compute (AI example4_expr true example4_state).
+Eval compute in (AI example4_expr true example4_state).
 
 
 
