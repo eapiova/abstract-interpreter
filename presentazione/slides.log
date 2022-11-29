@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.11.8)  26 NOV 2022 17:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.11.8)  29 NOV 2022 10:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -683,39 +683,31 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 ] [6
 
+] [7
+
+] [8
+
+] [9
+
+] [10
+
+] [11
+
+] [12
+
+] [13
+
+] [14
+
+] [15
+
+] [16
+
+] [17
+
+] [18
+
 ]
-Overfull \hbox (110.73932pt too wide) in paragraph at lines 121--133
- [] 
- []
-
-[7
-
-]
-Overfull \hbox (71.735pt too wide) in paragraph at lines 151--163
- [] 
- []
-
-[8]
-Overfull \hbox (71.735pt too wide) in paragraph at lines 183--195
- [] 
- []
-
-[9]
-Overfull \hbox (71.735pt too wide) in paragraph at lines 215--227
- [] 
- []
-
-[10]
-Overfull \hbox (110.73932pt too wide) in paragraph at lines 246--258
- [] 
- []
-
-[11]
-Overfull \hbox (110.73932pt too wide) in paragraph at lines 278--290
- [] 
- []
-
-[12] [13]
 \tf@nav=\write6
 \openout6 = `slides.nav'.
 
@@ -730,18 +722,18 @@ Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 21232 strings out of 478238
- 407276 string characters out of 5850456
- 707394 words of memory out of 5000000
- 39020 multiletter control sequences out of 15000+600000
+ 21264 strings out of 478238
+ 407547 string characters out of 5850456
+ 685394 words of memory out of 5000000
+ 39042 multiletter control sequences out of 15000+600000
  475877 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,14n,104p,498b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 99i,14n,104p,498b,556s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on slides.pdf (13 pages, 94489 bytes).
+Output written on slides.pdf (18 pages, 101461 bytes).
 PDF statistics:
- 384 PDF objects out of 1000 (max. 8388607)
- 347 compressed objects within 4 object streams
- 27 named destinations out of 1000 (max. 500000)
+ 514 PDF objects out of 1000 (max. 8388607)
+ 471 compressed objects within 5 object streams
+ 37 named destinations out of 1000 (max. 500000)
  43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
