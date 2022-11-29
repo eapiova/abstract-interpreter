@@ -147,18 +147,19 @@ Fixpoint steps AI_state (b : Bexp) s_sharp t_sharp {struct b} :=
 
 Fixpoint widening AI_state b s_sharp t_sharp {struct b} :=
     if is_inv AI_state s_sharp t_sharp b
-        then (t_sharp, [t_sharp])
+        then t_sharp
     else 
-        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := widening AI_state b s_sharp (widen_state t_sharp u_sharp) in (v_sharp, invs1 ++ invs2).
+        let (u_sharp, _) := print_id (step AI_state b s_sharp t_sharp) in widening AI_state b s_sharp (widen_state t_sharp u_sharp).
 
 Fixpoint narrowing AI_state b s_sharp t_sharp {struct b} :=
-    if is_inv AI_state s_sharp t_sharp b
-        then (t_sharp, [t_sharp])
+    let (u_sharp, _) := print_id (step AI_state b s_sharp t_sharp) in let v_sharp := narrow_state t_sharp u_sharp in
+    if is_inv AI_state s_sharp v_sharp b
+        then (v_sharp, [v_sharp])
     else 
-        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := narrowing AI_state b s_sharp (narrow_state t_sharp u_sharp) in (v_sharp, invs1 ++ invs2).
+        let (w_sharp, invs1) := print_id (step AI_state b s_sharp v_sharp) in let (z_sharp, invs2) := narrowing AI_state b s_sharp (narrow_state v_sharp w_sharp) in (z_sharp, invs1 ++ invs2).
 
 Definition ab_lfp AI_state b s_sharp (widen_toggle : bool) :=
-    if widen_toggle then let (t_sharp, invs1) := widening AI_state b s_sharp s_sharp in let (v_sharp, invs2) := narrowing AI_state b s_sharp t_sharp in (v_sharp, invs1 ++ invs2)
+    if widen_toggle then let t_sharp := widening AI_state b s_sharp s_sharp in narrowing AI_state b s_sharp t_sharp
     else steps AI_state b s_sharp s_sharp.
 
 Fixpoint AI (P : While) widen_toggle s_sharp :=
@@ -872,6 +873,11 @@ Definition example2_state := [("x", le0); ("y", lt0)].
 Eval compute in (AI example1_expr false example2_state).
 
 
+Definition example8_expr :=
+    sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
+
+Eval compute in (AI example8_expr false nil).
+
 
 (* Intervals examples *)
 
@@ -911,6 +917,7 @@ Definition example4_expr :=
 
 Definition example4_state := [("x", between 0 0)].
 
+Eval compute in (AI example4_expr false example4_state).
 Eval compute in (AI example4_expr true example4_state).
 
 
@@ -941,8 +948,32 @@ Eval compute in (AI example5_expr true example5_state).
 Definition example6_expr :=
     sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
 
-Eval compute in (AI example6_expr true nil).
 Eval compute in (AI example6_expr false nil).
+Eval compute in (AI example6_expr true nil).
+
+
+
+Definition example7_expr :=
+    sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
+
+Eval compute in (AI example7_expr true nil).
+Eval compute in (AI example7_expr false nil).
+
+
+Definition example9_expr :=
+    sequence (assign "x" (const 0)) 
+             (while_do (bop eq (const 1) (const 1)) 
+                (if_then_else (bop eq (var "y") (const 0))
+                    (sequence (assign "x" (aop add (var "x") (const 1)))
+                              (if_then_else (bop gt (var "x") (const 40)) 
+                                (assign "x" (const 0)) 
+                                skip))
+                    skip)).
+
+Definition example9_state := [("y", between 0 1)].
+
+Eval compute in (AI example9_expr true nil).
+Eval compute in (AI example9_expr false nil).
 
 
 (** 

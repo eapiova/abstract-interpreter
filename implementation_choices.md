@@ -11,3 +11,8 @@
 - Abstract states sono liste invece di funzioni per semplicita. Abstract states sono liste invece di option lists, per semplicità. Altrimenti molti pattern matching. Avrebbe senso assegnare None a bot state.
 
 - between numero piu alto e numero piu basso sarebbe bot, ma e lasciato per semplicita
+
+
+
+
+- abstract loop invariants based on narrowing
