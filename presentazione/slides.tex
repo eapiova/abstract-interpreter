@@ -1,4 +1,5 @@
 \documentclass{beamer}
+\usepackage{multirow}
 %Information to be included in the title page:
 \title{Software Verification}
 \author{Borsetto Riccardo}
@@ -323,5 +324,349 @@
                         \end{table}
                     \end{frame}
 
+
+\begin{frame}
+    \frametitle{Join}
+\begin{table}[]
+    \scalebox{0.7}{
+    \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    $\lor$         & $\bot$         & $(-\infty, b]$         & $[a, b]$                 & $[a, +\infty)$         & $\top$ \\ \hline
+    $\bot$         & $\bot$         & $(-\infty, b]$         & $[a, b]$                 & $[a, +\infty)$         & $\top$ \\ \hline
+    $(-\infty, d]$ & $(-\infty, d]$ & $(-\infty, max(b, d)]$ & $(-\infty, max(b, d)]$   & $\top$                 & $\top$ \\ \hline
+    $[c, d]$       & $[c, d]$       & $(-\infty, max(b, d)]$ & $[min(a, c), max(b, d)]$ & $[min(a, c), +\infty)$ & $\top$ \\ \hline
+    $[c, +\infty)$ & $[c, +\infty)$ & $\top$                 & $[min(a, c), +\infty)$   & $[min(a, c), +\infty)$ & $\top$ \\ \hline
+    $\top$         & $\top$         & $\top$                 & $\top$                   & $\top$                 & $\top$ \\ \hline
+    \end{tabular}}
+    \end{table}
+\end{frame}
+                    
+        \begin{frame}
+            \frametitle{Addition}
+    \begin{table}[]
+        \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        $+$            & $\bot$ & $(-\infty, b]$     & $[a, b]$           & $[a, +\infty)$     & $\top$ \\ \hline
+        $\bot$         & $\bot$ &                    &                    &                    &        \\ \hline
+        $(-\infty, d]$ & $\bot$ & $(-\infty, b + d]$ &                    &                    &        \\ \hline
+        $[c, d]$       & $\bot$ & $(-\infty, b + d]$ & $[a + c, b + d]$   &                    &        \\ \hline
+        $[c, +\infty)$ & $\bot$ & $\top$             & $[a + c, +\infty)$ & $[a + c, +\infty)$ &        \\ \hline
+        $\top$         & $\bot$ & $\top$             & $\top$             & $\top$             & $\top$ \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{frame}
+    
+    
+        \begin{frame}
+            \frametitle{Subtraction}
+        \begin{table}[]
+            \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            $-$            & $\bot$ & $(-\infty, b]$     & $[a, b]$           & $[a, +\infty)$     & $\top$ \\ \hline
+            $\bot$         & $\bot$ & $\bot$             & $\bot$             & $\bot$             & $\bot$ \\ \hline
+            $(-\infty, d]$ & $\bot$ & $\top$             & $[a - d, +\infty)$ & $[a - d, +\infty)$ & $\top$ \\ \hline
+            $[c, d]$       & $\bot$ & $(-\infty, b - c]$ & $[a - d, b - c]$   & $[a - d, +\infty)$ & $\top$ \\ \hline
+            $[c, +\infty)$ & $\bot$ & $(-\infty, b - c]$ & $(-\infty, b - c]$ & $\top$             & $\top$ \\ \hline
+            $\top$         & $\bot$ & $\top$             & $\top$             & $\top$             & $\top$ \\ \hline
+            \end{tabular}
+            \end{table}
+        \end{frame}
+    
+            % Please add the following required packages to your document preamble:
+    % \usepackage{multirow}
+    
+    
+
+    
+        \begin{frame}
+            \frametitle{Multiplication}
+    \begin{table}[]
+        \scalebox{0.4}{
+        \begin{tabular}{|l|l|ll|ll|ll|ll|}
+        \hline
+        $*$                             & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                       & \multicolumn{2}{l|}{$[a, b]$}                                                      & \multicolumn{2}{l|}{$[a, +\infty)$}                                                       & \multicolumn{2}{l|}{$\top$}                                         \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                               & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                                                               & \multicolumn{2}{l|}{$\bot$}                                         \\ \hline
+        \multirow{4}{*}{$(-\infty, d]$} & \multirow{4}{*}{$\bot$} & \multirow{2}{*}{$b > 0 \lor d > 0$}                    & \multirow{2}{*}{$\top$}          & $(a < 0 \land b > 0) \lor (a > 0 \land b < 0)$          & $\top$                   & \multirow{2}{*}{$d > 0 \lor a < 0$}                    & \multirow{2}{*}{$\top$}          & \multicolumn{2}{l|}{\multirow{4}{*}{$\top$}}                        \\
+                                        &                         &                                                        &                                  & $(a \le 0 \land b \le 0) \land (a \ne 0 \lor b \ne 0)$  & $[min(ad, bd), +\infty)$ &                                                        &                                  & \multicolumn{2}{l|}{}                                               \\
+                                        &                         & \multirow{2}{*}{$b \le 0 \land d \le 0$}               & \multirow{2}{*}{$[bd, +\infty)$} & $(a \ge 0 \land b \ge 0) \land (a \ne 0 \lor b \ne 0)$  & $(-\infty, max(ad, bd)]$ & \multirow{2}{*}{$d \le 0 \land a \ge 0$}               & \multirow{2}{*}{$(-\infty, ad]$} & \multicolumn{2}{l|}{}                                               \\
+                                        &                         &                                                        &                                  & $(a = 0 \land b = 0)$                                   & $[0, 0]$                 &                                                        &                                  & \multicolumn{2}{l|}{}                                               \\ \hline
+        \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$\bot$} & $(c < 0 \land d > 0) \lor (c > 0 \land d < 0)$         & $\top$                           & \multicolumn{2}{l|}{\multirow{4}{*}{$[min(ac, ad, bc, bd), max(ac, ad, bc, bd)]$}} & $(c < 0 \land d > 0) \lor (c > 0 \land d < 0)$         & $\top$                           & \multirow{2}{*}{$c = d = 0$}            & \multirow{2}{*}{$[0, 0]$} \\
+                                        &                         & $(c \le 0 \land d \le 0) \land (c \ne 0 \lor d \ne 0)$ & $[min(bc, bd), +\infty)$         & \multicolumn{2}{l|}{}                                                              & $(c \le 0 \land d \le 0) \land (c \ne 0 \lor d \ne 0)$ & $(-\infty, max(ac, ad)]$         &                                         &                           \\
+                                        &                         & $(c \ge 0 \land d \ge 0) \land (c \ne 0 \lor d \ne 0)$ & $(-\infty, max(bc, bd)]$         & \multicolumn{2}{l|}{}                                                              & $(c \ge 0 \land d \ge 0) \land (c \ne 0 \lor d \ne 0)$ & $[min(ac, ad), +\infty)$         & \multirow{2}{*}{$c \ne 0 \lor d \ne 0$} & \multirow{2}{*}{$\top$}   \\
+                                        &                         & $(c = 0 \land d = 0)$                                  & $[0, 0]$                         & \multicolumn{2}{l|}{}                                                              & $(c = 0 \land d = 0)$                                  & $[0, 0]$                         &                                         &                           \\ \hline
+        \multirow{4}{*}{$[c, +\infty)$} & \multirow{4}{*}{$\bot$} & \multirow{2}{*}{$b > 0 \lor c < 0$}                    & \multirow{2}{*}{$\top$}          & $(a < 0 \land b > 0) \lor (a > 0 \land b < 0)$          & $\top$                   & \multirow{2}{*}{$a < 0 \lor c < 0$}                    & \multirow{2}{*}{$\top$}          & \multicolumn{2}{l|}{\multirow{4}{*}{$\top$}}                        \\
+                                        &                         &                                                        &                                  & $(a \le 0 \land b \le 0) \land (a \ne 0 \lor b \ne 0)$  & $(-\infty, max(ac, bc)]$ &                                                        &                                  & \multicolumn{2}{l|}{}                                               \\
+                                        &                         & \multirow{2}{*}{$b \le 0 \land c \ge 0$}               & \multirow{2}{*}{$(-\infty, bc]$} & $(a \ge 0 \land b \ge 0) \land (a \ne 0 \lor b \ne 0)$  & $[min(ac, bc), +\infty)$ & \multirow{2}{*}{$a \ge 0 \land c \ge 0$}               & \multirow{2}{*}{$(-\infty, ac]$} & \multicolumn{2}{l|}{}                                               \\
+                                        &                         &                                                        &                                  & $(a = 0 \land b = 0)$                                   & $[0, 0]$                 &                                                        &                                  & \multicolumn{2}{l|}{}                                               \\ \hline
+        \multirow{2}{*}{$\top$}         & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                                              & $a = b = 0$                                             & $[0, 0]$                 & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                                              & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                        \\
+                                        &                         & \multicolumn{2}{l|}{}                                                                     & $a \ne 0 \lor b \ne 0$                                  & $\top$                   & \multicolumn{2}{l|}{}                                                                     & \multicolumn{2}{l|}{}                                               \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Division}
+    \begin{table}[]
+        \scalebox{0.5}{
+        \begin{tabular}{|l|l|ll|ll|ll|ll|}
+        \hline
+        $/$                             & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                                                                                                         & \multicolumn{2}{l|}{$[a, +\infty)$}                                    & \multicolumn{2}{l|}{$\top$}                          \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                                                                                                           & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                          \\ \hline
+        \multirow{5}{*}{$(-\infty, d]$} & \multirow{5}{*}{$\bot$} & \multirow{2}{*}{$d \le 0$} & \multirow{2}{*}{$[min(0, b/d), +\infty)$} & $d \le 0$                         & $[min(0, a/d, b/d), max(0, a/d, b/d)]$                                                            & \multirow{2}{*}{$d \le 0$} & \multirow{2}{*}{$(-\infty, max(a/d, 0)]$} & \multicolumn{2}{l|}{\multirow{5}{*}{$\top$}}         \\
+                                        &                         &                            &                                           & $d > 0 \land a = b = 0$           & $[0, 0]$                                                                                          &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                        &                         & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & $d > 0 \land a \ge 0 \land b > 0$ & $(-\infty, max(a/d, b/d)]$                                                                        & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & \multicolumn{2}{l|}{}                                \\
+                                        &                         &                            &                                           & $d > 0 \land a < 0 \land b \le 0$ & $[min(a/d, b/d), +\infty)$                                                                        &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                        &                         &                            &                                           & otherwise                         & $\top$                                                                                            &                            &                                           & \multicolumn{2}{l|}{}                                \\ \hline
+        \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot$} & $c = d = 0$                & $\bot$                                    & \multirow{2}{*}{$c = d = 0$}      & \multirow{2}{*}{$\bot$}                                                                           & $c = d = 0$                & $\bot$                                    & $c = d = 0$                & $\bot$                  \\
+                                        &                         & $0 < c \le d$              & $(-\infty, max(b/c, b/d)]$                &                                   &                                                                                                   & $0 < c \le d$              & $[min(a/c, a/d), +\infty)$                &                            &                         \\
+                                        &                         & $0 = c < d \land b \le 0$  & $(-\infty, b/d]$                          & \multirow{2}{*}{$c < 0 < d$}      & \multirow{2}{*}{$[min(0, a/c, b/c), max(0, a/c, b/c)] \lor [min(0, a/d, b/d), max(0, a/d, b/d)]$} & $0 = c < d \land a \ge 0$  & $[a/d, +\infty)$                          & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$} \\
+                                        &                         & $c \le d < 0$              & $[min(b/c, b/d), +\infty)$                &                                   &                                                                                                   & $c \le d < 0$              & $(-\infty, max(a/c, a/d)]$                &                            &                         \\
+                                        &                         & otherwise                  & $\top$                                    & otherwise                         & $[min(a/c, a/d, b/c, b/d), max(a/c, a/d, b/c, b/d)]$                                              & otherwise                  & $\top$                                    &                            &                         \\ \hline
+        \multirow{5}{*}{$[c, +\infty)$} & \multirow{5}{*}{$\bot$} & \multirow{2}{*}{$c \ge 0$} & \multirow{2}{*}{$(-\infty, max(0, b/c)]$} & $c \ge 0$                         & $[min(0, a/c, b/c), max(0, a/c, b/c)]$                                                            & \multirow{2}{*}{$c \ge 0$} & \multirow{2}{*}{$[min(a/c, 0), +\infty)$} & \multicolumn{2}{l|}{\multirow{5}{*}{$\top$}}         \\
+                                        &                         &                            &                                           & $c < 0 \land a = b = 0$           & $[0, 0]$                                                                                          &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                        &                         & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & $c < 0 \land a \ge 0 \land b > 0$ & $[min(a/c, b/c), +\infty)$                                                                        & \multirow{3}{*}{otherwise} & \multirow{3}{*}{$\top$}                   & \multicolumn{2}{l|}{}                                \\
+                                        &                         &                            &                                           & $c < 0 \land a < 0 \land b \le 0$ & $(-\infty, max(a/c, b/c)]$                                                                        &                            &                                           & \multicolumn{2}{l|}{}                                \\
+                                        &                         &                            &                                           & otherwise                         & $\top$                                                                                            &                            &                                           & \multicolumn{2}{l|}{}                                \\ \hline
+        \multirow{2}{*}{$\top$}         & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                           & $a = b = 0$                       & $[0, 0]$                                                                                          & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                           & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}         \\
+                                        &                         & \multicolumn{2}{l|}{}                                                  & otherwise                         & $\top$                                                                                            & \multicolumn{2}{l|}{}                                                  & \multicolumn{2}{l|}{}                                \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+    
+    
+    
+    
+        \begin{frame}
+            \frametitle{Equality}
+        \begin{table}
+            \scalebox{0.6}{
+            \begin{tabular}{|l|l|l|l|l|l|}
+            \hline
+            $e_1 = e_2$    & $\bot$ & $(-\infty, b]$                     & $[a, b]$                                      & $[a, +\infty)$                     & $\top$ \\ \hline
+            $\bot$         & $\bot$ & $\bot$                             & $\bot$                                        & $\bot$                             & $\bot$ \\ \hline
+            $(-\infty, d]$ & $\bot$ & $s^\#$                             & if $a > d$ then $\bot$ else $s^\#$            & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
+            $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $a > d$ or $b < c$ then $\bot$ else $s^\#$ & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
+            $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$            & $s^\#$                             & $s^\#$ \\ \hline
+            $\top$         & $\bot$ & $s^\#$                             & $s^\#$                                        & $s^\#$                             & $s^\#$ \\ \hline
+            \end{tabular}}
+            \end{table}
+        \end{frame}
+    
+    \begin{frame}
+        \frametitle{Equality}
+    \begin{table}
+        \scalebox{0.8}{
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $x = e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                                  & \multicolumn{2}{l|}{$[a, +\infty)$}                                          & $\top$                                          \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                                    & \multicolumn{2}{l|}{$\bot$}                                                  & $\bot$                                          \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b \le d$                        & $s^\#$                                          & $a > d$                             & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+                                        &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, d]]$} & $a \le d \land b > d$               & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$}       & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                        &                         &                                  &                                                 & $a \le d \land b \le d$             & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+        \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c \lor a > d$                  & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{5}{*}{$s^\#[x \mapsto [c, d]]$}       \\
+                                        &                         & \multirow{2}{*}{$c \le b \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b > d \land a < c$                 & $s^\#[x \mapsto [c, d]]$ & \multirow{2}{*}{$a < c$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$} &                                                 \\
+                                        &                         &                                  &                                                 & $b > d \land a \ge c$               & $s^\#[x \mapsto [a, d]]$ &                                  &                                           &                                                 \\
+                                        &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$}       & $c \le b \le d \land a < c$         & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$c \le a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                        &                         &                                  &                                                 & $c \le b \le d \land c \le a \le d$ & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c$                             & $\bot$                   & $a < c$                          & $s^\#[x \mapsto [c, +\infty)]$            & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                        &                         & \multirow{2}{*}{$b \ge c$}       & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b \ge c \land a < c$               & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$}       & \multirow{2}{*}{$s^\#$}                   &                                                 \\
+                                        &                         &                                  &                                                 & $a \ge c$                           & $s^\#$                   &                                  &                                           &                                                 \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                                    & \multicolumn{2}{l|}{$s^\#$}                                                  & $s^\#$                                          \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $e_1 \ne e_2$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}          & \multicolumn{2}{l|}{$[a, b]$}                & \multicolumn{2}{l|}{$[a, +\infty)$}          & $\top$                  \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & $\bot$                  \\ \hline
+        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                     &                 & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & $a = b = c = d$            & $\bot$          & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & \multirow{2}{*}{$s^\#$} \\
+                                        &                         & \multicolumn{2}{l|}{}                        & otherwise                  & $s^\#$          & \multicolumn{2}{l|}{}                        &                         \\ \hline
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multirow{3}{*}{$s^\#$} \\
+                                        &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\
+                                        &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{frame}
+    
+    
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}
+        \scalebox{0.8}{
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $x \ne e$                       & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                            & \multicolumn{2}{l|}{$[a, +\infty)$}                                                & $\top$                  \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                              & \multicolumn{2}{l|}{$\bot$}                                                        & $\bot$                  \\ \hline
+        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                    &                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+        \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$\bot$} & \multirow{2}{*}{$b = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, b - 1]]$} & $a = c = d \land a \ne b$ & $s^\#[x \mapsto [a + 1, b]]$ & \multirow{2}{*}{$a = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto [a + 1, +\infty)]$} & \multirow{4}{*}{$s^\#$} \\
+                                        &                         &                              &                                                     & $b = c = d \land a \ne b$ & $s^\#[x \mapsto [a, b - 1]]$ &                              &                                                     &                         \\
+                                        &                         & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             & $a = b = c = d$           & $\bot$                       & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             &                         \\
+                                        &                         &                              &                                                     & otherwise                 & $s^\#$     &                              &                                                     &                         \\ \hline
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}             & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multirow{3}{*}{$s^\#$} \\
+                                        &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\
+                                        &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+        \end{tabular}
+        }
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \begin{tabular}{|l|l|l|ll|ll|l|}
+        \hline
+        $e_1 < e_2$                     & $\bot$                  & $(-\infty, b]$          & \multicolumn{2}{l|}{$[a, b]$} & \multicolumn{2}{l|}{$[a, +\infty)$} & $\top$                  \\ \hline
+        $\bot$                          & $\bot$                  & $\bot$                  & \multicolumn{2}{l|}{$\bot$}   & \multicolumn{2}{l|}{$\bot$}         & $\bot$                  \\ \hline
+        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot$      & $a \ge d$          & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+                                        &                         &                         & $a < d$         & $s^\#$      & $a < d$            & $s^\#$         &                         \\ \hline
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot$      & $a \ge d$          & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+                                        &                         &                         & $a < d$         & $s^\#$      & $a < d$            & $s^\#$         &                         \\ \hline
+        $[c, +\infty)$                  & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $\top$                          & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \scalebox{0.7}{
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $x < e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                           & \multicolumn{2}{l|}{$[a, b]$}                        & \multicolumn{2}{l|}{$[a, +\infty)$}                                      & $\top$                                              \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                   & \multicolumn{2}{l|}{$\bot$}                          & \multicolumn{2}{l|}{$\bot$}                                              & $\bot$                                              \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot$                       & $a \ge d$                & $\bot$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
+                                        &                         & \multirow{2}{*}{$b < d$} & \multirow{2}{*}{$s^\#$}            & $a < d \land b \ge d$ & $s^\#[x \mapsto [a, d - 1]]$ & \multirow{2}{*}{$a < d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d - 1]]$} &                                                     \\
+                                        &                         &                          &                                    & $a< d \land b < d$    & $s^\#$                       &                          &                                               &                                                     \\ \hline
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot$                       & $a \ge d$                & $\bot$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
+                                        &                         & \multirow{2}{*}{$b < d$} & \multirow{2}{*}{$s^\#$}            & $a < d \land b \ge d$ & $s^\#[x \mapsto [a, d - 1]]$ & \multirow{2}{*}{$a < d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d - 1]]$} &                                                     \\
+                                        &                         &                          &                                    & $a< d \land b < d$    & $s^\#$                       &                          &                                               &                                                     \\ \hline
+        $[c, +\infty)$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \begin{tabular}{|l|l|l|ll|ll|l|}
+        \hline
+        $e_1 \le e_2$                   & $\bot$                  & $(-\infty, b]$          & \multicolumn{2}{l|}{$[a, b]$} & \multicolumn{2}{l|}{$[a, +\infty)$} & $\top$                  \\ \hline
+        $\bot$                          & $\bot$                  & $\bot$                  & \multicolumn{2}{l|}{$\bot$}   & \multicolumn{2}{l|}{$\bot$}         & $\bot$                  \\ \hline
+        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot$      & $a > d$            & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+                                        &                         &                         & $a \le d$       & $s^\#$      & $a \le d$          & $s^\#$         &                         \\ \hline
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot$      & $a > d$            & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+                                        &                         &                         & $a \le d$       & $s^\#$      & $a \le d$          & $s^\#$         &                         \\ \hline
+        $[c, +\infty)$                  & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $\top$                          & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{frame}
+    
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \scalebox{0.7}{
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $x \le e$                       & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                         & \multicolumn{2}{l|}{$[a, b]$}                      & \multicolumn{2}{l|}{$[a, +\infty)$}                                    & $\top$                                          \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                 & \multicolumn{2}{l|}{$\bot$}                        & \multicolumn{2}{l|}{$\bot$}                                            & $\bot$                                          \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot$                   & $a > d$                    & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+                                        &                         & \multirow{2}{*}{$b \le d$} & \multirow{2}{*}{$s^\#$}        & $a \le d \land b > d$   & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                        &                         &                            &                                & $a \le d \land b \le d$ & $s^\#$                   &                            &                                           &                                                 \\ \hline
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot$                   & $a > d$                    & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+                                        &                         & \multirow{2}{*}{$b \le d$} & \multirow{2}{*}{$s^\#$}        & $a \le d \land b > d$   & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
+                                        &                         &                            &                                & $a \le d \land b \le d$ & $s^\#$                   &                            &                                           &                                                 \\ \hline
+        $[c, +\infty)$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \begin{tabular}{|l|l|ll|ll|l|l|}
+        \hline
+        $e_1 > e_2$    & $\bot$ & \multicolumn{2}{l|}{$(-\infty, b]$} & \multicolumn{2}{l|}{$[a, b]$} & $[a, +\infty)$          & $\top$                  \\ \hline
+        $\bot$         & $\bot$ & \multicolumn{2}{l|}{$\bot$}         & \multicolumn{2}{l|}{$\bot$}   & $\bot$                  & $\bot$                  \\ \hline
+        $(-\infty, d]$ & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+        $[c, d]$       & $\bot$ & $b \le c$          & $\bot$         & $b \le c$       & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+                        &        & $b > c$            & $s^\#$         & $b > c$         & $s^\#$      &                         &                         \\ \hline
+        $[c, +\infty)$ & $\bot$ & $b \le c$          & $\bot$         & $b \le c$       & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+                        &        & $b > c$            & $s^\#$         & $b > c$         & $s^\#$      &                         &                         \\ \hline
+        $\top$         & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+        \end{tabular}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+    \begin{table}[]
+        \scalebox{0.7}{
+        \begin{tabular}{|l|l|ll|ll|ll|l|}
+        \hline
+        $x > e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                      & \multicolumn{2}{l|}{$[a, b]$}                    & \multicolumn{2}{l|}{$[a, +\infty)$}                       & $\top$                                          \\ \hline
+        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                              & \multicolumn{2}{l|}{$\bot$}                      & \multicolumn{2}{l|}{$\bot$}                               & $\bot$                                          \\ \hline
+        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b \le c$                & $\bot$                                        & $b \le c$             & $\bot$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
+                                        &                         & \multirow{2}{*}{$b > c$} & \multirow{2}{*}{$s^\#[x \mapsto [c + 1, b]]$} & $b > c \land a \le c$ & $s^\#[x \mapsto [c + 1, b]]$ & \multirow{2}{*}{$a > c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                        &                         &                          &                                               & $b > c \land a > c$   & $s^\#$                   &                          &                                &                                                 \\ \hline
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b \le c$                & $\bot$                                        & $b \le c$             & $\bot$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
+                                        &                         & \multirow{2}{*}{$b > c$} & \multirow{2}{*}{$s^\#[x \mapsto [c + 1, b]]$} & $b > c \land a \le c$ & $s^\#[x \mapsto [c + 1, b]]$ & \multirow{2}{*}{$a > c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                        &                         &                          &                                               & $b > c \land a > c$   & $s^\#$                   &                          &                                &                                                 \\ \hline
+        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
+        \end{tabular}}
+        \end{table}
+    \end{frame}
+    
+        \begin{frame}
+            \frametitle{Equality}
+        \begin{table}
+            \begin{tabular}{|l|l|ll|ll|l|l|}
+            \hline
+            $e_1 \ge e_2$  & $\bot$ & \multicolumn{2}{l|}{$(-\infty, b]$} & \multicolumn{2}{l|}{$[a, b]$} & $[a, +\infty)$          & $\top$                  \\ \hline
+            $\bot$         & $\bot$ & \multicolumn{2}{l|}{$\bot$}         & \multicolumn{2}{l|}{$\bot$}   & $\bot$                  & $\bot$                  \\ \hline
+            $(-\infty, d]$ & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+            $[c, d]$       & $\bot$ & $b < c$            & $\bot$         & $b < c$         & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+                            &        & $b \ge c$          & $s^\#$         & $b \ge c$       & $s^\#$      &                         &                         \\ \hline
+            $[c, +\infty)$ & $\bot$ & $b < c$            & $\bot$         & $b < c$         & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+                            &        & $b \ge c$          & $s^\#$         & $b \ge c$       & $s^\#$      &                         &                         \\ \hline
+            $\top$         & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+            \end{tabular}
+            \end{table}
+        \end{frame}
+
+            \begin{frame}
+                \frametitle{Equality}
+    \begin{table}
+        \scalebox{0.8}{
+    \begin{tabular}{|l|l|ll|ll|ll|l|}
+    \hline
+    $x \ge e$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                      & \multicolumn{2}{l|}{$[a, +\infty)$}                         & $\top$                                          \\ \hline
+    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                        & \multicolumn{2}{l|}{$\bot$}                                 & $\bot$                                          \\ \hline
+    $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+    \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                    &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                    &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
+    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+                                    &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
+                                    &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
+    $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+    \end{tabular}}
+    \end{table}
+\end{frame}
 
 \end{document}

@@ -15,4 +15,4 @@
 
 
 
-- abstract loop invariants based on narrowing
+- abstract loop invariants based on narrowing not on widening
