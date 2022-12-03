@@ -15,7 +15,7 @@ Inductive ABinOp :=
     | add
     | sub
     | mul
-    | div.
+    (**| div *).
 
 Inductive Aexp : Type :=
     | var : string -> Aexp
@@ -57,18 +57,18 @@ Parameter top_AbS : AbS.
 Parameter bot_AbS : AbS.
 
 Parameter ab_update : AbS -> string -> AbD -> AbS.
-Parameter ab_lookup : AbS -> string -> AbD.
+Parameter lookup : AbS -> string -> AbD.
 Parameter alpha_singleton : Z -> AbD.
 Parameter ab_opp : AbD -> AbD.
 Parameter ab_op : ABinOp -> AbD -> AbD -> AbD.
 Parameter A_sharp : Aexp -> AbS -> AbD.
 
-Parameter eq_sem : Aexp -> Aexp -> AbS -> AbS.
-Parameter ne_sem : Aexp -> Aexp -> AbS -> AbS.
-Parameter lt_sem : Aexp -> Aexp -> AbS -> AbS.
-Parameter gt_sem : Aexp -> Aexp -> AbS -> AbS.
-Parameter le_sem : Aexp -> Aexp -> AbS -> AbS.
-Parameter ge_sem : Aexp -> Aexp -> AbS -> AbS.
+Parameter eq_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter ne_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter lt_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter gt_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter le_sem : Aexp -> Aexp -> AbS -> option AbS.
+Parameter ge_sem : Aexp -> Aexp -> AbS -> option AbS.
 
 Parameter join : AbD -> AbD -> AbD.
 Parameter join_state : AbS -> AbS -> AbS.
@@ -88,10 +88,16 @@ End AbstractDomain.
 Module AbstractInterpreter (AbDom : AbstractDomain).
 Import AbDom.
     
+Definition join_state' s_sharp opt_t_sharp :=
+    match opt_t_sharp with
+    | Some t_sharp => join_state s_sharp t_sharp
+    | None => s_sharp
+    end.
+    
 Fixpoint B_sharp b s_sharp :=
     match b with
-    | tt => s_sharp
-    | ff => bot_AbS
+    | tt => Some s_sharp
+    | ff => None
     | bop op e1 e2 => match op with 
                         | eq => eq_sem e1 e2 s_sharp
                         | lt => lt_sem e1 e2 s_sharp
@@ -100,8 +106,14 @@ Fixpoint B_sharp b s_sharp :=
                         | ge => ge_sem e1 e2 s_sharp
                         | ne => ne_sem e1 e2 s_sharp
                         end
-    | and b1 b2 => B_sharp b2 (B_sharp b1 s_sharp)
-    | or b1 b2 => join_state (B_sharp b1 s_sharp) (B_sharp b2 s_sharp)
+    | and b1 b2 => match B_sharp b1 s_sharp with
+                    | Some t_sharp => B_sharp b2 t_sharp
+                    | None => None
+                    end
+    | or b1 b2 => match B_sharp b1 s_sharp with 
+                    | Some t_sharp => Some (join_state' t_sharp (B_sharp b2 s_sharp))
+                    | None => B_sharp b2 s_sharp
+                    end
     end. 
 
 Fixpoint neg_sem b :=
@@ -118,8 +130,11 @@ Fixpoint neg_sem b :=
     | or b1 b2 => and (neg_sem b1) (neg_sem b2)
     end.
 
-Definition step (AI_state : AbS -> AbS * list AbS) b s_sharp t_sharp :=
-    let (v_sharp, invs) := (AI_state (B_sharp b t_sharp)) in (join_state s_sharp v_sharp, invs).
+Definition step (AI_state : AbS -> option AbS * list AbS) b s_sharp t_sharp :=
+    match B_sharp b t_sharp with
+    | Some u_sharp => let (opt_v_sharp, invs) := (AI_state u_sharp) in (join_state' s_sharp opt_v_sharp, invs)
+    | None => (s_sharp, nil)
+    end.
 
 Definition is_inv AI_state s_sharp t_sharp b := let (u_sharp, _) := step AI_state b s_sharp t_sharp in ab_le_state t_sharp u_sharp.
 
@@ -150,11 +165,22 @@ Definition ab_lfp AI_state b s_sharp (widen_toggle : bool) :=
 
 Fixpoint AI (P : While) widen_toggle s_sharp :=
     match P with
-    | assign x e => ((ab_update s_sharp x (A_sharp e s_sharp)), nil)
-    | skip => (s_sharp, nil)
-    | sequence S1 S2 => let (t_sharp, invs1) := AI S1 widen_toggle s_sharp in let (u_sharp, invs2) := AI S2 widen_toggle t_sharp in (u_sharp, invs1 ++ invs2)
-    | if_then_else b S1 S2 => let (t_sharp, invs1) := AI S1 widen_toggle (B_sharp b s_sharp) in let (u_sharp, invs2) := AI S2 widen_toggle (B_sharp (neg_sem b) s_sharp) in (join_state t_sharp u_sharp, invs1 ++ invs2)
-    | while_do b S' => let (t_sharp, invs) := (ab_lfp (AI S' widen_toggle) b s_sharp widen_toggle) in (B_sharp (neg_sem b) t_sharp, invs)
+    | assign x e => (Some (ab_update s_sharp x (A_sharp e s_sharp)), nil)
+    | skip => (Some s_sharp, nil)
+    | sequence S1 S2 => match AI S1 widen_toggle s_sharp with
+                        | (Some t_sharp, invs1) => let (opt_u_sharp, invs2) := AI S2 widen_toggle t_sharp in (opt_u_sharp, invs1 ++ invs2)
+                        | (None, invs1) => (None, invs1)
+                        end
+    | if_then_else b S1 S2 => match B_sharp b s_sharp, B_sharp (neg_sem b) s_sharp with
+                            | Some t_sharp, Some u_sharp => match AI S1 widen_toggle t_sharp with
+                                                            | (Some v_sharp, invs1) => let (opt_w_sharp, invs2) := AI S2 widen_toggle u_sharp in (Some (join_state' v_sharp opt_w_sharp), invs1 ++ invs2)
+                                                            | (None, invs1) => AI S2 widen_toggle u_sharp 
+                                                            end
+                            | Some t_sharp, None => AI S1 widen_toggle t_sharp 
+                            | None, Some u_sharp => AI S2 widen_toggle u_sharp 
+                            | None, None => (None, nil) 
+                            end
+    | while_do b S' => let (inv, invs) := (ab_lfp (AI S' widen_toggle) b s_sharp widen_toggle) in (B_sharp (neg_sem b) inv, invs)
     end.
 
 End AbstractInterpreter.
@@ -177,34 +203,20 @@ Inductive extended_sign :=
 
 Definition AbD := extended_sign.
 
-Definition AbS := option (list (string * AbD)).
+Definition AbS := list (string * AbD).
 
-Definition top_AbS : AbS := Some nil.
+Definition top_AbS : AbS := nil.
 
-Definition bot_AbS : AbS := None.
-
-Fixpoint string_list_update {A} l x (a : A) :=
-    match l with 
+Fixpoint ab_update s_sharp x a : AbS :=
+    match s_sharp with 
     | nil => (x, a) :: nil
-    | (y, a') :: tl => if string_dec x y then (y, a) :: tl else (y, a') :: string_list_update tl x a
+    | (y, a') :: sl => if string_dec x y then (y, a) :: sl else (y, a') :: ab_update sl x a
     end.
 
-Definition ab_update s_sharp x a : AbS :=
+Fixpoint lookup s_sharp x :=
     match s_sharp with
-    | Some l => Some (string_list_update l x a)
-    | None => Some ((x, a) :: nil)
-    end.
-
-Fixpoint string_list_lookup l x :=
-    match l with
     | nil => top
-    | (y, a) :: tl => if string_dec x y then a else string_list_lookup tl x
-    end.
-
-Definition ab_lookup s_sharp x :=
-    match s_sharp with
-    | Some l => string_list_lookup l x
-    | None => bot
+    | (y, a) :: sl => if string_dec x y then a else lookup sl x
     end.
 
 Definition alpha_singleton n :=
@@ -261,6 +273,7 @@ Definition mul_op a1 a2 :=
     | _, _ => top
     end.
 
+(**
 Definition div_op a1 a2 :=
     match a1, a2 with
     | bot, _ | _, bot | _, eq0 => bot
@@ -272,55 +285,58 @@ Definition div_op a1 a2 :=
     | le0, gt0 | le0, ge0 | ge0, lt0 | ge0, le0 => le0
     | _, _ => top
     end.
+*)
 
 Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
     | mul => mul_op a1 a2
-    | div => div_op a1 a2
+    (* | div => div_op a1 a2 *)
     end.
 
 Fixpoint A_sharp e s_sharp :=
     match e with
-    | var x => ab_lookup s_sharp x
+    | var x => lookup s_sharp x
     | const n => alpha_singleton n
     | aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
     | opp e' => ab_opp (A_sharp e' s_sharp)
     end.
+
+About A_sharp.    
 
 Definition eq_sem e1 e2 s_sharp :=
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
                 | bot, _ | _, bot 
                 | eq0, lt0 | eq0, gt0 | lt0, eq0 | gt0, eq0 | lt0, gt0 | gt0, lt0 
-                | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => bot_AbS
-                | le0, lt0 | ne0, lt0 | ne0, le0 | le0, ne0 => ab_update s_sharp x lt0
-                | le0, eq0 | ge0, eq0 | ge0, le0 | le0, ge0 => ab_update s_sharp x eq0
-                | ne0, gt0 | ge0, gt0 | ge0, ne0 | ne0, ge0 => ab_update s_sharp x gt0
-                | top, a => ab_update s_sharp x a
-                | _, _ => s_sharp
+                | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => None
+                | le0, lt0 | ne0, lt0 | ne0, le0 | le0, ne0 => Some (ab_update s_sharp x lt0)
+                | le0, eq0 | ge0, eq0 | ge0, le0 | le0, ge0 => Some (ab_update s_sharp x eq0)
+                | ne0, gt0 | ge0, gt0 | ge0, ne0 | ne0, ge0 => Some (ab_update s_sharp x gt0)
+                | top, a => Some (ab_update s_sharp x a)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot 
             | eq0, lt0 | eq0, gt0 | lt0, eq0 | gt0, eq0 | lt0, gt0 | gt0, lt0 
-            | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => bot_AbS
-            | _, _ => s_sharp
+            | lt0, ge0 | ge0, lt0 | eq0, ne0 | ne0, eq0 | gt0, le0 | le0, gt0 => None
+            | _, _ => Some s_sharp
             end
     end.
         
 Definition ne_sem e1 e2 s_sharp :=
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot | eq0, eq0 => bot_AbS
-                | le0, eq0 =>  (ab_update s_sharp x lt0)
-                | ge0, eq0 =>  (ab_update s_sharp x gt0)
-                | top, eq0 =>  (ab_update s_sharp x ne0)
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot | eq0, eq0 => None
+                | le0, eq0 => Some (ab_update s_sharp x lt0)
+                | ge0, eq0 => Some (ab_update s_sharp x gt0)
+                | top, eq0 => Some (ab_update s_sharp x ne0)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot | eq0, eq0 => bot_AbS
-            | _, _ =>  s_sharp
+            | bot, _ | _, bot | eq0, eq0 => None
+            | _, _ => Some s_sharp
             end
     end.
 
@@ -330,18 +346,18 @@ Definition lt_sem e1 e2 s_sharp :=
                 | bot, _ | _, bot 
                 | eq0, lt0 | eq0, eq0 | eq0, le0
                 | gt0, lt0 | gt0, eq0 | gt0, le0
-                | ge0, lt0 | ge0, eq0 | ge0, le0 => bot_AbS
+                | ge0, lt0 | ge0, eq0 | ge0, le0 => None
                 | le0, lt0 | le0, eq0 | le0, le0
                 | ne0, lt0 | ne0, eq0 | ne0, le0
-                | top, lt0 | top, eq0 | top, le0 =>  (ab_update s_sharp x lt0)
-                | _, _ =>  s_sharp
+                | top, lt0 | top, eq0 | top, le0 => Some (ab_update s_sharp x lt0)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot 
             | eq0, lt0 | eq0, eq0 | eq0, le0
             | gt0, lt0 | gt0, eq0 | gt0, le0
-            | ge0, lt0 | ge0, eq0 | ge0, le0 => bot_AbS
-            | _, _ =>  s_sharp
+            | ge0, lt0 | ge0, eq0 | ge0, le0 => None
+            | _, _ => Some s_sharp
             end
     end.
 
@@ -351,18 +367,18 @@ Definition gt_sem e1 e2 s_sharp :=
                 | bot, _ | _, bot 
                 | eq0, gt0 | eq0, eq0 | eq0, ge0
                 | lt0, gt0 | lt0, eq0 | lt0, ge0
-                | le0, gt0 | le0, eq0 | le0, ge0 => bot_AbS
+                | le0, gt0 | le0, eq0 | le0, ge0 => None
                 | ge0, gt0 | ge0, eq0 | ge0, ge0
                 | ne0, gt0 | ne0, eq0 | ne0, ge0
-                | top, gt0 | top, eq0 | top, ge0 =>  (ab_update s_sharp x gt0)
-                | _, _ =>  s_sharp
+                | top, gt0 | top, eq0 | top, ge0 => Some (ab_update s_sharp x gt0)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot 
             | eq0, gt0 | eq0, eq0 | eq0, ge0
             | lt0, gt0 | lt0, eq0 | lt0, ge0
-            | le0, gt0 | le0, eq0 | le0, ge0 => bot_AbS
-            | _, _ =>  s_sharp
+            | le0, gt0 | le0, eq0 | le0, ge0 => None
+            | _, _ => Some s_sharp
             end
     end.
 
@@ -372,20 +388,20 @@ Definition le_sem e1 e2 s_sharp :=
                 | bot, _ | _, bot 
                 | eq0, lt0 
                 | gt0, lt0 | gt0, eq0 | gt0, le0
-                | ge0, lt0 => bot_AbS
+                | ge0, lt0 => None
                 | le0, lt0 
                 | ne0, lt0 | ne0, eq0 | ne0, le0
-                | top, lt0 =>  (ab_update s_sharp x lt0)
-                | ge0, eq0 | ge0, le0 =>  (ab_update s_sharp x eq0)
-                | top, eq0 | top, le0 =>  (ab_update s_sharp x ge0)
-                | _, _ =>  s_sharp
+                | top, lt0 => Some (ab_update s_sharp x lt0)
+                | ge0, eq0 | ge0, le0 => Some (ab_update s_sharp x eq0)
+                | top, eq0 | top, le0 => Some (ab_update s_sharp x ge0)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot 
             | eq0, lt0
             | gt0, lt0 | gt0, eq0 | gt0, le0
-            | ge0, lt0 => bot_AbS
-            | _, _ =>  s_sharp
+            | ge0, lt0 => None
+            | _, _ => Some s_sharp
             end
     end.
 
@@ -395,20 +411,20 @@ Definition ge_sem e1 e2 s_sharp :=
                 | bot, _ | _, bot 
                 | eq0, gt0 
                 | lt0, gt0 | lt0, eq0 | lt0, ge0
-                | le0, gt0 => bot_AbS
+                | le0, gt0 => None
                 | ge0, gt0 
                 | ne0, gt0 | ne0, eq0 | ne0, ge0
-                | top, gt0 =>  (ab_update s_sharp x gt0)
-                | le0, eq0 | le0, ge0 =>  (ab_update s_sharp x eq0)
-                | top, eq0 | top, ge0 =>  (ab_update s_sharp x le0)
-                | _, _ =>  s_sharp
+                | top, gt0 => Some (ab_update s_sharp x gt0)
+                | le0, eq0 | le0, ge0 => Some (ab_update s_sharp x eq0)
+                | top, eq0 | top, ge0 => Some (ab_update s_sharp x le0)
+                | _, _ => Some s_sharp
                 end
     | _ => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
             | bot, _ | _, bot 
             | eq0, gt0
             | lt0, gt0 | lt0, eq0 | lt0, ge0
-            | le0, gt0 => bot_AbS
-            | _, _ =>  s_sharp
+            | le0, gt0 => None
+            | _, _ => Some s_sharp
             end
     end.
 
@@ -427,50 +443,29 @@ Definition join a1 a2 :=
     | a3, a4 => if sign_eq_dec a3 a4 then a3 else top
     end.
 
-Fixpoint join_state_helper l t_sharp :=
-    match l with 
-    | nil => top_AbS 
-    | (x, a) :: tl => ab_update (join_state_helper tl t_sharp) x (join a (ab_lookup t_sharp x)) 
+Fixpoint join_state s1_sharp s2_sharp :=
+    match s1_sharp with 
+    | nil => nil 
+    | (x, a) :: sl => ab_update (join_state sl s2_sharp) x (join a (lookup s2_sharp x)) 
     end.
-
-Definition join_state s_sharp t_sharp :=
-    match s_sharp with
-    | None => t_sharp
-    | Some l => join_state_helper l t_sharp
-    end.
-
-
 
 Definition ab_le a1 a2 := if sign_eq_dec (join a1 a2) a2 then true else false.
 
-Fixpoint ab_le_state_helper l t_sharp :=
-    match l with
-    | nil => true
-    | (x, a) :: tl => ab_le (ab_lookup t_sharp x) a && ab_le_state_helper tl t_sharp
-    end.
-
-Definition ab_le_state s_sharp t_sharp :=
+Fixpoint ab_le_state s_sharp t_sharp :=
     match s_sharp with
-    | None => true
-    | Some l => ab_le_state_helper l t_sharp
+    | nil => true
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && ab_le_state sl t_sharp
     end.
 
 Definition widen a1 a2 := join a1 a2.
 
 Definition widen_state s_sharp t_sharp :=
-    match s_sharp with
-    | None => t_sharp
-    | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, widen a (ab_lookup t_sharp x))) l)
-    end.
+    map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
 
-(* Sistemare *)
 Definition narrow (a1 a2 : AbD) := a1.
 
 Definition narrow_state s_sharp t_sharp :=
-    match s_sharp with
-    | None => bot_AbS
-    | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, narrow a (ab_lookup t_sharp x))) l)
-    end.
+    map (fun c : string * AbD => let (x, a) := c in (x, narrow a (lookup t_sharp x))) s_sharp.
 
 End ExtendedSign.
 
@@ -489,34 +484,20 @@ Inductive Interval : Type :=
 
 Definition AbD := Interval.
 
-Definition AbS := option (list (string * AbD)). 
+Definition AbS := list (string * AbD). 
 
-Definition top_AbS : AbS := Some nil.
+Definition top_AbS : AbS := nil.
 
-Definition bot_AbS : AbS := None.
-
-Fixpoint string_list_update {A} l x (a : A) :=
-    match l with 
+Fixpoint ab_update s_sharp x a : AbS :=
+    match s_sharp with 
     | nil => (x, a) :: nil
-    | (y, a') :: tl => if string_dec x y then (y, a) :: tl else (y, a') :: string_list_update tl x a
+    | (y, a') :: sl => if string_dec x y then (y, a) :: sl else (y, a') :: ab_update sl x a
     end.
 
-Definition ab_update s_sharp x a : AbS :=
+Fixpoint lookup s_sharp x :=
     match s_sharp with
-    | Some l => Some (string_list_update l x a)
-    | None => Some ((x, a) :: nil)
-    end.
-
-Fixpoint string_list_lookup l x :=
-    match l with
     | nil => top
-    | (y, a) :: tl => if string_dec x y then a else string_list_lookup tl x
-    end.
-
-Definition ab_lookup s_sharp x :=
-    match s_sharp with
-    | Some l => string_list_lookup l x
-    | None => bot
+    | (y, a) :: sl => if string_dec x y then a else lookup sl x
     end.
 
 Definition alpha_singleton n := between n n.
@@ -632,170 +613,164 @@ Definition ab_op op a1 a2 :=
     (* | div => div_op a1 a2 *)
     end.
 
-    Fixpoint A_sharp e s_sharp :=
-        match e with
-        | var x => ab_lookup s_sharp x
-        | const n => alpha_singleton n
-        | aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
-        | opp e' => ab_opp (A_sharp e' s_sharp)
-        end.
+Fixpoint A_sharp e s_sharp :=
+    match e with
+    | var x => lookup s_sharp x
+    | const n => alpha_singleton n
+    | aop op e1 e2 => ab_op op (A_sharp e1 s_sharp) (A_sharp e2 s_sharp)
+    | opp e' => ab_opp (A_sharp e' s_sharp)
+    end.
 
 Definition eq_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | left_of b, left_of d => if b <=? d then  s_sharp 
-                                          else  (ab_update s_sharp x (left_of d))
-                | left_of b, between c d => if b <? c then bot_AbS
-                                            else if (c <=? b) && (b <=? d) then  (ab_update s_sharp x (between c b))
-                                            else  (ab_update s_sharp x (between c d))
-                | left_of b, right_of c => if b <? c then bot_AbS 
-                                           else  (ab_update s_sharp x (between c b))
-                | between a b, left_of d => if a >? d then bot_AbS 
-                                            else if (a <=? d) && (b >? d) then  (ab_update s_sharp x (between a d))
-                                            else  s_sharp
-                | between a b, between c d => if (b <? c) || (a >? d) then bot_AbS 
-                                              else if (b >? d) && (a <? c) then  (ab_update s_sharp x (between c d))
-                                              else if (b >? d) && (a >=? c) then  (ab_update s_sharp x (between a d))
-                                              else if (c <=? b) && (b <=? d) && (a <? c) then  (ab_update s_sharp x (between c b))
-                                              else  s_sharp
-                | between a b, right_of c => if b <? c then bot_AbS 
-                                             else if (b >=? c) && (a <? c) then  (ab_update s_sharp x (between c b))
-                                             else  s_sharp
-                | right_of a, left_of d => if a >? d then bot_AbS else  (ab_update s_sharp x (between a d))
-                | right_of a, between c d => if a >? d then bot_AbS 
-                                             else if a <? c then  (ab_update s_sharp x (between c d))
-                                             else  (ab_update s_sharp x (between a d))
-                | right_of a, right_of c => if a <? c then  (ab_update s_sharp x (right_of c)) else  s_sharp
-                | top, left_of d =>  (ab_update s_sharp x (left_of d))
-                | top, between c d =>  (ab_update s_sharp x (between c d))
-                | top, right_of c =>  (ab_update s_sharp x (right_of c))
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot => None
+                | left_of b, left_of d => if b <=? d then Some s_sharp 
+                                          else Some (ab_update s_sharp x (left_of d))
+                | left_of b, between c d => if b <? c then None
+                                            else if (c <=? b) && (b <=? d) then Some (ab_update s_sharp x (between c b))
+                                            else Some (ab_update s_sharp x (between c d))
+                | left_of b, right_of c => if b <? c then None 
+                                           else Some (ab_update s_sharp x (between c b))
+                | between a b, left_of d => if a >? d then None 
+                                            else if (a <=? d) && (b >? d) then Some (ab_update s_sharp x (between a d))
+                                            else Some s_sharp
+                | between a b, between c d => if (b <? c) || (a >? d) then None 
+                                              else if (b >? d) && (a <? c) then Some (ab_update s_sharp x (between c d))
+                                              else if (b >? d) && (a >=? c) then Some (ab_update s_sharp x (between a d))
+                                              else if (c <=? b) && (b <=? d) && (a <? c) then Some (ab_update s_sharp x (between c b))
+                                              else Some s_sharp
+                | between a b, right_of c => if b <? c then None 
+                                             else if (b >=? c) && (a <? c) then Some (ab_update s_sharp x (between c b))
+                                             else Some s_sharp
+                | right_of a, left_of d => if a >? d then None else Some (ab_update s_sharp x (between a d))
+                | right_of a, between c d => if a >? d then None 
+                                             else if a <? c then Some (ab_update s_sharp x (between c d))
+                                             else Some (ab_update s_sharp x (between a d))
+                | right_of a, right_of c => if a <? c then Some (ab_update s_sharp x (right_of c)) else Some s_sharp
+                | top, left_of d => Some (ab_update s_sharp x (left_of d))
+                | top, between c d => Some (ab_update s_sharp x (between c d))
+                | top, right_of c => Some (ab_update s_sharp x (right_of c))
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
-            | left_of b, between c _ | left_of b, right_of c | between _ b, right_of c => if b <? c then bot_AbS else  s_sharp
-            | right_of a, between _ d | right_of a, left_of d | between a _, left_of d => if a >? d then bot_AbS else  s_sharp
-            | between a b, between c d => if (b <? c) || (a >? d) then bot_AbS else  s_sharp
-            | _, _ =>  s_sharp
+            | bot, _ | _, bot => None
+            | left_of b, between c _ | left_of b, right_of c | between _ b, right_of c => if b <? c then None else Some s_sharp
+            | right_of a, between _ d | right_of a, left_of d | between a _, left_of d => if a >? d then None else Some s_sharp
+            | between a b, between c d => if (b <? c) || (a >? d) then None else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
         
 Definition ne_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | left_of b, between c d => if (b =? c) && (c =? d) then  (ab_update s_sharp x (left_of (b - 1)))
-                                            else  s_sharp
-                | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then bot_AbS
-                                              else if (negb (a =? b)) && (a =? c) && (c =? d) then  (ab_update s_sharp x (between (a + 1) b))
-                                              else if (negb (a =? b)) && (b =? c) && (c =? d) then  (ab_update s_sharp x (between a (b - 1)))
-                                              else  s_sharp
-                | right_of a, between c d => if (a =? c) && (c =? d) then  (ab_update s_sharp x (right_of (a + 1)))
-                                             else  s_sharp
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot => None
+                | left_of b, between c d => if (b =? c) && (c =? d) then Some (ab_update s_sharp x (left_of (b - 1)))
+                                            else Some s_sharp
+                | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then None
+                                              else if (negb (a =? b)) && (a =? c) && (c =? d) then Some (ab_update s_sharp x (between (a + 1) b))
+                                              else if (negb (a =? b)) && (b =? c) && (c =? d) then Some (ab_update s_sharp x (between a (b - 1)))
+                                              else Some s_sharp
+                | right_of a, between c d => if (a =? c) && (c =? d) then Some (ab_update s_sharp x (right_of (a + 1)))
+                                             else Some s_sharp
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
-            | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then bot_AbS
-                                            else  s_sharp
-            | _, _ =>  s_sharp
+            | bot, _ | _, bot => None
+            | between a b, between c d => if (a =? b) && (b =? c) && (c =? d) then None
+                                            else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
     
 Definition lt_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | left_of b, left_of d | left_of b, between _ d => if b >=? d then  (ab_update s_sharp x (left_of (d - 1))) 
-                                                                   else  s_sharp
-                | between a b, between _ d | between a b, left_of d => if a >=? d then bot_AbS 
-                                                                       else if b >=? d then  (ab_update s_sharp x (between a (d - 1)))
-                                                                       else  s_sharp
-                | right_of a, between _ d | right_of a, left_of d => if a >=? d then bot_AbS else  (ab_update s_sharp x (between a (d - 1)))
-                | top, left_of d | top, between _ d =>  (ab_update s_sharp x (left_of (d - 1)))
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot => None
+                | left_of b, left_of d | left_of b, between _ d => if b >=? d then Some (ab_update s_sharp x (left_of (d - 1))) 
+                                                                   else Some s_sharp
+                | between a b, between _ d | between a b, left_of d => if a >=? d then None 
+                                                                       else if b >=? d then Some (ab_update s_sharp x (between a (d - 1)))
+                                                                       else Some s_sharp
+                | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some (ab_update s_sharp x (between a (d - 1)))
+                | top, left_of d | top, between _ d => Some (ab_update s_sharp x (left_of (d - 1)))
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
+            | bot, _ | _, bot => None
             | between a _, between _ d | between a _, left_of d 
-            | right_of a, between _ d | right_of a, left_of d => if a >=? d then bot_AbS else  s_sharp
-            | _, _ =>  s_sharp
+            | right_of a, between _ d | right_of a, left_of d => if a >=? d then None else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
 
 Definition gt_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | between a b, between c _ | between a b, right_of c => if b <=? c then bot_AbS else 
-                                                                         if a <=? c then  (ab_update s_sharp x (between (c + 1) b))
-                                                                         else  s_sharp
-                | left_of b, between c _ | left_of b, right_of c => if b <=? c then bot_AbS else  (ab_update s_sharp x (between (c + 1) b))
-                | right_of a, between c _ | right_of a, right_of c => if a <=? c then  (ab_update s_sharp x (right_of (c + 1))) else  s_sharp
-                | top, between c _ | top, right_of c =>  (ab_update s_sharp x (right_of (c + 1)))
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot => None
+                | between a b, between c _ | between a b, right_of c => if b <=? c then None else 
+                                                                         if a <=? c then Some (ab_update s_sharp x (between (c + 1) b))
+                                                                         else Some s_sharp
+                | left_of b, between c _ | left_of b, right_of c => if b <=? c then None else Some (ab_update s_sharp x (between (c + 1) b))
+                | right_of a, between c _ | right_of a, right_of c => if a <=? c then Some (ab_update s_sharp x (right_of (c + 1))) else Some s_sharp
+                | top, between c _ | top, right_of c => Some (ab_update s_sharp x (right_of (c + 1)))
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
+            | bot, _ | _, bot => None
             | between _ b, between c _ | between _ b, right_of c
-            | left_of b, between c _ | left_of b, right_of c  => if b <=? c then bot_AbS else  s_sharp
-            | _, _ =>  s_sharp
+            | left_of b, between c _ | left_of b, right_of c  => if b <=? c then None else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
 
 Definition le_sem e1 e2 s_sharp := 
     match e1 with
     | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | left_of b, left_of d | left_of b, between _ d => if b >? d then  (ab_update s_sharp x (left_of d)) 
-                                                                   else  s_sharp
-                | between a b, between _ d | between a b, left_of d => if a >? d then bot_AbS 
-                                                                       else if b >? d then  (ab_update s_sharp x (between a d))
-                                                                       else  s_sharp
-                | right_of a, between _ d | right_of a, left_of d => if a >? d then bot_AbS else  (ab_update s_sharp x (between a d))
-                | top, left_of d | top, between _ d =>  (ab_update s_sharp x (left_of d))
-                | _, _ =>  s_sharp
+                | bot, _ | _, bot => None
+                | left_of b, left_of d | left_of b, between _ d => if b >? d then Some (ab_update s_sharp x (left_of d)) 
+                                                                   else Some s_sharp
+                | between a b, between _ d | between a b, left_of d => if a >? d then None 
+                                                                       else if b >? d then Some (ab_update s_sharp x (between a d))
+                                                                       else Some s_sharp
+                | right_of a, between _ d | right_of a, left_of d => if a >? d then None else Some (ab_update s_sharp x (between a d))
+                | top, left_of d | top, between _ d => Some (ab_update s_sharp x (left_of d))
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
+            | bot, _ | _, bot => None
             | between a _, between _ d | between a _, left_of d 
-            | right_of a, between _ d | right_of a, left_of d => if a >? d then bot_AbS else  s_sharp
-            | _, _ =>  s_sharp
+            | right_of a, between _ d | right_of a, left_of d => if a >? d then None else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
 
 Definition ge_sem e1 e2 s_sharp := 
     match e1 with
-    | var x => match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-                | bot, _ | _, bot => bot_AbS
-                | between a b, between c _ | between a b, right_of c => if b <? c then bot_AbS else 
-                                                                         if a <? c then  (ab_update s_sharp x (between c b))
-                                                                         else  s_sharp
-                | left_of b, between c _ | left_of b, right_of c => if b <? c then bot_AbS else  (ab_update s_sharp x (between c b))
-                | right_of a, between c _ | right_of a, right_of c => if a <? c then  (ab_update s_sharp x (right_of c)) else  s_sharp
-                | top, between c _ | top, right_of c =>  (ab_update s_sharp x (right_of c))
-                | _, _ =>  s_sharp
+    | var x => match lookup s_sharp x, A_sharp e2 s_sharp with
+                | bot, _ | _, bot => None
+                | between a b, between c _ | between a b, right_of c => if b <? c then None else 
+                                                                         if a <? c then Some (ab_update s_sharp x (between c b))
+                                                                         else Some s_sharp
+                | left_of b, between c _ | left_of b, right_of c => if b <? c then None else Some (ab_update s_sharp x (between c b))
+                | right_of a, between c _ | right_of a, right_of c => if a <? c then Some (ab_update s_sharp x (right_of c)) else Some s_sharp
+                | top, between c _ | top, right_of c => Some (ab_update s_sharp x (right_of c))
+                | _, _ => Some s_sharp
                 end
     | _ =>  match A_sharp e1 s_sharp, A_sharp e2 s_sharp with
-            | bot, _ | _, bot => bot_AbS
+            | bot, _ | _, bot => None
             | between _ b, between c _ | between _ b, right_of c
-            | left_of b, between c _ | left_of b, right_of c  => if b <? c then bot_AbS else  s_sharp
-            | _, _ =>  s_sharp
+            | left_of b, between c _ | left_of b, right_of c  => if b <? c then None else Some s_sharp
+            | _, _ => Some s_sharp
             end
     end.
 
-    Fixpoint join_state_helper l t_sharp :=
-        match l with 
-        | nil => top_AbS 
-        | (x, a) :: tl => ab_update (join_state_helper tl t_sharp) x (join a (ab_lookup t_sharp x)) 
-        end.
-    
-    Definition join_state s1_sharp s2_sharp :=
-        match s1_sharp with
-        | None => s2_sharp
-        | Some l => join_state_helper l s2_sharp
-        end.
+Fixpoint join_state s1_sharp s2_sharp :=
+    match s1_sharp with 
+    | nil => nil 
+    | (x, a) :: sl => ab_update (join_state sl s2_sharp) x (join a (lookup s2_sharp x)) 
+    end.
 
 Definition ab_le a1 a2 :=
     match a1, a2 with 
@@ -808,17 +783,11 @@ Definition ab_le a1 a2 :=
     | _, _ => false
     end.
 
-    Fixpoint ab_le_state_helper l t_sharp :=
-        match l with
-        | nil => true
-        | (x, a) :: tl => ab_le (ab_lookup t_sharp x) a && ab_le_state_helper tl t_sharp
-        end.
-    
-    Definition ab_le_state s_sharp t_sharp :=
-        match s_sharp with
-        | None => true
-        | Some l => ab_le_state_helper l t_sharp
-        end.
+Fixpoint ab_le_state s_sharp t_sharp :=
+    match s_sharp with
+    | nil => true
+    | (x, a) :: sl => ab_le (lookup t_sharp x) a && ab_le_state sl t_sharp
+    end.
 
 
 Definition widen a1 a2 :=
@@ -839,11 +808,8 @@ Definition widen a1 a2 :=
     | _, _ => top
     end.
 
-    Definition widen_state s_sharp t_sharp :=
-        match s_sharp with
-        | None => t_sharp
-        | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, widen a (ab_lookup t_sharp x))) l)
-        end.
+Definition widen_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, widen a (lookup t_sharp x))) s_sharp.
 
 Definition narrow a1 a2 :=
     match a1, a2 with
@@ -856,11 +822,8 @@ Definition narrow a1 a2 :=
     | left_of b, left_of _ => left_of b
     end.
 
-    Definition narrow_state s_sharp t_sharp :=
-        match s_sharp with
-        | None => bot_AbS
-        | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, narrow a (ab_lookup t_sharp x))) l)
-        end.
+Definition narrow_state s_sharp t_sharp :=
+    map (fun c : string * AbD => let (x, a) := c in (x, narrow a (lookup t_sharp x))) s_sharp.
 
 End Intervals.
 
@@ -883,13 +846,13 @@ Import B.
 Definition example1_expr :=
     while_do (bop ne (var "x") (const 0)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example1_1_state := Some [("x", lt0)].
+Definition example1_1_state := [("x", lt0)].
 
-Definition example1_2_state := Some [("x", eq0)].
+Definition example1_2_state := [("x", eq0)].
 
-Definition example1_3_state := Some [("x", gt0)].
+Definition example1_3_state := [("x", gt0)].
 
-Eval compute in (AI example1_expr false bot_AbS).
+
 
 Eval compute in (AI example1_expr false example1_1_state).
 
@@ -908,9 +871,7 @@ Eval compute in (AI example1_expr false example1_3_state).
 Definition example2_expr :=
     (sequence (assign "x" (aop add (var "x") (var "y"))) (assign "y" (aop add (var "y") (const 1)))).
 
-Definition example2_state := Some [("x", le0); ("y", lt0)].
-
-Eval compute in (AI example1_expr false bot_AbS).
+Definition example2_state := [("x", le0); ("y", lt0)].
 
 Eval compute in (AI example1_expr false example2_state).
 
@@ -918,7 +879,7 @@ Eval compute in (AI example1_expr false example2_state).
 Definition example8_expr :=
     sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
 
-Eval compute in (AI example8_expr false top_AbS).
+Eval compute in (AI example8_expr false nil).
 
 
 (* Intervals examples *)
@@ -939,12 +900,10 @@ Import C.
 Definition example3_expr :=
     while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
 
-Definition example3_state := Some [("x", between 10 10); ("y", between 0 0)].
+Definition example3_state := [("x", between 10 10); ("y", between 0 0)].
 
 
 (* Eval compute in (AI example3_expr false example3_state). *)
-Eval compute in (AI example3_expr false bot_AbS).
-Eval compute in (AI example3_expr true bot_AbS).
 Eval compute in (AI example3_expr true example3_state).
 
 
@@ -959,9 +918,8 @@ Eval compute in (AI example3_expr true example3_state).
 Definition example4_expr :=
     while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example4_state := Some [("x", between 0 0)].
+Definition example4_state := [("x", between 0 0)].
 
-Eval compute in (AI example4_expr false bot_AbS).
 Eval compute in (AI example4_expr false example4_state).
 Eval compute in (AI example4_expr true example4_state).
 
@@ -977,7 +935,7 @@ Eval compute in (AI example4_expr true example4_state).
 Definition example5_expr :=
     while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example5_state := Some [("x", between 1 1)].
+Definition example5_state := [("x", between 1 1)].
 
 Eval compute in (AI example5_expr false example5_state).
 Eval compute in (AI example5_expr true example5_state).
@@ -993,16 +951,16 @@ Eval compute in (AI example5_expr true example5_state).
 Definition example6_expr :=
     sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
 
-Eval compute in (AI example6_expr false top_AbS).
-Eval compute in (AI example6_expr true top_AbS).
+Eval compute in (AI example6_expr false nil).
+Eval compute in (AI example6_expr true nil).
 
 
 
 Definition example7_expr :=
     sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
 
-Eval compute in (AI example7_expr true top_AbS).
-Eval compute in (AI example7_expr false top_AbS).
+Eval compute in (AI example7_expr true nil).
+Eval compute in (AI example7_expr false nil).
 
 
 Definition example9_expr :=
@@ -1015,10 +973,10 @@ Definition example9_expr :=
                                 skip))
                     skip)).
 
-Definition example9_state := Some [("y", between 0 1)].
+Definition example9_state := [("y", between 0 1)].
 
-Eval compute in (AI example9_expr true top_AbS).
-Eval compute in (AI example9_expr false top_AbS).
+Eval compute in (AI example9_expr true nil).
+Eval compute in (AI example9_expr false nil).
 
 
 (** 
@@ -1040,8 +998,8 @@ Definition nested_while_1_expr :=
                                         (assign "j" (aop add (var "j") (const 1))))) 
                           (assign "i" (aop add (var "i") (const 1))))).
 
-Eval compute in (AI nested_while_1_expr false top_AbS).
-Eval compute in (AI nested_while_1_expr true top_AbS).
+Eval compute in (AI nested_while_1_expr false nil).
+Eval compute in (AI nested_while_1_expr true nil).
 
 
 (** 
@@ -1072,7 +1030,7 @@ Definition nested_while_2_expr :=
                           (assign "i" (aop add (var "i") (const 1))))).
 
 (* Eval compute in (AI nested_while_2_expr false nil). *)
-Eval compute in (AI nested_while_2_expr true top_AbS).
+Eval compute in (AI nested_while_2_expr true nil).
 
 
     

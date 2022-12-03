@@ -7,4 +7,4 @@
 
 - controllare tail call
 
-- provare ocaml
+- sistemare negazione booleana

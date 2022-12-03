@@ -1,5 +1,6 @@
 \documentclass{beamer}
 \usepackage{multirow}
+\usepackage{syntax}
 %Information to be included in the title page:
 \title{Software Verification}
 \author{Borsetto Riccardo}
@@ -10,22 +11,257 @@
 
 \frame{\titlepage}
 
+
 \begin{frame}
-    \frametitle{Join}
-    \begin{table}[]
-        \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
-        \hline
-        $\lor$  & $\bot$  & $<0$    & $=0$    & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-        $\bot$  & $\bot$  &         &         &         &         &         &         &        \\ \hline
-        $<0$    & $<0$    & $<0$    &         &         &         &         &         &        \\ \hline
-        $=0$    & $=0$    & $\le 0$ & $=0$    &         &         &         &         &        \\ \hline
-        $>0$    & $>0$    & $\ge 0$ & $\ge 0$ & $>0$    &         &         &         &        \\ \hline
-        $\le 0$ & $\le 0$ & $\le 0$ & $\le 0$ & $\top$  & $\le 0$ &         &         &        \\ \hline
-        $\ne 0$ & $\ne 0$ & $\ne 0$ & $\top$  & $\ne 0$ & $\top$  & $\ne 0$ &         &        \\ \hline
-        $\ge 0$ & $\ge 0$ & $\top$  & $\ge 0$ & $\ge 0$ & $\top$  & $\top$  & $\ge 0$ &        \\ \hline
-        $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$ \\ \hline
-        \end{tabular}
-        \end{table}
+    \frametitle{Language}
+        \begin{align*}
+        &\mathbf { Abinop } \ni \text{aop}::= + \mid - \mid * \mid \backslash  \\
+        &\mathbf { Aexp } \ni e::= x \mid n \mid -e \mid e_1 \text { aop } e_2 \\
+        &\mathbf { Bbinop } \ni \text{bop}::= \ =\ \mid\ \ne\ \mid\ <\ \mid\ \le\ \mid\ > \ \mid\ \ge\\
+        & \mathbf { Bexp } \ni b::=  true  \mid false \mid e_1 \text{ bop } e_2 \mid b_1 \wedge b_2 \mid b_1 \vee b_2 \mid \neg b \\
+        & \mathbf { While } \ni S::= x:=e \mid \textbf {skip} \mid S_1 ; S_2 \mid \textbf {if } b \textbf { then } S_1 \textbf { else } S_2\\
+         &\qquad \qquad \qquad \mid \textbf {while } b \textbf { do } S
+        \end{align*}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Abstract Interpreter}
+\begin{align*}
+AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \times List(\mathbb{S}) \\
+&AI (x:=e) (w) (s^{\sharp}) := (s^{\sharp}[x \mapsto \mathcal{A}^{\sharp} (e) (s^{\sharp})], []) \\
+&AI (\textbf{skip}) (w) (s^{\sharp}) := (s^{\sharp}, []) \\
+&AI (S_1 ; S_2) (w) (s^{\sharp}) := (u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
+& \qquad \qquad \text{with } (u^{\sharp}, invs_2) := AI (S_2) (w) (t^{\sharp}) \\
+& \qquad \qquad \qquad (t^{\sharp}, invs_1) := AI (S_1) (w) (s^{\sharp}) \\
+&AI (\textbf {if } b \textbf { then } S_1 \textbf { else } S_2) (w) (s^{\sharp}) := (t^{\sharp} \vee_{\mathbb{S}} u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
+& \qquad \qquad \text{with } (t^{\sharp}, invs_1) := (AI ( S_1 ) (w) \circ \mathcal{B}^{\sharp} ( b )) (s^{\sharp}) \\
+& \qquad \qquad \qquad (u^{\sharp}, invs_2) := (AI ( S_2 ) (w) \circ \mathcal{B}^{\sharp} ( \neg b )) (s^{\sharp}) \\
+&AI (\textbf {while } b \textbf { do } S) (w) (s^{\sharp}) := (\mathcal{B}^{\sharp} ( \neg b ) (t^{\sharp}), invs)\\
+& \qquad \qquad \text{with } (t^{\sharp}, invs) := \text{ab-lfp} (AI ( S ) (w)) (b) (t^{\sharp}) (w)
+\end{align*}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Abstract Semantics of arithmetic expressions}
+    \begin{align*} 
+     \mathcal{A}^{\sharp} &: \mathbf{A e x p} \rightarrow \mathbb{S} \rightarrow A \\
+    & \mathcal{A}^{\sharp}(n)(s^{\sharp}) := \alpha_{singleton}(n)\\
+    & \mathcal{A}^{\sharp} (x) (s^{\sharp}) := \text{lookup}_\mathbb{S}(s^{\sharp})(x) \\
+    & \mathcal{A}^{\sharp} ( e_1 \text{ aop } e_2 ) (s^{\sharp}) := \mathcal{A}^{\sharp} (e_1) (s^{\sharp}) \text{ aop}^A \mathcal{A}^{\sharp} (e_2) (s^{\sharp})\\
+    & \mathcal{A}^{\sharp} ( -e ) (s^{\sharp}) := -^A \mathcal{A}^{\sharp} (e) (s^{\sharp})
+\end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Abstract Semantics of boolean expressions}
+    \begin{align*} 
+    & \mathcal{B}^{\sharp}: \mathbf{B e x p} \rightarrow \mathbb{S} \rightarrow \mathbb{S} \\
+    & \mathcal{B}^{\sharp} (true) (s^{\sharp}) := s^{\sharp} \\
+    & \mathcal{B}^{\sharp} (false) (s^{\sharp}) := \bot_\mathbb{S} \\
+    & \mathcal{B}^{\sharp} ( e_1 \text{ bop } e_2 ) (s^{\sharp}) := \\
+    & \mathcal{B}^{\sharp} ( b_1 \land b_2 ) (s^{\sharp}) := (\mathcal{B}^{\sharp} ( b_2 ) \circ \mathcal{B}^{\sharp} ( b_1 )) (s^{\sharp}) \\
+    & \mathcal{B}^{\sharp} ( b_1 \lor b_2 ) (s^{\sharp}) := \mathcal{B}^{\sharp} ( b_1) (s^{\sharp}) \vee_\mathbb{S} \mathcal{B}^{\sharp} ( b_2) (s^{\sharp})
+\end{align*}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Step}
+    \begin{align*}
+        \text{step} &: (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S})) \to bool \to \mathbb{S} \to \mathbb{S} \to \mathbb{S} \times List(\mathbb{S}) \\
+        &\text{step} (f) (b) (s^{\sharp}) (t^{\sharp}) := (s^{\sharp} \vee_\mathbb{S} u^{\sharp}, invs)\\
+        & \qquad \qquad \text{with } (u^{\sharp}, invs) := f (\mathcal{B}^{\sharp} (b) (t^{\sharp}))
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Invariant Check}
+    \begin{align*}
+        \text{is-inv} &: (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S}))  \to \mathbb{S} \to \mathbb{S} \to bool \\
+        & \text{is-inv} (f) (s^{\sharp}) (t^{\sharp}) := t^{\sharp} \sqsubseteq_\mathbb{S} u^{\sharp} \\
+        & \qquad \qquad \text{with } u^{\sharp} := \pi_1 (step (f) (b) (s^{\sharp}) (t^{\sharp}))
+    \end{align*}
+\end{frame}
+
+
+
+
+
+        \begin{frame}
+            \frametitle{Steps}
+            \begin{align*}
+                &\text{steps} : (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S})) \to bool \to \mathbb{S} \to \mathbb{S} \to \mathbb{S} \times List(\mathbb{S}) \\
+                &\text{steps} (f) (b) (s^{\sharp}) (t^{\sharp}) := \begin{cases}
+                                                                (t^{\sharp}, [t^{\sharp}]) & \text{if } \text{is-inv} (f) (s^{\sharp}) (t^{\sharp}) \\
+                                                                (v^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) & \text{otherwise}
+                                                            \end{cases} \\
+            & \qquad \qquad \text{with } (u^{\sharp}, invs_1) := \text{step} (f) (b) (s^{\sharp}) (t^{\sharp}) \\
+            & \qquad \qquad \qquad (v^{\sharp}, invs_2) := \text{steps} (f) (b) (s^{\sharp}) (u^{\sharp})
+            \end{align*}
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Widening}
+            \begin{align*}
+                \text{wid} &: (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S})) \to bool \to \mathbb{S} \to \mathbb{S} \to \mathbb{S} \\
+                &\text{wid} (f) (b) (s^{\sharp}) (t^{\sharp}) := \begin{cases}
+                                                                t^{\sharp} & \text{if } \text{is-inv} (f) (s^{\sharp}) (t^{\sharp}) \\
+                                                                \text{wid} (f) (b) (s^{\sharp}) (t^{\sharp}\ \nabla_\mathbb{S}\ u^{\sharp}) & \text{otherwise}
+                                                            \end{cases} \\
+                & \qquad \qquad \text{with } u^{\sharp} := \pi_1 (step (f) (b) (s^{\sharp}) (t^{\sharp}))
+            \end{align*}
+            
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Narrowing}
+            \begin{align*}
+                \text{nar} &: (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S})) \to bool \to \mathbb{S} \to \mathbb{S} \to \mathbb{S} \times List(\mathbb{S}) \\
+                &\text{nar} (f) (b) (s^{\sharp}) (t^{\sharp}) := \begin{cases}
+                                                                (v^{\sharp}, [v^{\sharp}]) & \text{if } \text{is-inv} (f) (s^{\sharp}) (v^{\sharp}) \\
+                                                                (z^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) & \text{otherwise}
+                                                                \end{cases} \\
+                & \qquad \qquad \text{with } u^{\sharp} := \pi_1 (\text{step} (f) (b) (s^{\sharp}) (t^{\sharp})) \\ 
+                & \qquad \qquad \qquad v^{\sharp} := t^{\sharp}\ \Delta_\mathbb{S}\ u^{\sharp} \\
+                & \qquad \qquad \qquad (w^{\sharp}, invs_1) := \text{step} (f) (b) (s^{\sharp}) (v^{\sharp}) \\
+                & \qquad \qquad \qquad (z^{\sharp}, invs_2) := \text{nar} (f) (b) (s^{\sharp}) (v^{\sharp} \Delta_\mathbb{S} w^{\sharp})
+            \end{align*}
+        
+        \end{frame}
+
+        \begin{frame}
+            \frametitle{Abstract Least Fixed Point}
+            \begin{align*}
+                \text{ab-lfp} &: (\mathbb{S} \to \mathbb{S} \times List(\mathbb{S})) \to bool \to \mathbb{S} \to bool \to \mathbb{S} \times List(\mathbb{S}) \\
+                &\text{ab-lfp} (f) (b) (s^{\sharp}) (w) := \begin{cases}
+                                                        \text{nar} (f) (b) (s^{\sharp}) (t^{\sharp})  & \text{if } w \\
+                                                        \text{steps} (f) (b) (s^{\sharp}) (s^{\sharp}) & \text{otherwise}
+                                                        \end{cases} \\
+                & \qquad \qquad \text{with } t^{\sharp} := \text{wid} (f) (b) (s^{\sharp}) (s^{\sharp}).
+            \end{align*}
+            
+        \end{frame}
+        
+        
+
+
+\begin{frame}
+    \frametitle{Abstract State Update}
+    \( s^{\sharp}[x \mapsto a] \) defined using recursion
+    \[ 
+        \begin{cases}
+            \bot_\mathbb{S}[x \mapsto a] := [(x, a)] \\
+            \top_\mathbb{S}[x \mapsto a] := [(x, a)] \\
+            ((y, a') :: ts^{\sharp})[x \mapsto a] := \begin{cases}
+                (y, a) :: {ts}^{\sharp} & \text{if } x = y \\
+                (y, a') :: ts^{\sharp}[x \mapsto a] & \text{otherwise}
+                \end{cases}
+                                        \end{cases}
+    \]
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Abstract State Join}
+    \( s^{\sharp} \vee_\mathbb{S} t^{\sharp}\) defined using recursion
+    \[
+    \begin{cases}
+        \bot_\mathbb{S} \vee_\mathbb{S} t^{\sharp} := t^{\sharp} \\  
+        \top_\mathbb{S} \vee_\mathbb{S} t^{\sharp} := \top_\mathbb{S} \\
+        ((x, a) :: {ts}^{\sharp}) \vee_\mathbb{S} t^{\sharp} := ({ts}^{\sharp} \vee_\mathbb{S} t^{\sharp})[x \mapsto a \vee_A \text{lookup} (t^{\sharp}) (x)]
+                                                    \end{cases} \]
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Abstract State Lookup}
+    \( \text{lookup}_\mathbb{S}(s^{\sharp}) (x)\) defined using recursion
+    \[
+    \begin{cases}
+        \text{lookup}_\mathbb{S}(\bot_\mathbb{S})(x) := \bot_A \\  
+        \text{lookup}_\mathbb{S}(\top_\mathbb{S})(x) := \top_A \\
+        \text{lookup}_\mathbb{S}((y, a) :: {ts}^{\sharp}) (x) := \begin{cases}
+            a & \text{if } x = y \\
+            \text{lookup}_\mathbb{S}(ts^{\sharp})(x) & \text{otherwise}
+            \end{cases} 
+        \end{cases}
+    \]
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{frame}
+    \frametitle{Partial order}
+    \[
+        a_1 \le_A a_2 :=\ a_1 \vee_A a_2 = a_2
+    \]
+    \[ 
+        s^{\sharp} \sqsubseteq_\mathbb{S} t^{\sharp} := s^{\sharp} = \bot_\mathbb{S} \vee \forall x, lookup (s^{\sharp}) (x) \le_A lookup (t^{\sharp}) (x)
+    \]
+\end{frame}
+
+
+
+\begin{frame}
+    \frametitle{State Widening}
+    \[ s^{\sharp} \nabla_\mathbb{S} t^{\sharp} := \begin{cases}
+                                                    t^{\sharp}       & if s^{\sharp} = \bot_\mathbb{S}\\
+                                                    map (f_{t^{\sharp}}) (s^{\sharp}) & otherwise
+                                                    \end{cases} \]
+    with \( f_{t^{\sharp}}(x, a) := (x, a \Delta lookup (t^{\sharp}) (x)) \).
+\end{frame}
+
+\begin{frame}
+    \frametitle{State Narrowing}
+    \[ s^{\sharp} \Delta_\mathbb{S} t^{\sharp} := \begin{cases}
+                                                    \bot_\mathbb{S} & if s^{\sharp} = \bot_\mathbb{S}\\
+                                                    map (f_{t^{\sharp}}) (s^{\sharp}) & otherwise
+                                                    \end{cases} \]
+    with \( f_{t^{\sharp}}(x, a) := (x, a \Delta lookup (t^{\sharp}) (x)) \).
+\end{frame}
+
+\begin{frame}
+    \frametitle{Extended Sign}
+    \begin{align*}
+        &A := ExtSign\\
+        &\mathbb{S} := List(String \times ExtSign) \cup \{ \star \} \\
+        &\bot_\mathbb{S} := \star \\
+        &\top_\mathbb{S} := [] \\
+        &ExtSign \ni a ::= \bot \mid\ < 0 \mid\ = 0 \mid\ > 0 \mid\ \le 0 \mid\ \ne 0 \mid\ \ge 0 \mid \top
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{\( \alpha \) on Singletons}
+    \[
+        \alpha_{singleton}(n) := \begin{cases}
+            =0 & \text{if } n=0\\
+            <0 & \text{if } n<0\\
+            >0 & \text{otherwise}
+        \end{cases}    
+    \]
 \end{frame}
 
 
@@ -325,6 +561,25 @@
                     \end{frame}
 
 
+                    \begin{frame}
+                        \frametitle{Join}
+                        \begin{table}[]
+                            \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
+                            \hline
+                            $\lor$  & $\bot$  & $<0$    & $=0$    & $>0$    & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
+                            $\bot$  & $\bot$  &         &         &         &         &         &         &        \\ \hline
+                            $<0$    & $<0$    & $<0$    &         &         &         &         &         &        \\ \hline
+                            $=0$    & $=0$    & $\le 0$ & $=0$    &         &         &         &         &        \\ \hline
+                            $>0$    & $>0$    & $\ge 0$ & $\ge 0$ & $>0$    &         &         &         &        \\ \hline
+                            $\le 0$ & $\le 0$ & $\le 0$ & $\le 0$ & $\top$  & $\le 0$ &         &         &        \\ \hline
+                            $\ne 0$ & $\ne 0$ & $\ne 0$ & $\top$  & $\ne 0$ & $\top$  & $\ne 0$ &         &        \\ \hline
+                            $\ge 0$ & $\ge 0$ & $\top$  & $\ge 0$ & $\ge 0$ & $\top$  & $\top$  & $\ge 0$ &        \\ \hline
+                            $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$  & $\top$ \\ \hline
+                            \end{tabular}
+                            \end{table}
+                    \end{frame}
+
+
 \begin{frame}
     \frametitle{Join}
 \begin{table}[]
@@ -407,7 +662,7 @@
         \begin{frame}
             \frametitle{Division}
     \begin{table}[]
-        \scalebox{0.5}{
+        \scalebox{0.3}{
         \begin{tabular}{|l|l|ll|ll|ll|ll|}
         \hline
         $/$                             & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                                                                                                         & \multicolumn{2}{l|}{$[a, +\infty)$}                                    & \multicolumn{2}{l|}{$\top$}                          \\ \hline
