@@ -144,6 +144,8 @@ Fixpoint narrowing AI_state b s_sharp t_sharp {struct b} :=
     else 
         let (w_sharp, invs1) := print_id (step AI_state b s_sharp v_sharp) in let (z_sharp, invs2) := narrowing AI_state b s_sharp (narrow_state v_sharp w_sharp) in (z_sharp, invs1 ++ invs2).
 
+Set Guard Checking.
+
 Definition ab_lfp AI_state b s_sharp (widen_toggle : bool) :=
     if widen_toggle then let t_sharp := widening AI_state b s_sharp s_sharp in narrowing AI_state b s_sharp t_sharp
     else steps AI_state b s_sharp s_sharp.
@@ -585,51 +587,58 @@ Definition join a1 a2 :=
     | _, _ => top
     end.
 
-(**
-Definition div_op a1 a2 :=
-    match a1, a2 with
-    | left_of b, left_of d => if d <=? 0 then right_of (Z.min 0 (b / d)) else top
-    | left_of b, between c d => if (c =? 0) && (d =? 0) then bot
-                                else if (c >? 0) && (d >=? c) then left_of (Z.max (b / c) (b / d))
-                                else if (c =? 0) && (d >? c) && (b <=? 0) then left_of (b / d)
-                                else if (c <=? d) && (d <? 0) then right_of (Z.min (b / c) (b / d))
-                                else top
-    | left_of b, right_of c => if c >=? 0 then left_of (Z.max (b / c) 0) else top
-    | between a b, left_of d => if d <=? 0 then between (Z.min (Z.min (a / d) (b / d)) 0) (Z.max (Z.max (a / d) (b / d)) 0)
-                                 else if (a =? 0) && (b =? 0) then between 0 0
-                                 else if (a >=? 0) && (b >? 0) then left_of (Z.max (a / d) (b / d))
-                                 else if (a <? 0) && (b <=? 0) then right_of (Z.min (a / d) (b / d))
-                                 else top
-    | between a b, between c d => if (c =? 0) && (d =? 0) then bot
-                                    else if (c <? 0) && (d >? 0) then join (between (Z.min (Z.min (a / c) (b / c)) 0) (Z.max (Z.max (a / c) (b / c)) 0)) (between (Z.min (Z.min (a / d) (b / d)) 0) (Z.max (Z.max (a / d) (b / d)) 0))
-                                    else between (Z.min (Z.min (a / c) (a / d)) (Z.min (b / c) (b / d))) (Z.max (Z.max (a / c) (a / d)) (Z.max (b / c) (b / d)))
-    
-    
-    
-    | between a b, right_of c => if c >=? 0 then between (Z.min (Z.min (a / c) (b / c)) 0) (Z.max (Z.max (a / c) (b / c)) 0)
-                                    else if (a =? 0) && (b =? 0) then between 0 0
-                                    else if (a >=? 0) && (b >? 0) then left_of (Z.max (a / c) (b / c))
-                                    else if (a <? 0) && (b <=? 0) then right_of (Z.min (a / c) (b / c))
+    Unset Guard Checking.
+
+    Fixpoint div_op a1 a2 {struct a1} :=
+        match a1, a2 with
+        | left_of b, left_of d => if d <? 0 then right_of (Z.min 0 (b / d)) 
+                                  else if d =? 0 then div_op (left_of b) (left_of (-1))
+                                  else top
+        | left_of b, between c d => if (c =? 0) && (d =? 0) then bot
+                                    else if (c >? 0) && (d >=? c) then left_of (Z.max (b / c) (b / d))
+                                    else if (c =? 0) && (d >? c) then div_op (left_of b) (between 1 d)
+                                    else if (c <=? d) && (d <? 0) then right_of (Z.min (b / c) (b / d))
+                                    else if (c <? d) && (d =? 0) then div_op (left_of b) (between c (-1))
                                     else top
-    | between a b, top => if (a =? 0) && (b =? 0) then between 0 0 else top
-    | right_of a, left_of d => if d <=? 0 then left_of (Z.max 0 (a / d)) else top
-    | right_of a, between c d => if (c =? 0) && (d =? 0) then bot
-                                    else if (c >? 0) && (d >=? c) then right_of (Z.min (a / c) (a / d))
-                                    else if (c =? 0) && (d >? c) && (a >=? 0) then right_of (a / d)
-                                    else if (c <=? d) && (d <? 0) then left_of (Z.max (a / c) (a / d))
+        | left_of b, right_of c => if c >? 0 then left_of (Z.max (b / c) 0) 
+                                    else if c =? 0 then div_op (left_of b) (right_of 1)
                                     else top
-    | right_of a, right_of c => if c >=? 0 then right_of (Z.min (a / c) 0) else top
-    | top, between c d => if (c =? 0) && (d =? 0) then bot else top
-    | _, _ => top
-    end.
-*)
+        | between a b, left_of d => if d <? 0 then between (Z.min (b / d) 0) (Z.max (a / d) 0)
+                                     else if d =? 0 then div_op (between a b) (left_of (-1))
+                                     else join (div_op (between a b) (left_of (-1))) (div_op (between a b) (between 1 d))
+        | between a b, between c d => if (c =? 0) && (d =? 0) then bot
+                                        else if (c =? 0) && (d >? c) then div_op (between a b) (between 1 d)
+                                        else if (c <? 0) && (d =? 0) then div_op (between a b) (between c (-1))
+                                        else if (c <? 0) && (d >? 0) then join (div_op (between a b) (between c (-1))) (div_op (between a b) (between 1 d))
+                                        else between (Z.min (Z.min (a / c) (a / d)) (Z.min (b / c) (b / d))) (Z.max (Z.max (a / c) (a / d)) (Z.max (b / c) (b / d)))
+        | between a b, right_of c => if c >? 0 then between (Z.min (a / c) 0) (Z.max (b / c) 0)
+                                        else if c =? 0 then div_op (between a b) (right_of 1)
+                                        else join (div_op (between a b) (between c (-1))) (div_op (between a b) (right_of 1))
+        | between a b, top => join (div_op (between a b) (left_of (-1))) (div_op (between a b) (right_of 1))
+        | right_of a, left_of d => if d <? 0 then left_of (Z.max 0 (a / d)) 
+                                   else if d =? 0 then div_op (right_of a) (left_of (-1))
+                                   else top
+        | right_of a, between c d => if (c =? 0) && (d =? 0) then bot
+                                        else if (c >? 0) && (d >=? c) then right_of (Z.min (a / c) (a / d))
+                                        else if (c =? 0) && (d >? c) then div_op (right_of a) (between 1 d)
+                                        else if (c <=? d) && (d <? 0) then left_of (Z.max (a / c) (a / d))
+                                        else if (c <? d) && (d =? 0) then div_op (right_of a) (between c (-1))
+                                        else top
+        | right_of a, right_of c => if c >? 0 then right_of (Z.min (a / c) 0) 
+                                    else if c =? 0 then div_op (right_of a) (right_of 1)
+                                    else top
+        | top, between c d => if (c =? 0) && (d =? 0) then bot else top
+        | _, _ => top
+        end.
+
+Set Guard Checking.
 
 Definition ab_op op a1 a2 :=
     match op with
     | add => add_op a1 a2
     | sub => sub_op a1 a2
     | mul => mul_op a1 a2
-    (* | div => div_op a1 a2 *)
+    | div => div_op a1 a2 
     end.
 
     Fixpoint A_sharp e s_sharp :=
@@ -862,6 +871,9 @@ Definition narrow a1 a2 :=
         | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, narrow a (ab_lookup t_sharp x))) l)
         end.
 
+
+
+
 End Intervals.
 
 
@@ -889,8 +901,6 @@ Definition example1_2_state := Some [("x", eq0)].
 
 Definition example1_3_state := Some [("x", gt0)].
 
-Eval compute in (AI example1_expr false bot_AbS).
-
 Eval compute in (AI example1_expr false example1_1_state).
 
 Eval compute in (AI example1_expr false example1_2_state).
@@ -910,15 +920,22 @@ Definition example2_expr :=
 
 Definition example2_state := Some [("x", le0); ("y", lt0)].
 
-Eval compute in (AI example1_expr false bot_AbS).
-
-Eval compute in (AI example1_expr false example2_state).
+Eval compute in (AI example2_expr false example2_state).
 
 
-Definition example8_expr :=
+(** 
+    Example 3
+
+    x := 40
+    while x != 0 do
+        x := x - 1
+*)
+
+Definition example3_expr :=
     sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
 
-Eval compute in (AI example8_expr false top_AbS).
+Eval compute in (AI example3_expr false top_AbS).
+
 
 
 (* Intervals examples *)
@@ -927,42 +944,33 @@ Module C := AbstractInterpreter Intervals.
 Import Intervals.
 Import C.
 
-
 (** 
     Example 3
+
+    x := 40
+    while x != 0 do
+        x := x - 1
+*)
+
+Eval compute in (AI example3_expr false top_AbS).
+Eval compute in (AI example3_expr true top_AbS).
+
+
+(** 
+    Example 4
 
     while x >= 0 do
         x := x - 1
         y := y + 1
 *)
 
-Definition example3_expr :=
+Definition example4_expr :=
     while_do (bop ge (var "x") (const 0)) (sequence (assign "x" (aop sub (var "x") (const 1))) (assign "y" (aop add (var "y") (const 1)))).
 
-Definition example3_state := Some [("x", between 10 10); ("y", between 0 0)].
+Definition example4_state := Some [("x", between 10 10); ("y", between 0 0)].
 
 
-(* Eval compute in (AI example3_expr false example3_state). *)
-Eval compute in (AI example3_expr false bot_AbS).
-Eval compute in (AI example3_expr true bot_AbS).
-Eval compute in (AI example3_expr true example3_state).
-
-
-
-(** 
-    Example 4
-
-    while x < 10 do
-        x := x + 1
-*)
-
-Definition example4_expr :=
-    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
-
-Definition example4_state := Some [("x", between 0 0)].
-
-Eval compute in (AI example4_expr false bot_AbS).
-Eval compute in (AI example4_expr false example4_state).
+(* Eval compute in (AI example4_expr false example4_state). *)
 Eval compute in (AI example4_expr true example4_state).
 
 
@@ -970,59 +978,82 @@ Eval compute in (AI example4_expr true example4_state).
 (** 
     Example 5
 
-    while x <= 100 do
+    while x < 10 do
         x := x + 1
 *)
 
 Definition example5_expr :=
-    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
+    while_do (bop lt (var "x") (const 10)) (assign "x" (aop add (var "x") (const 1))).
 
-Definition example5_state := Some [("x", between 1 1)].
+Definition example5_state := Some [("x", between 0 0)].
 
 Eval compute in (AI example5_expr false example5_state).
 Eval compute in (AI example5_expr true example5_state).
 
+
+
 (** 
     Example 6
+
+    while x <= 100 do
+        x := x + 1
+*)
+
+Definition example6_expr :=
+    while_do (bop le (var "x") (const 100)) (assign "x" (aop add (var "x") (const 1))).
+
+Definition example6_state := Some [("x", between 1 1)].
+
+Eval compute in (AI example6_expr false example6_state).
+Eval compute in (AI example6_expr true example6_state).
+
+(** 
+    Example 7
 
     x := 0
     while x < 40 do
         x := x + 1
 *)
 
-Definition example6_expr :=
+Definition example7_expr :=
     sequence (assign "x" (const 0)) (while_do (bop lt (var "x") (const 40)) (assign "x" (aop add (var "x") (const 1)))).
 
-Eval compute in (AI example6_expr false top_AbS).
-Eval compute in (AI example6_expr true top_AbS).
-
-
-
-Definition example7_expr :=
-    sequence (assign "x" (const 40)) (while_do (bop ne (var "x") (const 0)) (assign "x" (aop sub (var "x") (const 1)))).
-
-Eval compute in (AI example7_expr true top_AbS).
 Eval compute in (AI example7_expr false top_AbS).
+Eval compute in (AI example7_expr true top_AbS).
 
 
-Definition example9_expr :=
+
+
+(** 
+    Example 8
+
+    x := 0
+    while 1 = 1 do
+        if y = 0 then
+            x := x + 1
+            if x < 40 then
+                x := 0
+*)
+
+Definition example8_expr :=
     sequence (assign "x" (const 0)) 
              (while_do (bop eq (const 1) (const 1)) 
                 (if_then_else (bop eq (var "y") (const 0))
                     (sequence (assign "x" (aop add (var "x") (const 1)))
                               (if_then_else (bop gt (var "x") (const 40)) 
-                                (assign "x" (const 0)) 
-                                skip))
+                                    (assign "x" (const 0)) 
+                                    skip))
                     skip)).
 
-Definition example9_state := Some [("y", between 0 1)].
+Definition example8_state := Some [("y", between 0 1)].
 
-Eval compute in (AI example9_expr true top_AbS).
-Eval compute in (AI example9_expr false top_AbS).
+Eval compute in (AI example8_expr false top_AbS).
+Eval compute in (AI example8_expr true top_AbS).
+
 
 
 (** 
-    Example 7
+    Example 9
 
     i := 1
     while i <= 3 do
@@ -1032,7 +1063,7 @@ Eval compute in (AI example9_expr false top_AbS).
         i := i + 1
 *)
 
-Definition nested_while_1_expr :=
+Definition example9_expr :=
     sequence (assign "i" (const 1)) 
              (while_do (bop le (var "i") (const 3)) 
                 (sequence (sequence (assign "j" (const 1)) 
@@ -1040,12 +1071,12 @@ Definition nested_while_1_expr :=
                                         (assign "j" (aop add (var "j") (const 1))))) 
                           (assign "i" (aop add (var "i") (const 1))))).
 
-Eval compute in (AI nested_while_1_expr false top_AbS).
-Eval compute in (AI nested_while_1_expr true top_AbS).
+Eval compute in (AI example9_expr false top_AbS).
+Eval compute in (AI example9_expr true top_AbS).
 
 
 (** 
-    Example 8
+    Example 10
 
     i := 1
     while i <= 4 do
@@ -1054,25 +1085,39 @@ Eval compute in (AI nested_while_1_expr true top_AbS).
             k := 0
             while k <= 5 do
                 z := i * j * k
-                x := x + 1
+                k := k + 1
             j := j + 1
         i := i + 1
 *)
 
-Definition nested_while_2_expr :=
+Definition example10_expr :=
     sequence (assign "i" (const 1)) 
              (while_do (bop le (var "i") (const 4)) 
                 (sequence (sequence (assign "j" (const 0)) 
-                                    (while_do (bop le (var "j") (var "3")) 
+                                    (while_do (bop le (var "j") (const 3)) 
                                         (sequence (sequence (assign "k" (const 0)) 
-                                                            (while_do (bop le (var "k") (var "5")) 
+                                                            (while_do (bop le (var "k") (const 5)) 
                                                                 (sequence (assign "z" (aop mul (aop mul (var "i") (var "j")) (var "k"))) 
-                                                                            (assign "x" (aop add (var "x") (const 1))))))
+                                                                            (assign "k" (aop add (var "k") (const 1))))))
                                                   (assign "j" (aop add (var "j") (const 1))))))
                           (assign "i" (aop add (var "i") (const 1))))).
 
-(* Eval compute in (AI nested_while_2_expr false nil). *)
-Eval compute in (AI nested_while_2_expr true top_AbS).
+Eval compute in (AI example10_expr false top_AbS).
+Eval compute in (AI example10_expr true top_AbS).
+
+
+Definition example11_expr :=
+    sequence (assign "x" (aop div (const 1) (const 0))) (while_do (bop le (var "x") (const 5)) skip).
+    
+Eval compute in (AI example11_expr false top_AbS).
+
+Definition example12_expr :=
+    (while_do (bop lt (aop div (const 1) (const 0)) (const 1)) skip).
+    
+Eval compute in (AI example12_expr false top_AbS).
+
+
+
 
 
     
