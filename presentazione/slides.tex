@@ -168,7 +168,7 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
 
 \begin{frame}
     \frametitle{Abstract State Update}
-    \( s^{\sharp}[x \mapsto a] \) defined using recursion
+    \( s^{\sharp}[x \mapsto a] \) defined by
     \[ 
         \begin{cases}
             \bot_\mathbb{S}[x \mapsto a] := [(x, a)] \\
@@ -184,7 +184,7 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
 
 \begin{frame}
     \frametitle{Abstract State Join}
-    \( s^{\sharp} \vee_\mathbb{S} t^{\sharp}\) defined using recursion
+    \( s^{\sharp} \vee_\mathbb{S} t^{\sharp}\) defined by
     \[
     \begin{cases}
         \bot_\mathbb{S} \vee_\mathbb{S} t^{\sharp} := t^{\sharp} \\  
@@ -196,7 +196,7 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
 
 \begin{frame}
     \frametitle{Abstract State Lookup}
-    \( \text{lookup}_\mathbb{S}(s^{\sharp}) (x)\) defined using recursion
+    \( \text{lookup}_\mathbb{S}(s^{\sharp}) (x)\) defined by
     \[
     \begin{cases}
         \text{lookup}_\mathbb{S}(\bot_\mathbb{S})(x) := \bot_A \\  
@@ -234,7 +234,7 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
 \begin{frame}
     \frametitle{Partial order}
     \begin{align*}
-        a_1 \le_A a_2 &:=\ a_1 \vee_A a_2 = a_2 \\
+        a_1 \le_A a_2 &:=\ (a_1 \vee_A a_2) = a_2 \\
         s^{\sharp} \sqsubseteq_\mathbb{S} t^{\sharp} &:=\ (s^{\sharp} = \bot_\mathbb{S}) \vee \forall x, \text{lookup} (s^{\sharp}) (x) \le_A \text{lookup} (t^{\sharp}) (x)
     \end{align*}
 \end{frame}

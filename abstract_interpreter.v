@@ -470,8 +470,20 @@ Definition widen_state s_sharp t_sharp :=
     | Some l => Some (map (fun c : string * AbD => let (x, a) := c in (x, widen a (ab_lookup t_sharp x))) l)
     end.
 
-(* Sistemare *)
-Definition narrow (a1 a2 : AbD) := a1.
+Definition narrow (a1 a2 : AbD) := 
+    match a1, a2 with
+    | top,  a3 |  a3,  top => a3
+    | ne0,  lt0 |  lt0,  ne0 
+    | ne0,  le0 |  le0,  ne0
+    | lt0,  le0 |  le0,  lt0 =>  lt0
+    | ne0,  gt0 |  gt0,  ne0 
+    | ne0,  ge0 |  ge0,  ne0
+    | gt0,  ge0 |  ge0,  gt0 =>  gt0
+    | le0,  ge0 |  ge0,  le0
+    | le0,  eq0 |  eq0,  le0
+    | ge0,  eq0 |  eq0,  ge0 =>  eq0
+    | a3, a4 => if sign_eq_dec a3 a4 then a3 else bot
+    end.
 
 Definition narrow_state s_sharp t_sharp :=
     match s_sharp with
