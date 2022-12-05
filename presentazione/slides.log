@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.11.8)  4 DEC 2022 23:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022/Arch Linux) (preloaded format=pdflatex 2022.11.8)  5 DEC 2022 10:02
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -706,14 +706,14 @@ LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <6> not available
 
 ] (./slides.toc) [4
 
+] [5
+
 ]
-Overfull \hbox (4.16185pt too wide) detected at line 54
+Overfull \hbox (3.86409pt too wide) detected at line 61
 []
  []
 
-[5
-
-] [6
+[6
 
 ] [7
 
@@ -721,32 +721,32 @@ Overfull \hbox (4.16185pt too wide) detected at line 54
 
 ] [9
 
-]
-Overfull \hbox (5.91074pt too wide) detected at line 114
-[]
- []
-
-[10
+] [10
 
 ]
-Overfull \hbox (18.33022pt too wide) detected at line 127
+Overfull \hbox (5.91074pt too wide) detected at line 121
 []
  []
 
 [11
 
 ]
-Overfull \hbox (12.72414pt too wide) detected at line 143
+Overfull \hbox (18.33022pt too wide) detected at line 134
 []
  []
 
 [12
 
-] [13
+]
+Overfull \hbox (12.72414pt too wide) detected at line 150
+[]
+ []
 
-] (./slides.toc) [14
+[13
 
-] [15
+] [14
+
+] (./slides.toc) [15
 
 ] [16
 
@@ -758,20 +758,20 @@ Overfull \hbox (12.72414pt too wide) detected at line 143
 
 ] [20
 
-] (./slides.toc) [21
+] [21
 
-] [22
+] (./slides.toc) [22
+
+] [23
 
 ]
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <17.28> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 281.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 288.
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <12> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 281.
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 288.
 LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
-(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 281.
- [23
-
-] [24
+(Font)              Font shape `OT1/cmss/bx/n' tried instead on input line 288.
+ [24
 
 ] [25
 
@@ -807,9 +807,9 @@ LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
 
 ] [41
 
-] (./slides.toc) [42
+] [42
 
-] [43
+] (./slides.toc) [43
 
 ] [44
 
@@ -825,100 +825,106 @@ LaTeX Font Info:    Font shape `OT1/cmss/b/n' in size <10> not available
 
 ] [50
 
-] [51
+]
+Overfull \hbox (7.27744pt too wide) in paragraph at lines 757--757
+ [] 
+ []
+
+[51
 
 ] [52
 
+] [53
+
 ]
-Overfull \hbox (10.48389pt too wide) in paragraph at lines 816--816
+Overfull \hbox (13.37027pt too wide) in paragraph at lines 823--823
  [] 
  []
 
-[53
+[54
 
-] [54
+] [55
 
 ]
-Overfull \hbox (15.57356pt too wide) in paragraph at lines 853--853
+Overfull \hbox (18.04579pt too wide) in paragraph at lines 860--860
  [] 
  []
 
-[55
-
-] [56
+[56
 
 ] [57
 
 ] [58
 
+] [59
+
 ]
-Overfull \hbox (12.53049pt too wide) in paragraph at lines 929--929
+Overfull \hbox (15.00272pt too wide) in paragraph at lines 936--936
  [] 
  []
 
-[59
-
-] [60
+[60
 
 ] [61
 
 ] [62
 
+] [63
+
 ]
-Overfull \hbox (15.1325pt too wide) in paragraph at lines 1005--1005
+Overfull \hbox (15.1325pt too wide) in paragraph at lines 1012--1012
  [] 
  []
 
-[63
+[64
 
-] [64
+] [65
 
-] (./slides.toc) [65
-
-] [66
+] (./slides.toc) [66
 
 ] [67
 
-]
-Overfull \hbox (16.39642pt too wide) detected at line 1051
-[]
- []
-
-[68
+] [68
 
 ]
-Overfull \hbox (6.48967pt too wide) detected at line 1062
+Overfull \hbox (16.39642pt too wide) detected at line 1058
 []
  []
 
 [69
 
-] [70
-
-] [71
-
 ]
-Overfull \hbox (12.2597pt too wide) detected at line 1093
+Overfull \hbox (6.48967pt too wide) detected at line 1069
 []
  []
 
-[72
+[70
+
+] [71
+
+] [72
 
 ]
-Overfull \hbox (11.10393pt too wide) detected at line 1106
+Overfull \hbox (12.2597pt too wide) detected at line 1100
 []
  []
 
 [73
 
 ]
-Overfull \hbox (191.40927pt too wide) detected at line 1119
+Overfull \hbox (11.10393pt too wide) detected at line 1113
 []
  []
 
 [74
 
 ] [75
+
+] [76
+
+] [77
+
+] [78
 
 ]
 \tf@nav=\write6
@@ -935,18 +941,18 @@ Package rerunfilecheck Info: File `slides.out' has not changed.
 (rerunfilecheck)             Checksum: C9A143A2C7CE90413FC29BAD8C83F88B;627.
  ) 
 Here is how much of TeX's memory you used:
- 22081 strings out of 478238
- 422387 string characters out of 5850456
- 709662 words of memory out of 5000000
- 39686 multiletter control sequences out of 15000+600000
+ 22093 strings out of 478238
+ 422498 string characters out of 5850456
+ 709798 words of memory out of 5000000
+ 39692 multiletter control sequences out of 15000+600000
  484123 words of font info for 82 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,18n,104p,490b,411s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on slides.pdf (75 pages, 364460 bytes).
+Output written on slides.pdf (78 pages, 367424 bytes).
 PDF statistics:
- 586 PDF objects out of 1000 (max. 8388607)
- 465 compressed objects within 5 object streams
- 157 named destinations out of 1000 (max. 500000)
+ 602 PDF objects out of 1000 (max. 8388607)
+ 478 compressed objects within 5 object streams
+ 163 named destinations out of 1000 (max. 500000)
  111 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -39,17 +39,24 @@
 \begin{frame}
     \frametitle{Abstract Interpreter}
 \begin{align*}
-AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \times List(\mathbb{S}) \\
-&AI (x:=e) (w) (s^{\sharp}) := (s^{\sharp}[x \mapsto \mathcal{A}^{\sharp} (e) (s^{\sharp})], []) \\
-&AI (\textbf{skip}) (w) (s^{\sharp}) := (s^{\sharp}, []) \\
-&AI (S_1 ; S_2) (w) (s^{\sharp}) := (u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
-& \qquad \qquad \text{with } (u^{\sharp}, invs_2) := AI (S_2) (w) (t^{\sharp}) \\
-& \qquad \qquad \qquad (t^{\sharp}, invs_1) := AI (S_1) (w) (s^{\sharp}) \\
-&AI (\textbf {if } b \textbf { then } S_1 \textbf { else } S_2) (w) (s^{\sharp}) := (t^{\sharp} \vee_{\mathbb{S}} u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
-& \qquad \qquad \text{with } (t^{\sharp}, invs_1) := (AI ( S_1 ) (w) \circ \mathcal{B}^{\sharp} ( b )) (s^{\sharp}) \\
-& \qquad \qquad \qquad (u^{\sharp}, invs_2) := (AI ( S_2 ) (w) \circ \mathcal{B}^{\sharp} ( \neg b )) (s^{\sharp}) \\
-&AI (\textbf {while } b \textbf { do } S) (w) (s^{\sharp}) := (\mathcal{B}^{\sharp} ( \neg b ) (t^{\sharp}), invs)\\
-& \qquad \qquad \text{with } (t^{\sharp}, invs) := \text{ab-lfp} (AI ( S ) (w)) (b) (t^{\sharp}) (w)
+AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \times List(\mathbb{S}) \\
+&AI_{A, \mathbb{S}} (x:=e) (w) (s^{\sharp}) := (s^{\sharp}[x \mapsto \mathcal{A}^{\sharp} (e) (s^{\sharp})], []) \\
+&AI_{A, \mathbb{S}} (\textbf{skip}) (w) (s^{\sharp}) := (s^{\sharp}, []) \\
+&AI_{A, \mathbb{S}} (S_1 ; S_2) (w) (s^{\sharp}) := (u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
+& \qquad \qquad \text{with } (u^{\sharp}, invs_2) := AI_{A, \mathbb{S}} (S_2) (w) (t^{\sharp}) \\
+& \qquad \qquad \qquad (t^{\sharp}, invs_1) := AI_{A, \mathbb{S}} (S_1) (w) (s^{\sharp})
+\end{align*}
+\end{frame}
+
+
+\begin{frame}
+    \frametitle{Abstract Interpreter}
+\begin{align*}
+&AI_{A, \mathbb{S}} (\textbf {if } b \textbf { then } S_1 \textbf { else } S_2) (w) (s^{\sharp}) := (t^{\sharp} \vee_{\mathbb{S}} u^{\sharp}, invs_1 +_{List(\mathbb{S})} invs_2) \\
+& \qquad \qquad \text{with } (t^{\sharp}, invs_1) := (AI_{A, \mathbb{S}} ( S_1 ) (w) \circ \mathcal{B}^{\sharp} ( b )) (s^{\sharp}) \\
+& \qquad \qquad \qquad (u^{\sharp}, invs_2) := (AI_{A, \mathbb{S}} ( S_2 ) (w) \circ \mathcal{B}^{\sharp} ( \neg b )) (s^{\sharp}) \\
+&AI_{A, \mathbb{S}} (\textbf {while } b \textbf { do } S) (w) (s^{\sharp}) := (\mathcal{B}^{\sharp} ( \neg b ) (t^{\sharp}), invs)\\
+& \qquad \qquad \text{with } (t^{\sharp}, invs) := \text{ab-lfp} (AI_{A, \mathbb{S}} ( S ) (w)) (b) (t^{\sharp}) (w)
 \end{align*}
 \end{frame}
 
@@ -71,7 +78,7 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     & \mathcal{B}^{\sharp}: \mathbf{B e x p} \rightarrow \mathbb{S} \rightarrow \mathbb{S} \\
     & \mathcal{B}^{\sharp} (true) (s^{\sharp}) := s^{\sharp} \\
     & \mathcal{B}^{\sharp} (false) (s^{\sharp}) := \bot_\mathbb{S} \\
-    & \mathcal{B}^{\sharp} ( e_1 \text{ bop } e_2 ) (s^{\sharp}) := FINIRE \\
+    & \mathcal{B}^{\sharp} ( e_1 \text{ bop } e_2 ) (s^{\sharp}) \text{ depends on the domain} \\
     & \mathcal{B}^{\sharp} ( b_1 \land b_2 ) (s^{\sharp}) := (\mathcal{B}^{\sharp} ( b_2 ) \circ \mathcal{B}^{\sharp} ( b_1 )) (s^{\sharp}) \\
     & \mathcal{B}^{\sharp} ( b_1 \lor b_2 ) (s^{\sharp}) := \mathcal{B}^{\sharp} ( b_1) (s^{\sharp}) \vee_\mathbb{S} \mathcal{B}^{\sharp} ( b_2) (s^{\sharp})
 \end{align*}
@@ -373,14 +380,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
     \hline
     $e_1 = e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-    $\bot$      & $\bot$ &        &        &        &         &         &         &        \\ \hline
-    $<0$        & $\bot$ & $s^\#$ &        &        &         &         &         &        \\ \hline
-    $=0$        & $\bot$ & $\bot$ & $s^\#$ &        &         &         &         &        \\ \hline
-    $>0$        & $\bot$ & $\bot$ & $\bot$ & $s^\#$ &         &         &         &        \\ \hline
-    $\le 0$     & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$  &         &         &        \\ \hline
-    $\ne 0$     & $\bot$ & $s^\#$ & $\bot$ & $s^\#$ & $s^\#$  & $s^\#$  &         &        \\ \hline
-    $\ge 0$     & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  &        \\ \hline
-    $\top$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+    $\bot$      & $\bot_\mathbb{S}$ &        &        &        &         &         &         &        \\ \hline
+    $<0$        & $\bot_\mathbb{S}$ & $s^\#$ &        &        &         &         &         &        \\ \hline
+    $=0$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ &        &         &         &         &        \\ \hline
+    $>0$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ &         &         &         &        \\ \hline
+    $\le 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$  &         &         &        \\ \hline
+    $\ne 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$  & $s^\#$  &         &        \\ \hline
+    $\ge 0$     & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  &        \\ \hline
+    $\top$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
     \end{tabular}
     \end{table}
 \end{frame}
@@ -392,14 +399,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
     \hline
     $x = e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$              & $\ne 0$              & $\ge 0$              & $\top$                  \\ \hline
-    $\bot$  & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$               & $\bot$               & $\bot$               & $\bot$                  \\ \hline
-    $<0$    & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot$               & $s^\#[x \mapsto <0]$    \\ \hline
-    $=0$    & $\bot$ & $\bot$ & $s^\#$ & $\bot$ & $s^\#[x \mapsto =0]$ & $\bot$               & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto =0]$    \\ \hline
-    $>0$    & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$    \\ \hline
-    $\le 0$ & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$               & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto \le 0]$ \\ \hline
-    $\ne 0$ & $\bot$ & $s^\#$ & $\bot$ & $s^\#$ & $s^\#[x \mapsto <0]$ & $s^\#$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto \ne 0]$ \\ \hline
-    $\ge 0$ & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
-    $\top$  & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
+    $\bot$  & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$                  \\ \hline
+    $<0$    & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot_\mathbb{S}$               & $s^\#[x \mapsto <0]$    \\ \hline
+    $=0$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto =0]$ & $\bot_\mathbb{S}$               & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto =0]$    \\ \hline
+    $>0$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$    \\ \hline
+    $\le 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$               & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto \le 0]$ \\ \hline
+    $\ne 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#[x \mapsto <0]$ & $s^\#$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto \ne 0]$ \\ \hline
+    $\ge 0$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
+    $\top$  & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
     \end{tabular}}
     \end{table}
 \end{frame}
@@ -410,14 +417,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
     \hline
     $e_1 \ne e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-    $\bot$        & $\bot$ &        &        &        &         &         &         &        \\ \hline
-    $<0$          & $\bot$ & $s^\#$ &        &        &         &         &         &        \\ \hline
-    $=0$          & $\bot$ & $s^\#$ & $\bot$ &        &         &         &         &        \\ \hline
-    $>0$          & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ &         &         &         &        \\ \hline
-    $\le 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  &         &         &        \\ \hline
-    $\ne 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  &         &        \\ \hline
-    $\ge 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  &        \\ \hline
-    $\top$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+    $\bot$        & $\bot_\mathbb{S}$ &        &        &        &         &         &         &        \\ \hline
+    $<0$          & $\bot_\mathbb{S}$ & $s^\#$ &        &        &         &         &         &        \\ \hline
+    $=0$          & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ &        &         &         &         &        \\ \hline
+    $>0$          & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ &         &         &         &        \\ \hline
+    $\le 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  &         &         &        \\ \hline
+    $\ne 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  &         &        \\ \hline
+    $\ge 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  &        \\ \hline
+    $\top$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
     \end{tabular}
     \end{table}
 \end{frame}
@@ -429,14 +436,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
         \hline
         $x \ne e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$              & $\ne 0$ & $\ge 0$              & $\top$                  \\ \hline
-        $\bot$    & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$               & $\bot$  & $\bot$               & $\bot$                  \\ \hline
-        $<0$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
-        $=0$      & $\bot$ & $s^\#$ & $\bot$ & $s^\#$ & $s^\#[x \mapsto <0]$ & $s^\#$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto \ne 0]$ \\ \hline
-        $>0$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
-        $\le 0$   & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
-        $\ne 0$   & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
-        $\ge 0$   & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
-        $\top$    & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $\bot$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$                  \\ \hline
+        $<0$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $=0$      & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#[x \mapsto <0]$ & $s^\#$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto \ne 0]$ \\ \hline
+        $>0$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $\le 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $\ne 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $\ge 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
+        $\top$    & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$  & $s^\#$               & $s^\#$                  \\ \hline
         \end{tabular}}
         \end{table}
     \end{frame}
@@ -447,14 +454,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
             \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
             \hline
             $e_1 < e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-            $\bot$      & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
-            $<0$        & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#$  & $s^\#$  & $\bot$  & $s^\#$ \\ \hline
-            $=0$        & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#$  & $s^\#$  & $\bot$  & $s^\#$ \\ \hline
-            $>0$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-            $\le 0$     & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#$  & $s^\#$  & $\bot$  & $s^\#$ \\ \hline
-            $\ne 0$     & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-            $\ge 0$     & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-            $\top$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+            $\bot$      & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$ \\ \hline
+            $<0$        & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $\bot_\mathbb{S}$  & $s^\#$ \\ \hline
+            $=0$        & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $\bot_\mathbb{S}$  & $s^\#$ \\ \hline
+            $>0$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+            $\le 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $\bot_\mathbb{S}$  & $s^\#$ \\ \hline
+            $\ne 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+            $\ge 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+            $\top$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
             \end{tabular}
             \end{table}
         \end{frame}
@@ -466,14 +473,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                 \hline
                 $x < e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$              & $\ne 0$              & $\ge 0$ & $\top$               \\ \hline
-                $\bot$  & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$               & $\bot$               & $\bot$  & $\bot$               \\ \hline
-                $<0$    & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot$  & $s^\#[x \mapsto <0]$ \\ \hline
-                $=0$    & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot$  & $s^\#[x \mapsto <0]$ \\ \hline
-                $>0$    & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
-                $\le 0$ & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot$  & $s^\#[x \mapsto <0]$ \\ \hline
-                $\ne 0$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
-                $\ge 0$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
-                $\top$  & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
+                $\bot$  & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$               \\ \hline
+                $<0$    & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto <0]$ \\ \hline
+                $=0$    & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto <0]$ \\ \hline
+                $>0$    & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
+                $\le 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto <0]$ & $s^\#[x \mapsto <0]$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto <0]$ \\ \hline
+                $\ne 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
+                $\ge 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
+                $\top$  & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$  & $s^\#$               \\ \hline
                 \end{tabular}}
                 \end{table}
             \end{frame}
@@ -484,14 +491,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                     \hline
                     $e_1 > e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-                    $\bot$      & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
-                    $<0$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $=0$        & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $>0$        & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\le 0$     & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\ne 0$     & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\ge 0$     & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\top$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\bot$      & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$ \\ \hline
+                    $<0$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $=0$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $>0$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\le 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\ne 0$     & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\ge 0$     & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\top$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
                     \end{tabular}
                     \end{table}
                 \end{frame}
@@ -503,14 +510,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                         \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                         \hline
                         $x > e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$              & $\ge 0$              & $\top$               \\ \hline
-                        $\bot$  & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$  & $\bot$               & $\bot$               & $\bot$               \\ \hline
-                        $<0$    & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
-                        $=0$    & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
-                        $>0$    & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
-                        $\le 0$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
-                        $\ne 0$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
-                        $\ge 0$ & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
-                        $\top$  & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
+                        $\bot$  & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               \\ \hline
+                        $<0$    & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
+                        $=0$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
+                        $>0$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
+                        $\le 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
+                        $\ne 0$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
+                        $\ge 0$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ \\ \hline
+                        $\top$  & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$               & $s^\#$               & $s^\#$               \\ \hline
                             \end{tabular}}
                         \end{table}
                     \end{frame}
@@ -521,14 +528,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                             \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                             \hline
                             $e_1 \le e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-                            $\bot$        & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
-                            $<0$          & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#$  & $s^\#$  & $\bot$  & $s^\#$ \\ \hline
-                            $=0$          & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                            $>0$          & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                            $\le 0$       & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                            $\ne 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                            $\ge 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                            $\top$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $\bot$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$ \\ \hline
+                            $<0$          & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $\bot_\mathbb{S}$  & $s^\#$ \\ \hline
+                            $=0$          & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $>0$          & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $\le 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $\ne 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $\ge 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                            $\top$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
                             \end{tabular}
                             \end{table}
                         \end{frame}
@@ -540,14 +547,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                                 \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                                 \hline
                                 $x \le e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$               & $\ne 0$               & $\ge 0$               & $\top$                   \\ \hline
-                                $\bot$    & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$                & $\bot$                & $\bot$                & $\bot$                   \\ \hline
-                                $<0$      & $\bot$ & $s^\#$ & $\bot$ & $\bot$ & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto <0] $ & $\bot$                & $s^\#[x \mapsto <0] $    \\ \hline
-                                $=0$      & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$                & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto =0] $ & $s^\#[x \mapsto \le 0] $ \\ \hline
-                                $>0$      & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
-                                $\le 0$   & $\bot$ & $s^\#$ & $s^\#$ & $\bot$ & $s^\#$                & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto =0] $ & $s^\#[x \mapsto \le 0] $ \\ \hline
-                                $\ne 0$   & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
-                                $\ge 0$   & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
-                                $\top$    & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
+                                $\bot$    & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$                & $\bot_\mathbb{S}$                & $\bot_\mathbb{S}$                & $\bot_\mathbb{S}$                   \\ \hline
+                                $<0$      & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto <0] $ & $\bot_\mathbb{S}$                & $s^\#[x \mapsto <0] $    \\ \hline
+                                $=0$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$                & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto =0] $ & $s^\#[x \mapsto \le 0] $ \\ \hline
+                                $>0$      & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
+                                $\le 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $\bot_\mathbb{S}$ & $s^\#$                & $s^\#[x \mapsto <0] $ & $s^\#[x \mapsto =0] $ & $s^\#[x \mapsto \le 0] $ \\ \hline
+                                $\ne 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
+                                $\ge 0$   & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
+                                $\top$    & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$                & $s^\#$                & $s^\#$                & $s^\#$                   \\ \hline
                                 \end{tabular}}
                                 \end{table}
                             \end{frame}
@@ -558,14 +565,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                     \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                     \hline
                     $e_1 \ge e_2$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$ & $\ne 0$ & $\ge 0$ & $\top$ \\ \hline
-                    $\bot$        & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$  & $\bot$  & $\bot$  & $\bot$ \\ \hline
-                    $<0$          & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $=0$          & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $>0$          & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\le 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\ne 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\ge 0$       & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
-                    $\top$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\bot$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$  & $\bot_\mathbb{S}$ \\ \hline
+                    $<0$          & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $=0$          & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $>0$          & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\le 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\ne 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\ge 0$       & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
+                    $\top$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$  & $s^\#$  & $s^\#$  & $s^\#$ \\ \hline
                     \end{tabular}
                     \end{table}
                 \end{frame}
@@ -577,14 +584,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
                         \begin{tabular}{|l|l|l|l|l|l|l|l|l|}
                         \hline
                         $x \ge e$ & $\bot$ & $<0$   & $=0$   & $>0$   & $\le 0$              & $\ne 0$              & $\ge 0$              & $\top$                  \\ \hline
-                        $\bot$        & $\bot$ & $\bot$ & $\bot$ & $\bot$ & $\bot$               & $\bot$               & $\bot$               & $\bot$                  \\ \hline
-                        $<0$          & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
-                        $=0$          & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
-                        $>0$          & $\bot$ & $\bot$ & $\bot$ & $s^\#$ & $\bot$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$    \\ \hline
-                        $\le 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
-                        $\ne 0$       & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
-                        $\ge 0$       & $\bot$ & $\bot$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
-                        $\top$        & $\bot$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
+                        $\bot$        & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$               & $\bot_\mathbb{S}$                  \\ \hline
+                        $<0$          & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
+                        $=0$          & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
+                        $>0$          & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $\bot_\mathbb{S}$               & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$ & $s^\#[x \mapsto >0]$    \\ \hline
+                        $\le 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
+                        $\ne 0$       & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
+                        $\ge 0$       & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#[x \mapsto =0]$ & $s^\#[x \mapsto >0]$ & $s^\#$               & $s^\#[x \mapsto \ge 0]$ \\ \hline
+                        $\top$        & $\bot_\mathbb{S}$ & $s^\#$ & $s^\#$ & $s^\#$ & $s^\#$               & $s^\#$               & $s^\#$               & $s^\#$                  \\ \hline
                         \end{tabular}}
                         \end{table}
                     \end{frame}
@@ -740,11 +747,11 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
             \begin{tabular}{|l|l|l|l|l|l|}
             \hline
             $e_1 = e_2$    & $\bot$ & $(-\infty, b]$                     & $[a, b]$                                      & $[a, +\infty)$                     & $\top$ \\ \hline
-            $\bot$         & $\bot$ & $\bot$                             & $\bot$                                        & $\bot$                             & $\bot$ \\ \hline
-            $(-\infty, d]$ & $\bot$ & $s^\#$                             & if $a > d$ then $\bot$ else $s^\#$            & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
-            $[c, d]$       & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $a > d$ or $b < c$ then $\bot$ else $s^\#$ & if $a > d$ then $\bot$ else $s^\#$ & $s^\#$ \\ \hline
-            $[c, +\infty)$ & $\bot$ & if $b < c$ then $\bot$ else $s^\#$ & if $b < c$ then $\bot$ else $s^\#$            & $s^\#$                             & $s^\#$ \\ \hline
-            $\top$         & $\bot$ & $s^\#$                             & $s^\#$                                        & $s^\#$                             & $s^\#$ \\ \hline
+            $\bot$         & $\bot_\mathbb{S}$ & $\bot_\mathbb{S}$                             & $\bot_\mathbb{S}$                                        & $\bot_\mathbb{S}$                             & $\bot_\mathbb{S}$ \\ \hline
+            $(-\infty, d]$ & $\bot_\mathbb{S}$ & $s^\#$                             & if $a > d$ then $\bot_\mathbb{S}$ else $s^\#$            & if $a > d$ then $\bot_\mathbb{S}$ else $s^\#$ & $s^\#$ \\ \hline
+            $[c, d]$       & $\bot_\mathbb{S}$ & if $b < c$ then $\bot_\mathbb{S}$ else $s^\#$ & if $a > d$ or $b < c$ then $\bot_\mathbb{S}$ else $s^\#$ & if $a > d$ then $\bot_\mathbb{S}$ else $s^\#$ & $s^\#$ \\ \hline
+            $[c, +\infty)$ & $\bot_\mathbb{S}$ & if $b < c$ then $\bot_\mathbb{S}$ else $s^\#$ & if $b < c$ then $\bot_\mathbb{S}$ else $s^\#$            & $s^\#$                             & $s^\#$ \\ \hline
+            $\top$         & $\bot_\mathbb{S}$ & $s^\#$                             & $s^\#$                                        & $s^\#$                             & $s^\#$ \\ \hline
             \end{tabular}}
             \end{table}
         \end{frame}
@@ -756,19 +763,19 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $x = e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                                  & \multicolumn{2}{l|}{$[a, +\infty)$}                                          & $\top$                                          \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                                    & \multicolumn{2}{l|}{$\bot$}                                                  & $\bot$                                          \\ \hline
-        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b \le d$                        & $s^\#$                                          & $a > d$                             & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                                        & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                    & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                                  & $\bot_\mathbb{S}$                                          \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b \le d$                        & $s^\#$                                          & $a > d$                             & $\bot_\mathbb{S}$                   & $a > d$                          & $\bot_\mathbb{S}$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
                                         &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, d]]$} & $a \le d \land b > d$               & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$}       & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
                                         &                         &                                  &                                                 & $a \le d \land b \le d$             & $s^\#$                   &                                  &                                           &                                                 \\ \hline
-        \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c \lor a > d$                  & $\bot$                   & $a > d$                          & $\bot$                                    & \multirow{5}{*}{$s^\#[x \mapsto [c, d]]$}       \\
+        \multirow{5}{*}{$[c, d]$}       & \multirow{5}{*}{$\bot_\mathbb{S}$} & $b < c$                          & $\bot_\mathbb{S}$                                          & $b < c \lor a > d$                  & $\bot_\mathbb{S}$                   & $a > d$                          & $\bot_\mathbb{S}$                                    & \multirow{5}{*}{$s^\#[x \mapsto [c, d]]$}       \\
                                         &                         & \multirow{2}{*}{$c \le b \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b > d \land a < c$                 & $s^\#[x \mapsto [c, d]]$ & \multirow{2}{*}{$a < c$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$} &                                                 \\
                                         &                         &                                  &                                                 & $b > d \land a \ge c$               & $s^\#[x \mapsto [a, d]]$ &                                  &                                           &                                                 \\
                                         &                         & \multirow{2}{*}{$b > d$}         & \multirow{2}{*}{$s^\#[x \mapsto [c, d]]$}       & $c \le b \le d \land a < c$         & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$c \le a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
                                         &                         &                                  &                                                 & $c \le b \le d \land c \le a \le d$ & $s^\#$                   &                                  &                                           &                                                 \\ \hline
-        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                          & $\bot$                                          & $b < c$                             & $\bot$                   & $a < c$                          & $s^\#[x \mapsto [c, +\infty)]$            & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b < c$                          & $\bot_\mathbb{S}$                                          & $b < c$                             & $\bot_\mathbb{S}$                   & $a < c$                          & $s^\#[x \mapsto [c, +\infty)]$            & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
                                         &                         & \multirow{2}{*}{$b \ge c$}       & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$}       & $b \ge c \land a < c$               & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$}       & \multirow{2}{*}{$s^\#$}                   &                                                 \\
                                         &                         &                                  &                                                 & $a \ge c$                           & $s^\#$                   &                                  &                                           &                                                 \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                                    & \multicolumn{2}{l|}{$s^\#$}                                                  & $s^\#$                                          \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                                    & \multicolumn{2}{l|}{$s^\#$}                                                  & $s^\#$                                          \\ \hline
         \end{tabular}}
         \end{table}
     \end{frame}
@@ -779,14 +786,14 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $e_1 \ne e_2$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}          & \multicolumn{2}{l|}{$[a, b]$}                & \multicolumn{2}{l|}{$[a, +\infty)$}          & $\top$                  \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & \multicolumn{2}{l|}{$\bot$}                  & $\bot$                  \\ \hline
-        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                     &                 & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
-        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & $a = b = c = d$            & $\bot$          & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & \multirow{2}{*}{$s^\#$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                  & $\bot_\mathbb{S}$                  \\ \hline
+        $(-\infty, d]$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                     &                 & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot_\mathbb{S}$} & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & $a = b = c = d$            & $\bot_\mathbb{S}$          & \multicolumn{2}{l|}{\multirow{2}{*}{$s^\#$}} & \multirow{2}{*}{$s^\#$} \\
                                         &                         & \multicolumn{2}{l|}{}                        & otherwise                  & $s^\#$          & \multicolumn{2}{l|}{}                        &                         \\ \hline
-        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multirow{3}{*}{$s^\#$} \\
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}} & \multirow{3}{*}{$s^\#$} \\
                                         &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\
                                         &                         & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        & \multicolumn{2}{l|}{}                        &                         \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & \multicolumn{2}{l|}{$s^\#$}                  & $s^\#$                  \\ \hline
         \end{tabular}
         \end{table}
     \end{frame}
@@ -800,16 +807,16 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $x \ne e$                       & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                                & \multicolumn{2}{l|}{$[a, b]$}                            & \multicolumn{2}{l|}{$[a, +\infty)$}                                                & $\top$                  \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                                        & \multicolumn{2}{l|}{$\bot$}                              & \multicolumn{2}{l|}{$\bot$}                                                        & $\bot$                  \\ \hline
-        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                    &                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
-        \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$\bot$} & \multirow{2}{*}{$b = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, b - 1]]$} & $a = c = d \land a \ne b$ & $s^\#[x \mapsto [a + 1, b]]$ & \multirow{2}{*}{$a = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto [a + 1, +\infty)]$} & \multirow{4}{*}{$s^\#$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                                        & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                              & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                                        & $\bot_\mathbb{S}$                  \\ \hline
+        $(-\infty, d]$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                    &                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+        \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$\bot_\mathbb{S}$} & \multirow{2}{*}{$b = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto (-\infty, b - 1]]$} & $a = c = d \land a \ne b$ & $s^\#[x \mapsto [a + 1, b]]$ & \multirow{2}{*}{$a = c = d$} & \multirow{2}{*}{$s^\#[x \mapsto [a + 1, +\infty)]$} & \multirow{4}{*}{$s^\#$} \\
                                         &                         &                              &                                                     & $b = c = d \land a \ne b$ & $s^\#[x \mapsto [a, b - 1]]$ &                              &                                                     &                         \\
-                                        &                         & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             & $a = b = c = d$           & $\bot$                       & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             &                         \\
+                                        &                         & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             & $a = b = c = d$           & $\bot_\mathbb{S}$                       & \multirow{2}{*}{otherwise}   & \multirow{2}{*}{$s^\#$}                             &                         \\
                                         &                         &                              &                                                     & otherwise                 & $s^\#$     &                              &                                                     &                         \\ \hline
-        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}             & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multirow{3}{*}{$s^\#$} \\
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}             & \multicolumn{2}{l|}{\multirow{3}{*}{$s^\#$}}                                       & \multirow{3}{*}{$s^\#$} \\
                                         &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\
                                         &                         & \multicolumn{2}{l|}{}                                                              & \multicolumn{2}{l|}{}                                    & \multicolumn{2}{l|}{}                                                              &                         \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                                        & \multicolumn{2}{l|}{$s^\#$}                              & \multicolumn{2}{l|}{$s^\#$}                                                        & $s^\#$                  \\ \hline
         \end{tabular}
         }
         \end{table}
@@ -821,13 +828,13 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|l|ll|ll|l|}
         \hline
         $e_1 < e_2$                     & $\bot$                  & $(-\infty, b]$          & \multicolumn{2}{l|}{$[a, b]$} & \multicolumn{2}{l|}{$[a, +\infty)$} & $\top$                  \\ \hline
-        $\bot$                          & $\bot$                  & $\bot$                  & \multicolumn{2}{l|}{$\bot$}   & \multicolumn{2}{l|}{$\bot$}         & $\bot$                  \\ \hline
-        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot$      & $a \ge d$          & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}   & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}         & $\bot_\mathbb{S}$                  \\ \hline
+        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot_\mathbb{S}$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot_\mathbb{S}$      & $a \ge d$          & $\bot_\mathbb{S}$         & \multirow{2}{*}{$s^\#$} \\
                                         &                         &                         & $a < d$         & $s^\#$      & $a < d$            & $s^\#$         &                         \\ \hline
-        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot$      & $a \ge d$          & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot_\mathbb{S}$} & \multirow{2}{*}{$s^\#$} & $a \ge d$       & $\bot_\mathbb{S}$      & $a \ge d$          & $\bot_\mathbb{S}$         & \multirow{2}{*}{$s^\#$} \\
                                         &                         &                         & $a < d$         & $s^\#$      & $a < d$            & $s^\#$         &                         \\ \hline
-        $[c, +\infty)$                  & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
-        $\top$                          & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $[c, +\infty)$                  & $\bot_\mathbb{S}$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
         \end{tabular}
         \end{table}
     \end{frame}
@@ -839,15 +846,15 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $x < e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                           & \multicolumn{2}{l|}{$[a, b]$}                        & \multicolumn{2}{l|}{$[a, +\infty)$}                                      & $\top$                                              \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                   & \multicolumn{2}{l|}{$\bot$}                          & \multicolumn{2}{l|}{$\bot$}                                              & $\bot$                                              \\ \hline
-        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot$                       & $a \ge d$                & $\bot$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                   & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                          & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                              & $\bot_\mathbb{S}$                                              \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot_\mathbb{S}$                       & $a \ge d$                & $\bot_\mathbb{S}$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
                                         &                         & \multirow{2}{*}{$b < d$} & \multirow{2}{*}{$s^\#$}            & $a < d \land b \ge d$ & $s^\#[x \mapsto [a, d - 1]]$ & \multirow{2}{*}{$a < d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d - 1]]$} &                                                     \\
                                         &                         &                          &                                    & $a< d \land b < d$    & $s^\#$                       &                          &                                               &                                                     \\ \hline
-        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot$                       & $a \ge d$                & $\bot$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b \ge d$                & $s^\#[x \mapsto (-\infty, d - 1]]$ & $a \ge d$             & $\bot_\mathbb{S}$                       & $a \ge d$                & $\bot_\mathbb{S}$                                        & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d - 1]]$} \\
                                         &                         & \multirow{2}{*}{$b < d$} & \multirow{2}{*}{$s^\#$}            & $a < d \land b \ge d$ & $s^\#[x \mapsto [a, d - 1]]$ & \multirow{2}{*}{$a < d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d - 1]]$} &                                                     \\
                                         &                         &                          &                                    & $a< d \land b < d$    & $s^\#$                       &                          &                                               &                                                     \\ \hline
-        $[c, +\infty)$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
+        $[c, +\infty)$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                   & \multicolumn{2}{l|}{$s^\#$}                          & \multicolumn{2}{l|}{$s^\#$}                                              & $s^\#$                                              \\ \hline
         \end{tabular}}
         \end{table}
     \end{frame}
@@ -859,13 +866,13 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|l|ll|ll|l|}
         \hline
         $e_1 \le e_2$                   & $\bot$                  & $(-\infty, b]$          & \multicolumn{2}{l|}{$[a, b]$} & \multicolumn{2}{l|}{$[a, +\infty)$} & $\top$                  \\ \hline
-        $\bot$                          & $\bot$                  & $\bot$                  & \multicolumn{2}{l|}{$\bot$}   & \multicolumn{2}{l|}{$\bot$}         & $\bot$                  \\ \hline
-        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot$      & $a > d$            & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}   & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}         & $\bot_\mathbb{S}$                  \\ \hline
+        \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$\bot_\mathbb{S}$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot_\mathbb{S}$      & $a > d$            & $\bot_\mathbb{S}$         & \multirow{2}{*}{$s^\#$} \\
                                         &                         &                         & $a \le d$       & $s^\#$      & $a \le d$          & $s^\#$         &                         \\ \hline
-        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot$      & $a > d$            & $\bot$         & \multirow{2}{*}{$s^\#$} \\
+        \multirow{2}{*}{$[c, d]$}       & \multirow{2}{*}{$\bot_\mathbb{S}$} & \multirow{2}{*}{$s^\#$} & $a > d$         & $\bot_\mathbb{S}$      & $a > d$            & $\bot_\mathbb{S}$         & \multirow{2}{*}{$s^\#$} \\
                                         &                         &                         & $a \le d$       & $s^\#$      & $a \le d$          & $s^\#$         &                         \\ \hline
-        $[c, +\infty)$                  & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
-        $\top$                          & $\bot$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $[c, +\infty)$                  & $\bot_\mathbb{S}$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & $s^\#$                  & \multicolumn{2}{l|}{$s^\#$}   & \multicolumn{2}{l|}{$s^\#$}         & $s^\#$                  \\ \hline
         \end{tabular}
         \end{table}
     \end{frame}
@@ -878,15 +885,15 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $x \le e$                       & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                         & \multicolumn{2}{l|}{$[a, b]$}                      & \multicolumn{2}{l|}{$[a, +\infty)$}                                    & $\top$                                          \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                 & \multicolumn{2}{l|}{$\bot$}                        & \multicolumn{2}{l|}{$\bot$}                                            & $\bot$                                          \\ \hline
-        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot$                   & $a > d$                    & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                 & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                        & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                            & $\bot_\mathbb{S}$                                          \\ \hline
+        \multirow{3}{*}{$(-\infty, d]$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot_\mathbb{S}$                   & $a > d$                    & $\bot_\mathbb{S}$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
                                         &                         & \multirow{2}{*}{$b \le d$} & \multirow{2}{*}{$s^\#$}        & $a \le d \land b > d$   & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
                                         &                         &                            &                                & $a \le d \land b \le d$ & $s^\#$                   &                            &                                           &                                                 \\ \hline
-        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot$                   & $a > d$                    & $\bot$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b > d$                    & $s^\#[x \mapsto (-\infty, d]]$ & $a > d$                 & $\bot_\mathbb{S}$                   & $a > d$                    & $\bot_\mathbb{S}$                                    & \multirow{3}{*}{$s^\#[x \mapsto (-\infty, d]]$} \\
                                         &                         & \multirow{2}{*}{$b \le d$} & \multirow{2}{*}{$s^\#$}        & $a \le d \land b > d$   & $s^\#[x \mapsto [a, d]]$ & \multirow{2}{*}{$a \le d$} & \multirow{2}{*}{$s^\#[x \mapsto [a, d]]$} &                                                 \\
                                         &                         &                            &                                & $a \le d \land b \le d$ & $s^\#$                   &                            &                                           &                                                 \\ \hline
-        $[c, +\infty)$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
+        $[c, +\infty)$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                 & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                            & $s^\#$                                          \\ \hline
         \end{tabular}}
         \end{table}
     \end{frame}
@@ -897,13 +904,13 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|l|l|}
         \hline
         $e_1 > e_2$    & $\bot$ & \multicolumn{2}{l|}{$(-\infty, b]$} & \multicolumn{2}{l|}{$[a, b]$} & $[a, +\infty)$          & $\top$                  \\ \hline
-        $\bot$         & $\bot$ & \multicolumn{2}{l|}{$\bot$}         & \multicolumn{2}{l|}{$\bot$}   & $\bot$                  & $\bot$                  \\ \hline
-        $(-\infty, d]$ & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
-        $[c, d]$       & $\bot$ & $b \le c$          & $\bot$         & $b \le c$       & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+        $\bot$         & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}         & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}   & $\bot_\mathbb{S}$                  & $\bot_\mathbb{S}$                  \\ \hline
+        $(-\infty, d]$ & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+        $[c, d]$       & $\bot_\mathbb{S}$ & $b \le c$          & $\bot_\mathbb{S}$         & $b \le c$       & $\bot_\mathbb{S}$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
                         &        & $b > c$            & $s^\#$         & $b > c$         & $s^\#$      &                         &                         \\ \hline
-        $[c, +\infty)$ & $\bot$ & $b \le c$          & $\bot$         & $b \le c$       & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+        $[c, +\infty)$ & $\bot_\mathbb{S}$ & $b \le c$          & $\bot_\mathbb{S}$         & $b \le c$       & $\bot_\mathbb{S}$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
                         &        & $b > c$            & $s^\#$         & $b > c$         & $s^\#$      &                         &                         \\ \hline
-        $\top$         & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+        $\top$         & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
         \end{tabular}
         \end{table}
     \end{frame}
@@ -915,15 +922,15 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         \begin{tabular}{|l|l|ll|ll|ll|l|}
         \hline
         $x > e$                         & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                      & \multicolumn{2}{l|}{$[a, b]$}                    & \multicolumn{2}{l|}{$[a, +\infty)$}                       & $\top$                                          \\ \hline
-        $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                              & \multicolumn{2}{l|}{$\bot$}                      & \multicolumn{2}{l|}{$\bot$}                               & $\bot$                                          \\ \hline
-        $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
-        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b \le c$                & $\bot$                                        & $b \le c$             & $\bot$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
+        $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                              & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                      & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                               & $\bot_\mathbb{S}$                                          \\ \hline
+        $(-\infty, d]$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
+        \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b \le c$                & $\bot_\mathbb{S}$                                        & $b \le c$             & $\bot_\mathbb{S}$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
                                         &                         & \multirow{2}{*}{$b > c$} & \multirow{2}{*}{$s^\#[x \mapsto [c + 1, b]]$} & $b > c \land a \le c$ & $s^\#[x \mapsto [c + 1, b]]$ & \multirow{2}{*}{$a > c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
                                         &                         &                          &                                               & $b > c \land a > c$   & $s^\#$                   &                          &                                &                                                 \\ \hline
-        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b \le c$                & $\bot$                                        & $b \le c$             & $\bot$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
+        \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b \le c$                & $\bot_\mathbb{S}$                                        & $b \le c$             & $\bot_\mathbb{S}$                   & $a \le c$                & $s^\#[x \mapsto [c + 1, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c + 1, +\infty)]$} \\
                                         &                         & \multirow{2}{*}{$b > c$} & \multirow{2}{*}{$s^\#[x \mapsto [c + 1, b]]$} & $b > c \land a \le c$ & $s^\#[x \mapsto [c + 1, b]]$ & \multirow{2}{*}{$a > c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
                                         &                         &                          &                                               & $b > c \land a > c$   & $s^\#$                   &                          &                                &                                                 \\ \hline
-        $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
+        $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                              & \multicolumn{2}{l|}{$s^\#$}                      & \multicolumn{2}{l|}{$s^\#$}                               & $s^\#$                                          \\ \hline
         \end{tabular}}
         \end{table}
     \end{frame}
@@ -934,13 +941,13 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
             \begin{tabular}{|l|l|ll|ll|l|l|}
             \hline
             $e_1 \ge e_2$  & $\bot$ & \multicolumn{2}{l|}{$(-\infty, b]$} & \multicolumn{2}{l|}{$[a, b]$} & $[a, +\infty)$          & $\top$                  \\ \hline
-            $\bot$         & $\bot$ & \multicolumn{2}{l|}{$\bot$}         & \multicolumn{2}{l|}{$\bot$}   & $\bot$                  & $\bot$                  \\ \hline
-            $(-\infty, d]$ & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
-            $[c, d]$       & $\bot$ & $b < c$            & $\bot$         & $b < c$         & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+            $\bot$         & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}         & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}   & $\bot_\mathbb{S}$                  & $\bot_\mathbb{S}$                  \\ \hline
+            $(-\infty, d]$ & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+            $[c, d]$       & $\bot_\mathbb{S}$ & $b < c$            & $\bot_\mathbb{S}$         & $b < c$         & $\bot_\mathbb{S}$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
                             &        & $b \ge c$          & $s^\#$         & $b \ge c$       & $s^\#$      &                         &                         \\ \hline
-            $[c, +\infty)$ & $\bot$ & $b < c$            & $\bot$         & $b < c$         & $\bot$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
+            $[c, +\infty)$ & $\bot_\mathbb{S}$ & $b < c$            & $\bot_\mathbb{S}$         & $b < c$         & $\bot_\mathbb{S}$      & \multirow{2}{*}{$s^\#$} & \multirow{2}{*}{$s^\#$} \\
                             &        & $b \ge c$          & $s^\#$         & $b \ge c$       & $s^\#$      &                         &                         \\ \hline
-            $\top$         & $\bot$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
+            $\top$         & $\bot_\mathbb{S}$ & \multicolumn{2}{l|}{$s^\#$}         & \multicolumn{2}{l|}{$s^\#$}   & $s^\#$                  & $s^\#$                  \\ \hline
             \end{tabular}
             \end{table}
         \end{frame}
@@ -952,15 +959,15 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     \begin{tabular}{|l|l|ll|ll|ll|l|}
     \hline
     $x \ge e$                   & $\bot$                  & \multicolumn{2}{l|}{$(-\infty, b]$}                                    & \multicolumn{2}{l|}{$[a, b]$}                      & \multicolumn{2}{l|}{$[a, +\infty)$}                         & $\top$                                          \\ \hline
-    $\bot$                          & $\bot$                  & \multicolumn{2}{l|}{$\bot$}                                            & \multicolumn{2}{l|}{$\bot$}                        & \multicolumn{2}{l|}{$\bot$}                                 & $\bot$                                          \\ \hline
-    $(-\infty, d]$                  & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
-    \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+    $\bot$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                            & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                        & \multicolumn{2}{l|}{$\bot_\mathbb{S}$}                                 & $\bot_\mathbb{S}$                                          \\ \hline
+    $(-\infty, d]$                  & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+    \multirow{3}{*}{$[c, d]$}       & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b < c$                    & $\bot_\mathbb{S}$                                    & $b < c$                 & $\bot_\mathbb{S}$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
                                     &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
                                     &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
-    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot$} & $b < c$                    & $\bot$                                    & $b < c$                 & $\bot$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
+    \multirow{3}{*}{$[c, +\infty)$} & \multirow{3}{*}{$\bot_\mathbb{S}$} & $b < c$                    & $\bot_\mathbb{S}$                                    & $b < c$                 & $\bot_\mathbb{S}$                   & $a < c$                    & $s^\#[x \mapsto [c, +\infty)]$ & \multirow{3}{*}{$s^\#[x \mapsto [c, +\infty)]$} \\
                                     &                         & \multirow{2}{*}{$b \ge c$} & \multirow{2}{*}{$s^\#[x \mapsto [c, b]]$} & $b \ge c \land a < c$   & $s^\#[x \mapsto [c, b]]$ & \multirow{2}{*}{$a \ge c$} & \multirow{2}{*}{$s^\#$}        &                                                 \\
                                     &                         &                            &                                           & $b \ge c \land a \ge c$ & $s^\#$                   &                            &                                &                                                 \\ \hline
-    $\top$                          & $\bot$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
+    $\top$                          & $\bot_\mathbb{S}$                  & \multicolumn{2}{l|}{$s^\#$}                                            & \multicolumn{2}{l|}{$s^\#$}                        & \multicolumn{2}{l|}{$s^\#$}                                 & $s^\#$                                          \\ \hline
     \end{tabular}}
     \end{table}
 \end{frame}
@@ -989,17 +996,17 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
     \scalebox{0.7}{
     \begin{tabular}{|l|l|ll|ll|ll|l|}
     \hline
-    $\nabla$                        & $\bot$                          & \multicolumn{2}{l|}{$(-\infty, b]$}                                               & \multicolumn{2}{l|}{$[a, b]$}                                 & \multicolumn{2}{l|}{$[a, +\infty)$}                                               & $\top$                  \\ \hline
-    $\bot$                          & $\bot$                          & \multicolumn{2}{l|}{$(-\infty, b]$}                                               & \multicolumn{2}{l|}{$[a, b]$}                                 & \multicolumn{2}{l|}{$[a, +\infty)$}                                               & $\top$                  \\ \hline
-    \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$(-\infty, d]$} & \multicolumn{1}{l|}{$d \le b$}                  & $(-\infty, b]$                  & \multicolumn{1}{l|}{$d \le b$}               & $(-\infty, b]$ & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                                      & \multirow{2}{*}{$\top$} \\ \cline{3-6}
-                                    &                                 & \multicolumn{1}{l|}{otherwise}                  & $\top$                          & \multicolumn{1}{l|}{otherwise}               & $\top$         & \multicolumn{2}{l|}{}                                                             &                         \\ \hline
-    \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$[c, d]$}       & \multicolumn{1}{l|}{\multirow{2}{*}{$d \le b$}} & \multirow{2}{*}{$(-\infty, b]$} & \multicolumn{1}{l|}{$a \le c \land d \le b$} & $[a, b]$       & \multicolumn{1}{l|}{\multirow{2}{*}{$a \le c$}} & \multirow{2}{*}{$[a, +\infty)$} & \multirow{2}{*}{$\top$} \\ \cline{5-6}
-                                    &                                 & \multicolumn{1}{l|}{}                           &                                 & \multicolumn{1}{l|}{$a \le c \land d > b$}   & $[a, +\infty)$ & \multicolumn{1}{l|}{}                           &                                 &                         \\ \cline{3-9} 
-                                    &                                 & \multicolumn{1}{l|}{\multirow{2}{*}{otherwise}} & \multirow{2}{*}{$\top$}         & \multicolumn{1}{l|}{$a > c \land d \le b$}   & $(-\infty, b]$ & \multicolumn{1}{l|}{\multirow{2}{*}{otherwise}} & \multirow{2}{*}{$\top$}         & \multirow{2}{*}{$\top$} \\ \cline{5-6}
-                                    &                                 & \multicolumn{1}{l|}{}                           &                                 & \multicolumn{1}{l|}{otherwise}               & $\top$         & \multicolumn{1}{l|}{}                           &                                 &                         \\ \hline
-    \multirow{2}{*}{$[c, +\infty)$} & \multirow{2}{*}{$[c, +\infty)$} & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                                      & \multicolumn{1}{l|}{$a \le c$}               & $[a, +\infty)$ & \multicolumn{1}{l|}{$a \le c$}                  & $[a, +\infty)$                  & \multirow{2}{*}{$\top$} \\ \cline{5-8}
-                                    &                                 & \multicolumn{2}{l|}{}                                                             & \multicolumn{1}{l|}{otherwise}               & $\top$         & \multicolumn{1}{l|}{otherwise}                  & $\top$                          &                         \\ \hline
-    $\top$                          & $\top$                          & \multicolumn{2}{l|}{$\top$}                                                       & \multicolumn{2}{l|}{$\top$}                                   & \multicolumn{2}{l|}{$\top$}                                                       & $\top$                  \\ \hline
+    $\nabla$                        & $\bot$                          & \multicolumn{2}{l|}{$(-\infty, b]$}                          & \multicolumn{2}{l|}{$[a, b]$}            & \multicolumn{2}{l|}{$[a, +\infty)$}                          & $\top$                  \\ \hline
+    $\bot$                          & $\bot$                          & \multicolumn{2}{l|}{$(-\infty, b]$}                          & \multicolumn{2}{l|}{$[a, b]$}            & \multicolumn{2}{l|}{$[a, +\infty)$}                          & $\top$                  \\ \hline
+    \multirow{2}{*}{$(-\infty, d]$} & \multirow{2}{*}{$(-\infty, d]$} & $d \le b$                  & $(-\infty, b]$                  & $d \le b$               & $(-\infty, b]$ & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                 & \multirow{2}{*}{$\top$} \\
+                                    &                                 & otherwise                  & $\top$                          & otherwise               & $\top$         & \multicolumn{2}{l|}{}      &                         \\ \hline
+    \multirow{4}{*}{$[c, d]$}       & \multirow{4}{*}{$[c, d]$}       & \multirow{2}{*}{$d \le b$} & \multirow{2}{*}{$(-\infty, b]$} & $a \le c \land d \le b$ & $[a, b]$       & \multirow{2}{*}{$a \le c$} & \multirow{2}{*}{$[a, +\infty)$} & \multirow{2}{*}{$\top$} \\
+                                    &                                 &                            &                                 & $a \le c \land d > b$   & $[a, +\infty)$ &                            &                                 &                         \\
+                                    &                                 & \multirow{2}{*}{otherwise} & \multirow{2}{*}{$\top$}         & $a > c \land d \le b$   & $(-\infty, b]$ & \multirow{2}{*}{otherwise} & \multirow{2}{*}{$\top$}         & \multirow{2}{*}{$\top$} \\
+                                    &                                 &                            &                                 & otherwise               & $\top$         &                            &                                 &                         \\ \hline
+    \multirow{2}{*}{$[c, +\infty)$} & \multirow{2}{*}{$[c, +\infty)$} & \multicolumn{2}{l|}{\multirow{2}{*}{$\top$}}                 & $a \le c$               & $[a, +\infty)$ & $a \le c$                  & $[a, +\infty)$                  & \multirow{2}{*}{$\top$} \\
+                                    &                                 & \multicolumn{2}{l|}{}      & otherwise               & $\top$         & otherwise                  & $\top$                          &                         \\ \hline
+    $\top$                          & $\top$                          & \multicolumn{2}{l|}{$\top$}                                  & \multicolumn{2}{l|}{$\top$}              & \multicolumn{2}{l|}{$\top$}                                  & $\top$                  \\ \hline
     \end{tabular}}
     \end{table}
 \end{frame}
@@ -1113,7 +1120,9 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         & \qquad \qquad (j := 1; \\
         & \qquad \qquad \textbf {while } j \le i \textbf { do } j := j + 1; \\
         & \qquad \qquad i := i + 1) \\
-        &AI_{Int} (P) (false) (\top_\mathbb{S}) = ([(i, [4, 4])], [[(i, [1, 1]), (j, [1, 2])], [(i, [1, 2]), (j, [1, 3])], [(i, [1, 3]), (j, [1, 4])], [(i, [1, 4])]]) \\
+        &AI_{Int} (P) (false) (\top_\mathbb{S}) = ([(i, [4, 4])], \\ 
+        & \qquad \qquad [[(i, [1, 1]), (j, [1, 2])], [(i, [1, 2]), (j, [1, 3])], \\ 
+        & \qquad \qquad [(i, [1, 3]), (j, [1, 4])], [(i, [1, 4])]]) \\
         &AI_{Int} (P) (true) (\top_\mathbb{S}) = ([(i, [4, 4])], [[(i, [1, 4])]])
     \end{align*}
 \end{frame}
@@ -1131,6 +1140,22 @@ AI&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarrow \mathbb{S} \t
         & \qquad \qquad i := i + 1) \\
         &AI_{Int} (P) (false) (\top_\mathbb{S}) = ([(i, [5, 5])], [..., [(i, [1, 5])]]) \\
         &AI_{Int} (P) (true) (\top_\mathbb{S}) = ([(i, [5, 5])], [[(i, [1, 5])]])
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example 11}
+    \begin{align*}
+        &P :=\  x := 1 / 0; \textbf {while } x \le 5 \textbf { do skip}\\
+        &AI_{Int} (P) (false) (\top_\mathbb{S}) = (\bot_\mathbb{S}, [(x, \bot)])
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Example 12}
+    \begin{align*}
+        &P :=\ \textbf {while } 1 / 0 < 1 \textbf { do skip}\\
+        &AI_{Int} (P) (false) (\top_\mathbb{S}) = (\bot_\mathbb{S}, [])
     \end{align*}
 \end{frame}
 

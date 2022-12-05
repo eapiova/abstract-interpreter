@@ -79,7 +79,11 @@ Parameter widen_state : AbS -> AbS -> AbS.
 Parameter narrow : AbD -> AbD -> AbD.
 Parameter narrow_state : AbS -> AbS -> AbS.
 
+
+
 End AbstractDomain.
+
+
 
 
 
@@ -87,7 +91,7 @@ End AbstractDomain.
 
 Module AbstractInterpreter (AbDom : AbstractDomain).
 Import AbDom.
-    
+
 Fixpoint B_sharp b s_sharp :=
     match b with
     | tt => s_sharp
@@ -129,7 +133,8 @@ Fixpoint steps AI_state (b : Bexp) s_sharp t_sharp {struct b} :=
     if is_inv AI_state s_sharp t_sharp b
         then (t_sharp, [t_sharp])
     else 
-        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := steps AI_state b s_sharp u_sharp in (v_sharp, invs1 ++ invs2).        
+        let (u_sharp, invs1) := print_id (step AI_state b s_sharp t_sharp) in let (v_sharp, invs2) := steps AI_state b s_sharp u_sharp in (v_sharp, invs1 ++ invs2).   
+    
 
 Fixpoint widening AI_state b s_sharp t_sharp {struct b} :=
     if is_inv AI_state s_sharp t_sharp b
@@ -1106,10 +1111,24 @@ Eval compute in (AI example10_expr false top_AbS).
 Eval compute in (AI example10_expr true top_AbS).
 
 
+(** 
+    Example 11
+
+    x := 1 / 0;
+    while x <= 5 do
+*)
+
 Definition example11_expr :=
     sequence (assign "x" (aop div (const 1) (const 0))) (while_do (bop le (var "x") (const 5)) skip).
     
 Eval compute in (AI example11_expr false top_AbS).
+
+
+(** 
+    Example 12
+
+    while (1 / 0) < 1 do
+*)
 
 Definition example12_expr :=
     (while_do (bop lt (aop div (const 1) (const 0)) (const 1)) skip).
