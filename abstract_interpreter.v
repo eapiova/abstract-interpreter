@@ -1072,6 +1072,7 @@ Eval compute in (AI example8_expr true top_AbS).
 (** 
     Example 9
 
+    j := 1
     i := 1
     while i <= 3 do
         j := 1
@@ -1081,15 +1082,16 @@ Eval compute in (AI example8_expr true top_AbS).
 *)
 
 Definition example9_expr :=
-    sequence (assign "i" (const 1)) 
+    sequence (assign "j" (const 1))
+    (sequence (assign "i" (const 1)) 
              (while_do (bop le (var "i") (const 3)) 
                 (sequence (sequence (assign "j" (const 1)) 
                                     (while_do (bop le (var "j") (var "i")) 
                                         (assign "j" (aop add (var "j") (const 1))))) 
-                          (assign "i" (aop add (var "i") (const 1))))).
+                          (assign "i" (aop add (var "i") (const 1)))))).
 
-Eval compute in (AI example9_expr false top_AbS).
 Eval compute in (AI example9_expr true top_AbS).
+Eval compute in (AI example9_expr false top_AbS).
 
 
 (** 
