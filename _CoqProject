@@ -12,4 +12,3 @@
 
 library.v
 abstract_interpreter.v
-extended_sign_examples.v

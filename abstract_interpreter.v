@@ -184,9 +184,15 @@ Inductive extended_sign :=
 
 Definition AbD := extended_sign.
 
+Check AbD.
+
 Definition AbS := option (list (string * AbD)).
 
+Check AbS.
+
 Definition top_AbS : AbS := Some nil.
+
+Check top_AbS.
 
 Definition bot_AbS : AbS := None.
 
