@@ -8,6 +8,13 @@ Require Coq.extraction.Extraction.
 Extraction Language OCaml.
 
 
+Fixpoint string_list_update {A} l x (a : A) :=
+    match l with 
+    | nil => (x, a) :: nil
+    | (y, a') :: tl => if string_dec x y then (y, a) :: tl else (y, a') :: string_list_update tl x a
+    end.
+
+
 
 (* Language *)
 
@@ -52,10 +59,6 @@ Notation "a1 ≠ a2" := (bop ne a1 a2).
 
 
 
-
-
-
-
 (* Abstract Domain structure *)
 
 Module Type AbstractDomain.
@@ -87,8 +90,6 @@ Parameter widen : AbD -> AbD -> AbD.
 Parameter widen_state : AbS -> AbS -> AbS.
 Parameter narrow : AbD -> AbD -> AbD.
 Parameter narrow_state : AbS -> AbS -> AbS.
-
-
 
 End AbstractDomain.
 
@@ -217,17 +218,89 @@ Check top_AbS.
 
 Definition bot_AbS : AbS := None.
 
-Fixpoint string_list_update {A} l x (a : A) :=
-    match l with 
-    | nil => (x, a) :: nil
-    | (y, a') :: tl => if string_dec x y then (y, a) :: tl else (y, a') :: string_list_update tl x a
+Definition alpha_singleton z :=
+    if z =? 0 then =0
+    else if z <? 0 then <0
+    else >0.
+
+Definition ab_opp v :=
+    match v with
+    | <0 => >0
+    | >0 => <0
+    | ≤0 => ≥0
+    | ≥0 => ≤0
+    | v' => v'
     end.
 
-Definition ab_update s_sharp x a : AbS :=
-    match s_sharp with
-    | Some l => Some (string_list_update l x a)
-    | None => Some ((x, a) :: nil)
+Notation "- z" := (ab_opp z).
+
+Definition sign_eq_dec : forall (x y : AbD), { x = y } + { x <> y }.
+Proof.
+    decide equality.
+Defined.
+
+Infix "=?" := sign_eq_dec.
+
+Definition add_op v1 v2 :=
+    match v1, v2 with
+    | ⊥, _ | _, ⊥ => ⊥
+    | =0, a3 | a3, =0 => a3
+    | <0, ≤0 | ≤0, <0 => <0
+    | >0, ≥0 | ≥0, >0 => >0
+    | ≠0, ≠0 => ⊤
+    | v3, v4 => if v3 =? v4 then v3 else ⊤
     end.
+
+Definition sub_op v1 v2 :=
+    match v1, v2 with
+    | ⊥, _ => ⊥
+    | _, ⊥ => ⊥
+    | =0, v3 => -v3
+    | v3, =0 => v3
+    | <0, >0 | <0, ≥0 | ≤0, >0 => <0
+    | >0, <0 | >0, ≤0 | ≥0, <0 => >0
+    | ≤0, ≥0 => ≤0
+    | ≥0, ≤0 => ≥0
+    | _, _ => ⊤
+    end.
+
+Definition mul_op v1 v2 :=
+    match v1, v2 with
+    | ⊥, _ | _, ⊥ => ⊥
+    | =0, _ | _, =0 => =0
+    | <0, v3 | v3, <0 => -v3
+    | >0, v3 | v3, >0 => v3
+    | ≤0, ≤0 | ≥0, ≥0 => ≥0
+    | ≤0, ≥0 | ≥0, ≤0 => ≤0
+    | ≠0, ≠0 => ≠0
+    | _, _ => ⊤
+    end.
+
+Definition div_op v1 v2 :=
+    match v1, v2 with
+    | ⊥, _ | _, ⊥ | _, =0 => ⊥
+    | =0, _ => =0
+    | ≠0, _ | <0, ≠0 | <0, ⊤ | >0, ≠0 | >0, ⊤ => ≠0
+    | <0, <0 | <0, ≤0 | >0, >0 | >0, ≥0 => >0
+    | <0, >0 | <0, ≥0 | >0, <0 | >0, ≤0 => <0
+    | ≤0, <0 | ≤0, ≤0 | ≥0, >0 | ≥0, ≥0 => ≥0
+    | ≤0, >0 | ≤0, ≥0 | ≥0, <0 | ≥0, ≤0 => ≤0
+    | _, _ => ⊤
+    end.
+
+Notation "v1 + v2" := (add_op v1 v2).
+Notation "v1 - v2" := (sub_op v1 v2).
+Notation "v1 * v2" := (mul_op v1 v2).
+Notation "v1 / v2" := (div_op v1 v2).
+
+
+
+Definition ab_update m x v : AbS :=
+    match m with
+    | Some l => Some (string_list_update l x v)
+    | None => Some ((x, v) :: nil)
+    end.
+
 
 Fixpoint string_list_lookup l x :=
     match l with
@@ -241,71 +314,11 @@ Definition ab_lookup s_sharp x :=
     | None => ⊥
     end.
 
-Definition alpha_singleton n :=
-    if n =? 0 then =0
-    else if n <? 0 then <0
-    else >0.
 
-Definition sign_eq_dec : forall (x y : AbD), { x = y } + { x <> y }.
-Proof.
-    decide equality.
-Defined.
 
-Definition ab_opp a :=
-    match a with
-    | <0 => >0
-    | >0 => <0
-    | ≤0 => ≥0
-    | ≥0 => ≤0
-    | a' => a'
-    end.
 
-Definition add_op a1 a2 :=
-    match a1, a2 with
-    | ⊥, _ | _, ⊥ => ⊥
-    | =0, a3 | a3, =0 => a3
-    | <0, ≤0 | ≤0, <0 => <0
-    | >0, ≥0 | ≥0, >0 => >0
-    | ≠0, ≠0 => ⊤
-    | a3, a4 => if sign_eq_dec a3 a4 then a3 else ⊤
-    end.
 
-Definition sub_op a1 a2 :=
-    match a1, a2 with
-    | ⊥, _ => ⊥
-    | _, ⊥ => ⊥
-    | =0, a3 => ab_opp a3
-    | a3, =0 => a3
-    | <0, >0 | <0, ≥0 | ≤0, >0 => <0
-    | >0, <0 | >0, ≤0 | ≥0, <0 => >0
-    | ≤0, ≥0 => ≤0
-    | ≥0, ≤0 => ≥0
-    | _, _ => ⊤
-    end.
 
-Definition mul_op a1 a2 :=
-    match a1, a2 with
-    | ⊥, _ | _, ⊥ => ⊥
-    | =0, _ | _, =0 => =0
-    | <0, a3 | a3, <0 => ab_opp a3
-    | >0, a3 | a3, >0 => a3
-    | ≤0, ≤0 | ≥0, ≥0 => ≥0
-    | ≤0, ≥0 | ≥0, ≤0 => ≤0
-    | ≠0, ≠0 => ≠0
-    | _, _ => ⊤
-    end.
-
-Definition div_op a1 a2 :=
-    match a1, a2 with
-    | ⊥, _ | _, ⊥ | _, =0 => ⊥
-    | =0, _ => =0
-    | ≠0, _ | <0, ≠0 | <0, ⊤ | >0, ≠0 | >0, ⊤ => ≠0
-    | <0, <0 | <0, ≤0 | >0, >0 | >0, ≥0 => >0
-    | <0, >0 | <0, ≥0 | >0, <0 | >0, ≤0 => <0
-    | ≤0, <0 | ≤0, ≤0 | ≥0, >0 | ≥0, ≥0 => ≥0
-    | ≤0, >0 | ≤0, ≥0 | ≥0, <0 | ≥0, ≤0 => ≤0
-    | _, _ => ⊤
-    end.
 
 Definition ab_op op a1 a2 :=
     match op with
