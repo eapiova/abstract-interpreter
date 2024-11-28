@@ -5,3 +5,11 @@
 *.glob
 *.cache
 *.d
+*.snm
+*.gz
+*.toc
+*.log
+*.nav
+*.fls
+*.fdb_latexmk
+*.out
