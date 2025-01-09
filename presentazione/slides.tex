@@ -1,4 +1,4 @@
-\documentclass[aspectratio=169]{beamer}
+\documentclass{beamer}
 \usepackage{multirow}
 \usepackage{syntax}
 \usetheme[colorblocks,showheader]{Verona}
@@ -641,10 +641,10 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
                     \begin{frame}
                         \frametitle{Opposite}
                         \begin{table}[]
-                            \begin{tabular}{|l|l|l|l|l|l|}
+                            \begin{tabular}{|l|l|l|l|}
                             \hline
-                            $-$ & $\bot$ & $(-\infty , b]$ & $[a, b]$   & $[a, + \infty )$  & $\top$ \\ \hline
-                                & $\bot$ & $[-b, + \infty )$ & $[-b, -a]$ & $(- \infty , -a]$ & $\top$ \\ \hline
+                            $-$ & $\bot$ & $[a, b]$   & $\top$ \\ \hline
+                                & $\bot$ & $[-b, -a]$ & $\top$ \\ \hline
                             \end{tabular}
                             \end{table}
                     \end{frame}
@@ -652,17 +652,6 @@ AI_{A, \mathbb{S}}&: \mathbf { While } \to bool \rightarrow \mathbb{S} \rightarr
                     
         \begin{frame}
             \frametitle{Addition}
-    \begin{table}[]
-        \begin{tabular}{|l|l|l|l|l|l|}
-        \hline
-        $+$            & $\bot$ & $(-\infty, b]$     & $[a, b]$           & $[a, +\infty)$     & $\top$ \\ \hline
-        $\bot$         & $\bot$ &                    &                    &                    &        \\ \hline
-        $(-\infty, d]$ & $\bot$ & $(-\infty, b + d]$ &                    &                    &        \\ \hline
-        $[c, d]$       & $\bot$ & $(-\infty, b + d]$ & $[a + c, b + d]$   &                    &        \\ \hline
-        $[c, +\infty)$ & $\bot$ & $\top$             & $[a + c, +\infty)$ & $[a + c, +\infty)$ &        \\ \hline
-        $\top$         & $\bot$ & $\top$             & $\top$             & $\top$             & $\top$ \\ \hline
-        \end{tabular}
-        \end{table}
     \end{frame}
     
     
